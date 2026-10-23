@@ -1,0 +1,25 @@
+name: Wallex paper harness
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  paper-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.0.1
+      - name: Create Python 3.13 environment
+        run: uv venv --python 3.13 .venv
+      - name: Install pinned headless dependencies
+        run: uv pip install --python .venv/bin/python -r wallex_sandbox/requirements.lock.txt
+      - name: Run paper harness checks
+        run: .venv/bin/python -m pytest -q wallex_sandbox

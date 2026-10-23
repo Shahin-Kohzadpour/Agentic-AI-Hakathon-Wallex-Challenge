@@ -1,0 +1,14 @@
+{
+  "label": "Exploratory lower-turnover momentum; prior holdout failure is preserved",
+  "universe": "Same 12 eligible Wallex USDT markets, no outcome-selected assets",
+  "variants": [48, 168],
+  "variants_unit": "hours between scheduled rebalances and maximum holding time",
+  "rebalance": "Allow a same-time exit and entry at the scheduled next open; charge both fills, even when the selected asset is unchanged",
+  "features": "Closed hourly EMA200; 7-day and 28-day returns; 7-day return volatility; ATR14 on strictly completed daily bars",
+  "entry": "At scheduled UTC midnight: both momentum returns positive, close above hourly EMA200, 7-day gross momentum above twice assumed round-trip cost; choose highest (7-day return minus cost) / 7-day volatility",
+  "risk": "One spot-long position, max 100 USDT all-in; 0.1% account planned risk; stop 2 daily ATR; target 2R net; no averaging down",
+  "costs": "Unchanged fee 0.2% per side; historical spread proxy max(15 bps round trip, measured current per-market spread); additional slippage 1 bp per side",
+  "stress": "Double spread and extra slippage, unchanged fees",
+  "evaluation": "Full available replay after feature warmup; both variants reported, no selecting a winning date interval; no claim of an untouched holdout or prospective live performance",
+  "reason": "Reduce fee turnover and let movements develop; weekly reference may exceed the three-day challenge horizon"
+}

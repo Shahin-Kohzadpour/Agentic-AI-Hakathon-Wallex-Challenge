@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-23T06:32:46.643403+00:00",
+  "status": "complete",
+  "completed_round_trips": 10,
+  "target": 10,
+  "cash_usdt": "994.7044452363128890000000000",
+  "realized_pnl_usdt": "-5.295554763687111000000000010",
+  "fees_usdt": "3.980076399858911000000000000",
+  "position": null,
+  "data_errors": 1
+}

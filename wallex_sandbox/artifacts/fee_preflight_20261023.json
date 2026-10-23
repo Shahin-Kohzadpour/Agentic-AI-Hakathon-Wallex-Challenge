@@ -1,0 +1,8 @@
+{
+  "action": "read_only_fee_lookup",
+  "orders_submitted": 0,
+  "credentials_used_for_lookup": false,
+  "fees": {},
+  "status": "lookup_failed",
+  "error_type": "ClientConnectorError"
+}

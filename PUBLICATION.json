@@ -1,0 +1,16 @@
+{
+  "exported_at": "2026-10-23T12:21:54.584506+00:00",
+  "source_commit": "f5be3c16c45a81e6799e7dc46e40c4307bc76f76",
+  "upstream": "https://github.com/hummingbot/condor",
+  "upstream_base": "8e4860fa3d7efd4b55c2b74dd7f1f439e5a4f32c",
+  "publication": "Complete source snapshot, completed research artifacts, active-session SQLite backup",
+  "history": "Upstream and local development history remain in the original checkout; this publication starts with a clean snapshot.",
+  "excluded": [
+    "API credential file",
+    "original credential-containing zip",
+    "virtual environments",
+    "runtime caches",
+    "active-session process log and launcher metadata"
+  ],
+  "ci": "Workflow preserved as ci/wallex-paper.yml; active workflow creation was rejected because the OAuth token lacks workflow scope."
+}

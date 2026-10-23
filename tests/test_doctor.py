@@ -1,0 +1,727 @@
+"""condor/doctor.py's pure logic: the tally, and the small classifiers the
+port/connectivity checks lean on. Rendering is colored only under a real tty
+(``_USE_COLOR`` is resolved once at import time), so these assert on content
+rather than escape codes -- pytest's captured stdout is never a tty.
+"""
+
+import os
+
+import utils.config as config_module
+from condor import doctor
+
+
+def test_tally_counts_each_state_and_exits_nonzero_only_on_a_failure():
+    checks = [
+        doctor.Check("a", doctor.OK, "fine"),
+        doctor.Check("b", doctor.OK, "fine"),
+        doctor.Check("c", doctor.WARN, "hmm"),
+        doctor.Check("d", doctor.FAIL, "broken"),
+    ]
+
+    line, exit_code = doctor._tally(checks)
+
+    assert exit_code == 1
+    assert "2 passed" in line
+    assert "1 warning(s)" in line
+    assert "1 failed" in line
+
+
+def test_tally_exits_zero_with_only_warnings():
+    checks = [
+        doctor.Check("a", doctor.OK, "fine"),
+        doctor.Check("b", doctor.WARN, "hmm"),
+    ]
+
+    line, exit_code = doctor._tally(checks)
+
+    assert exit_code == 0
+    assert "1 passed" in line
+    assert "1 warning(s)" in line
+    assert "0 failed" in line
+
+
+def test_tally_of_no_checks_is_all_zero_and_exits_zero():
+    line, exit_code = doctor._tally([])
+    assert exit_code == 0
+    assert "0 passed" in line
+    assert "0 warning(s)" in line
+    assert "0 failed" in line
+
+
+def test_check_render_includes_the_glyph_name_and_detail():
+    check = doctor.Check("Dashboard port", doctor.WARN, "nothing listening on 8088")
+    rendered = check.render(width=20)
+    assert doctor._BADGES[doctor.WARN] in rendered
+    assert "Dashboard port" in rendered
+    assert "nothing listening on 8088" in rendered
+
+
+def test_is_public_bind_flags_every_interface():
+    assert doctor._is_public_bind("0.0.0.0:8088") is True
+    assert doctor._is_public_bind("*:8088") is True
+    assert doctor._is_public_bind("[::]:8088") is True
+
+
+def test_is_public_bind_does_not_flag_loopback():
+    assert doctor._is_public_bind("127.0.0.1:8088") is False
+
+
+def test_connection_hint_recognizes_an_auth_failure():
+    hint = doctor._connection_hint("localhost", Exception("401 Unauthorized"))
+    assert "username/password" in hint
+
+
+def test_connection_hint_points_at_docker_for_a_local_host():
+    hint = doctor._connection_hint("localhost", Exception("Connection refused"))
+    assert "docker compose ps" in hint
+
+
+def test_connection_hint_is_generic_for_a_remote_host():
+    hint = doctor._connection_hint("some-remote-host", Exception("Connection refused"))
+    assert "docker compose ps" not in hint
+    assert "firewall" in hint
+
+
+def test_connection_hint_points_at_the_tailscale_check_when_enabled(monkeypatch):
+    monkeypatch.setattr(config_module, "USE_TAILSCALE", True)
+    hint = doctor._connection_hint("hummingbot-api", Exception("Connection refused"))
+    assert "Tailscale check above" in hint
+
+
+def test_connection_hint_auth_failure_still_wins_when_tailscale_is_enabled(monkeypatch):
+    monkeypatch.setattr(config_module, "USE_TAILSCALE", True)
+    hint = doctor._connection_hint("hummingbot-api", Exception("401 Unauthorized"))
+    assert "username/password" in hint
+
+
+# ── "hummingbot-api" is local only when the install is actually here ────────
+#
+# The name is both the MagicDNS name of a co-located API with its own tailnet
+# node AND the host Condor writes for a REMOTE API over Tailscale (its own
+# installer default). Classifying it local either way sent remote installs the
+# advice "cd ../hummingbot-api && make deploy" — a directory that is not there,
+# for a stack that was never meant to be.
+
+
+def test_hummingbot_api_name_is_local_when_the_install_is_on_this_machine(monkeypatch):
+    monkeypatch.setattr(doctor, "_hb_api_is_here", lambda: True)
+    assert doctor._is_local_host("hummingbot-api") is True
+
+
+def test_hummingbot_api_name_is_remote_when_nothing_is_installed_here(monkeypatch):
+    monkeypatch.setattr(doctor, "_hb_api_is_here", lambda: False)
+    assert doctor._is_local_host("hummingbot-api") is False
+
+
+def test_loopback_names_are_local_regardless_of_any_install(monkeypatch):
+    monkeypatch.setattr(doctor, "_hb_api_is_here", lambda: False)
+    for host in ("localhost", "127.0.0.1", "::1", "0.0.0.0"):
+        assert doctor._is_local_host(host) is True
+
+
+def test_hb_api_is_here_follows_the_sibling_checkout(tmp_path, monkeypatch):
+    api_dir = tmp_path / "hummingbot-api"
+    api_dir.mkdir()
+    monkeypatch.setattr(doctor, "_HB_API_DIR", api_dir)
+    assert doctor._hb_api_is_here() is False
+    (api_dir / "docker-compose.yml").write_text("services: {}\n")
+    assert doctor._hb_api_is_here() is True
+
+
+# ── Dashboard port: nothing listening is normal, not a warning ──────────────
+
+
+def test_dashboard_port_check_is_ok_not_warn_when_nothing_is_listening(monkeypatch):
+    monkeypatch.setattr(doctor, "_listening_binds", lambda port: [])
+    checks = doctor.check_dashboard_port()
+    assert len(checks) == 1
+    assert checks[0].state == doctor.OK
+    assert "not running yet" in checks[0].detail
+
+
+# ── Tailscale check ──────────────────────────────────────────────────────────
+
+
+def test_tailscale_check_is_ok_when_not_enabled(monkeypatch):
+    monkeypatch.setattr(config_module, "USE_TAILSCALE", False)
+    checks = doctor.check_tailscale()
+    assert len(checks) == 1
+    assert checks[0].state == doctor.OK
+    assert "not enabled" in checks[0].detail
+
+
+def test_tailscale_check_fails_when_enabled_but_not_installed(monkeypatch):
+    monkeypatch.setattr(config_module, "USE_TAILSCALE", True)
+    monkeypatch.setattr(doctor.shutil, "which", lambda cmd: None)
+    checks = doctor.check_tailscale()
+    assert checks[0].state == doctor.FAIL
+    assert "isn't installed" in checks[0].detail
+    assert "tailscale.com/install.sh" in checks[0].detail
+
+
+def test_tailscale_check_fails_when_installed_but_not_connected(monkeypatch):
+    monkeypatch.setattr(config_module, "USE_TAILSCALE", True)
+    monkeypatch.setattr(doctor.shutil, "which", lambda cmd: "/usr/bin/tailscale")
+
+    class FakeResult:
+        returncode = 1
+        stdout = ""
+
+    monkeypatch.setattr(doctor.subprocess, "run", lambda *a, **k: FakeResult())
+    checks = doctor.check_tailscale()
+    assert checks[0].state == doctor.FAIL
+    assert "not connected" in checks[0].detail
+
+
+def test_tailscale_check_is_ok_when_connected(monkeypatch):
+    monkeypatch.setattr(config_module, "USE_TAILSCALE", True)
+    monkeypatch.setattr(doctor.shutil, "which", lambda cmd: "/usr/bin/tailscale")
+
+    class FakeResult:
+        returncode = 0
+        stdout = "condor.tailxxxx.ts.net  100.64.0.1   me@example.com  linux  -\n"
+
+    monkeypatch.setattr(doctor.subprocess, "run", lambda *a, **k: FakeResult())
+    checks = doctor.check_tailscale()
+    assert checks[0].state == doctor.OK
+    assert "condor.tailxxxx.ts.net" in checks[0].detail
+
+
+# ── Config: Telegram is optional in local mode ──────────────────────────────
+
+
+def _patch_readiness_probe(monkeypatch, state):
+    import condor.llm.readiness as readiness_module
+
+    async def fake_probe(base, env=None):
+        return state
+
+    monkeypatch.setattr(readiness_module, "probe", fake_probe)
+
+
+def test_check_config_does_not_require_telegram_in_local_mode(tmp_path, monkeypatch):
+    from condor.llm.readiness import READY, Readiness
+
+    env_file = tmp_path / ".env"
+    env_file.write_text("CONDOR_MODE=local\nADMIN_USER_ID=1\n")
+    monkeypatch.setattr(doctor, "ENV_PATH", env_file)
+    _patch_readiness_probe(monkeypatch, Readiness(READY, "installed and logged in"))
+
+    checks = doctor.check_config()
+    token_check = next(c for c in checks if c.name == "TELEGRAM_TOKEN")
+    assert token_check.state == doctor.OK
+    assert "local mode" in token_check.detail
+
+
+def test_check_config_still_requires_telegram_outside_local_mode(tmp_path, monkeypatch):
+    from condor.llm.readiness import READY, Readiness
+
+    env_file = tmp_path / ".env"
+    env_file.write_text("ADMIN_USER_ID=1\n")
+    monkeypatch.setattr(doctor, "ENV_PATH", env_file)
+    _patch_readiness_probe(monkeypatch, Readiness(READY, "installed and logged in"))
+
+    checks = doctor.check_config()
+    token_check = next(c for c in checks if c.name == "TELEGRAM_TOKEN")
+    assert token_check.state == doctor.FAIL
+    assert "missing" in token_check.detail
+
+
+# ── Report layout: long details wrap instead of spilling past the frame ──────
+
+
+def test_render_wraps_a_long_detail_under_the_detail_column():
+    check = doctor.Check("Dashboard port", doctor.WARN, "word " * 40)
+    lines = check.render(width=20, report_width=80).splitlines()
+
+    assert len(lines) > 1
+    assert all(len(line) <= 80 for line in lines)
+    # Continuation lines start under the detail column, not under the badge.
+    assert lines[1].startswith(" " * (doctor._GUTTER + 20))
+
+
+def test_render_leaves_a_short_detail_on_one_line():
+    check = doctor.Check("uv", doctor.OK, "uv 0.12.3")
+    assert "\n" not in check.render(width=28, report_width=80)
+
+
+def test_report_width_stays_at_the_wizard_width_for_short_details(monkeypatch):
+    monkeypatch.setattr(
+        doctor.shutil,
+        "get_terminal_size",
+        lambda fallback=None: os.terminal_size((200, 50)),
+    )
+    sections = [("Dependencies", [doctor.Check("uv", doctor.OK, "uv 0.12.3")])]
+    assert doctor._report_width(sections) == doctor._FRAME_WIDTH
+
+
+def test_report_width_grows_for_a_long_detail_but_stays_under_the_cap(monkeypatch):
+    monkeypatch.setattr(
+        doctor.shutil,
+        "get_terminal_size",
+        lambda fallback=None: os.terminal_size((500, 50)),
+    )
+    sections = [("Dependencies", [doctor.Check("uv", doctor.FAIL, "x" * 500)])]
+    width = doctor._report_width(sections)
+    assert doctor._FRAME_WIDTH < width <= doctor._MAX_WIDTH
+
+
+def test_report_width_never_exceeds_the_terminal(monkeypatch):
+    monkeypatch.setattr(
+        doctor.shutil,
+        "get_terminal_size",
+        lambda fallback=None: os.terminal_size((60, 50)),
+    )
+    sections = [("Dependencies", [doctor.Check("uv", doctor.FAIL, "x" * 500)])]
+    assert doctor._report_width(sections) <= 60
+
+
+# ── Fresh checkout: one actionable failure, not four ─────────────────────────
+
+
+def test_check_config_reports_a_single_setup_failure_when_env_is_missing(
+    tmp_path, monkeypatch
+):
+    from condor.llm.readiness import READY, Readiness
+
+    monkeypatch.setattr(doctor, "ENV_PATH", tmp_path / ".env")
+    monkeypatch.setattr(doctor, "REPO_ROOT", tmp_path)
+    _patch_readiness_probe(monkeypatch, Readiness(READY, "installed and logged in"))
+
+    checks = doctor.check_config()
+    failures = [c for c in checks if c.state == doctor.FAIL]
+
+    assert len(failures) == 1
+    assert failures[0].name == "Setup"
+    assert "make install" in failures[0].detail
+    assert not [c for c in checks if c.name in ("TELEGRAM_TOKEN", "ADMIN_USER_ID")]
+
+
+# ── Placeholder API credentials ──────────────────────────────────────────────
+
+
+def test_placeholder_credentials_are_flagged():
+    data = {"servers": {"local": {"host": "localhost", "password": "admin"}}}
+    checks = doctor._check_placeholder_credentials(data)
+    assert len(checks) == 1
+    assert checks[0].state == doctor.WARN
+    assert "local" in checks[0].detail
+
+
+def test_real_credentials_are_not_flagged():
+    data = {"servers": {"local": {"host": "localhost", "password": "s3cr3t-real"}}}
+    assert doctor._check_placeholder_credentials(data) == []
+
+
+def test_placeholder_credentials_tolerates_a_malformed_config():
+    assert doctor._check_placeholder_credentials(None) == []
+    assert doctor._check_placeholder_credentials({"servers": "nope"}) == []
+
+
+# ── Doctor never creates config.yml ─────────────────────────────────────────
+
+
+def test_hummingbot_api_check_does_not_create_a_missing_config(tmp_path, monkeypatch):
+    """Instantiating a ConfigManager writes config.yml as a side effect, which
+    would both break doctor's read-only contract and make the "not found"
+    check above unreachable on every later run."""
+    monkeypatch.setattr(doctor, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(doctor, "ENV_PATH", tmp_path / ".env")
+
+    checks = doctor.check_hummingbot_api()
+
+    assert "make setup" in checks[0].detail
+    assert not (tmp_path / "config.yml").exists()
+
+
+# ── Local stack diagnosis ────────────────────────────────────────────────────
+
+
+def test_local_stack_diagnosis_fails_when_docker_is_missing(monkeypatch):
+    monkeypatch.setattr(doctor.shutil, "which", lambda cmd: None)
+    checks = doctor._local_stack_diagnosis()
+    assert checks[0].state == doctor.FAIL
+    assert "not installed" in checks[0].detail
+
+
+def test_local_stack_diagnosis_fails_when_the_daemon_is_down(monkeypatch):
+    monkeypatch.setattr(doctor.shutil, "which", lambda cmd: "/usr/bin/docker")
+
+    class FakeResult:
+        returncode = 1
+        stdout = ""
+
+    monkeypatch.setattr(doctor.subprocess, "run", lambda *a, **k: FakeResult())
+    checks = doctor._local_stack_diagnosis()
+    assert checks[0].state == doctor.FAIL
+    assert "daemon is not responding" in checks[0].detail
+
+
+def test_local_stack_diagnosis_fails_when_the_container_is_absent(monkeypatch):
+    monkeypatch.setattr(doctor.shutil, "which", lambda cmd: "/usr/bin/docker")
+
+    class FakeResult:
+        returncode = 0
+        stdout = "emqx\tUp 2 hours\npostgres\tUp 2 hours\n"
+
+    monkeypatch.setattr(doctor.subprocess, "run", lambda *a, **k: FakeResult())
+    checks = doctor._local_stack_diagnosis()
+    assert checks[0].state == doctor.FAIL
+    assert "make deploy" in checks[0].detail
+
+
+def test_local_stack_diagnosis_is_ok_when_the_container_is_up(monkeypatch):
+    monkeypatch.setattr(doctor.shutil, "which", lambda cmd: "/usr/bin/docker")
+
+    class FakeResult:
+        returncode = 0
+        stdout = "hummingbot-api\tUp 2 hours (healthy)\n"
+
+    monkeypatch.setattr(doctor.subprocess, "run", lambda *a, **k: FakeResult())
+    checks = doctor._local_stack_diagnosis()
+    assert checks[0].state == doctor.OK
+    assert "Up 2 hours" in checks[0].detail
+
+
+# ── Dashboard port names the process holding it ──────────────────────────────
+
+
+def test_dashboard_port_names_the_holding_process(monkeypatch):
+    # LOCAL_MODE is pinned, not inherited: a public bind is a WARN in Telegram
+    # mode (which authenticates) and a FAIL in local mode (which does not), so
+    # leaving it to whatever .env happens to be on disk makes this test's
+    # result depend on the developer's working tree.
+    monkeypatch.setattr(config_module, "USE_TAILSCALE", False)
+    monkeypatch.setattr(config_module, "LOCAL_MODE", False)
+    monkeypatch.setattr(doctor, "_listening_binds", lambda port: ["0.0.0.0:8088"])
+    monkeypatch.setattr(doctor, "_listening_process", lambda port: "python3, pid 5011")
+
+    checks = doctor.check_dashboard_port()
+    assert checks[0].state == doctor.WARN
+    assert "python3, pid 5011" in checks[0].detail
+
+
+def test_public_bind_in_local_mode_is_a_failure(monkeypatch):
+    """Local mode has no login, so every interface is not a warning."""
+    monkeypatch.setattr(config_module, "USE_TAILSCALE", False)
+    monkeypatch.setattr(config_module, "LOCAL_MODE", True)
+    monkeypatch.setattr(doctor, "_listening_binds", lambda port: ["0.0.0.0:8088"])
+    monkeypatch.setattr(doctor, "_listening_process", lambda port: "")
+
+    checks = doctor.check_dashboard_port()
+
+    assert checks[0].state == doctor.FAIL
+    assert "no login" in checks[0].detail
+    # The remedy must not tell someone to enable Tailscale to fix a bind they
+    # chose explicitly.
+    assert "WEB_HOST" in checks[0].detail
+
+
+def test_loopback_under_tailscale_is_ok_in_local_mode_only(monkeypatch):
+    """Local mode's loopback is the intended end state; Telegram's is a fallback."""
+    monkeypatch.setattr(config_module, "USE_TAILSCALE", True)
+    monkeypatch.setattr(doctor, "_listening_binds", lambda port: ["127.0.0.1:8088"])
+    monkeypatch.setattr(doctor, "_listening_process", lambda port: "")
+
+    monkeypatch.setattr(config_module, "LOCAL_MODE", True)
+    assert doctor.check_dashboard_port()[0].state == doctor.OK
+
+    monkeypatch.setattr(config_module, "LOCAL_MODE", False)
+    assert doctor.check_dashboard_port()[0].state == doctor.WARN
+
+
+def test_tailnet_bind_under_tailscale_is_ok(monkeypatch):
+    """The goal state: on the tailnet, on no public interface."""
+    monkeypatch.setattr(config_module, "USE_TAILSCALE", True)
+    monkeypatch.setattr(config_module, "LOCAL_MODE", False)
+    monkeypatch.setattr(doctor, "_listening_binds", lambda port: ["100.101.1.5:8088"])
+    monkeypatch.setattr(doctor, "_listening_process", lambda port: "")
+
+    check = doctor.check_dashboard_port()[0]
+
+    assert check.state == doctor.OK
+    assert "100.101.1.5" in check.detail
+
+
+def test_listening_process_parses_the_ss_users_field(monkeypatch):
+    monkeypatch.setattr(doctor.shutil, "which", lambda cmd: "/usr/bin/ss")
+
+    class FakeResult:
+        returncode = 0
+        stdout = (
+            "0      4096   0.0.0.0:8088  0.0.0.0:*  "
+            'users:(("python3",pid=5011,fd=8))\n'
+        )
+
+    monkeypatch.setattr(doctor.subprocess, "run", lambda *a, **k: FakeResult())
+    assert doctor._listening_process(8088) == "python3, pid 5011"
+
+
+def test_hummingbot_api_check_only_warns_on_a_never_configured_checkout(
+    tmp_path, monkeypatch
+):
+    """The Setup check already reports this; a second failure would just
+    double-count the one thing there is to do about it."""
+    monkeypatch.setattr(doctor, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(doctor, "ENV_PATH", tmp_path / ".env")
+
+    checks = doctor.check_hummingbot_api()
+    assert checks[0].state == doctor.WARN
+
+
+def test_hummingbot_api_check_fails_when_env_exists_but_config_does_not(
+    tmp_path, monkeypatch
+):
+    env_file = tmp_path / ".env"
+    env_file.write_text("ADMIN_USER_ID=1\n")
+    monkeypatch.setattr(doctor, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(doctor, "ENV_PATH", env_file)
+
+    checks = doctor.check_hummingbot_api()
+    assert checks[0].state == doctor.FAIL
+
+
+# ── Config: a model pin the bridge cannot apply is a failure, not a log line ──
+
+
+def _patch_pin_probe(monkeypatch, verdict):
+    """Stand in for the bridge launch, and report whether it was attempted."""
+    launched = []
+
+    async def fake_probe(agent_key, **kw):
+        launched.append(agent_key)
+        return verdict
+
+    import condor.acp.client as client_module
+
+    monkeypatch.setattr(client_module, "probe_model_pin", fake_probe)
+    return launched
+
+
+def test_an_unappliable_model_pin_fails_the_check(monkeypatch):
+    from condor.llm.readiness import READY, Readiness
+
+    _patch_pin_probe(monkeypatch, (False, "it offers: sonnet, haiku"))
+
+    checks = doctor.check_model_pin(
+        "claude-acp:fable", Readiness(READY, "installed and logged in")
+    )
+
+    assert [c.state for c in checks] == [doctor.FAIL]
+    assert "claude-acp:fable" in checks[0].detail
+    assert "it offers: sonnet, haiku" in checks[0].detail
+
+
+def test_an_appliable_model_pin_passes_the_check(monkeypatch):
+    from condor.llm.readiness import READY, Readiness
+
+    _patch_pin_probe(monkeypatch, (True, "'haiku' resolves to 'haiku'"))
+
+    checks = doctor.check_model_pin(
+        "claude-acp:haiku", Readiness(READY, "installed and logged in")
+    )
+
+    assert [c.state for c in checks] == [doctor.OK]
+
+
+def test_a_pin_that_could_not_be_checked_warns_rather_than_passing(monkeypatch):
+    from condor.llm.readiness import READY, Readiness
+
+    _patch_pin_probe(monkeypatch, (None, "could not be checked: no answer"))
+
+    checks = doctor.check_model_pin(
+        "claude-acp:haiku", Readiness(READY, "installed and logged in")
+    )
+
+    assert [c.state for c in checks] == [doctor.WARN]
+
+
+def test_an_unpinned_key_gets_no_pin_row(monkeypatch):
+    from condor.llm.readiness import READY, Readiness
+
+    launched = _patch_pin_probe(monkeypatch, (True, "unused"))
+
+    assert doctor.check_model_pin("claude-acp", Readiness(READY, "ready")) == []
+    assert doctor.check_model_pin("gemini", Readiness(READY, "ready")) == []
+    assert launched == []
+
+
+def test_a_missing_bridge_is_not_launched_to_check_its_pin(monkeypatch):
+    from condor.llm.readiness import MISSING, Readiness
+
+    launched = _patch_pin_probe(monkeypatch, (True, "unused"))
+
+    checks = doctor.check_model_pin(
+        "claude-acp:haiku", Readiness(MISSING, "not installed")
+    )
+
+    assert [c.state for c in checks] == [doctor.WARN]
+    assert "not available" in checks[0].detail
+    assert launched == []  # the row above already says the bridge is missing
+
+
+def test_a_probe_that_raises_is_a_warning_not_a_pass(monkeypatch):
+    from condor.llm.readiness import READY, Readiness
+
+    async def boom(agent_key, **kw):
+        raise OSError("no node")
+
+    import condor.acp.client as client_module
+
+    monkeypatch.setattr(client_module, "probe_model_pin", boom)
+
+    checks = doctor.check_model_pin("claude-acp:haiku", Readiness(READY, "ready"))
+
+    assert [c.state for c in checks] == [doctor.WARN]
+    assert "no node" in checks[0].detail
+
+
+def test_check_config_checks_the_default_agents_pin(tmp_path, monkeypatch):
+    from condor.llm.readiness import READY, Readiness
+
+    env_file = tmp_path / ".env"
+    env_file.write_text(
+        "CONDOR_MODE=local\nADMIN_USER_ID=1\nCONDOR_DEFAULT_AGENT=claude-acp:fable\n"
+    )
+    monkeypatch.setattr(doctor, "ENV_PATH", env_file)
+    _patch_readiness_probe(monkeypatch, Readiness(READY, "installed and logged in"))
+    _patch_pin_probe(monkeypatch, (False, "it offers: sonnet"))
+
+    pin_check = next(c for c in doctor.check_config() if c.name == "Model pin")
+
+    assert pin_check.state == doctor.FAIL
+    assert "claude-acp:fable" in pin_check.detail
+
+
+# ── The dashboard-port check reads the bind it was given (macOS lsof) ──
+
+
+def test_a_loopback_bind_is_not_reported_as_public():
+    """``lsof -sTCP:LISTEN`` prints the state as its own trailing token.
+
+    NAME is ``TCP 127.0.0.1:8088 (LISTEN)``, so the last column is
+    ``(LISTEN)``. Taking it and splitting on "(" produced the empty string,
+    which counted as a wildcard — so on any host without ``ss`` (macOS, and
+    WSL without iproute2) a loopback-only dashboard was reported as reachable
+    on all interfaces, and in local mode that is a FAIL whose remedy is to
+    unset a variable nobody set.
+    """
+    import socket
+
+    from condor.doctor import _is_public_bind, _listening_binds
+
+    sock = socket.socket()
+    sock.bind(("127.0.0.1", 0))
+    sock.listen(1)
+    try:
+        binds = _listening_binds(sock.getsockname()[1])
+        assert binds, "nothing parsed out of the listener listing"
+        assert all(not _is_public_bind(b) for b in binds), binds
+        assert all(b.startswith("127.0.0.1:") for b in binds), binds
+    finally:
+        sock.close()
+
+
+def test_a_wildcard_bind_is_still_reported_as_public():
+    """The check has to keep catching the thing it exists for."""
+    import socket
+
+    from condor.doctor import _is_public_bind, _listening_binds
+
+    sock = socket.socket()
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    sock.bind(("0.0.0.0", 0))
+    sock.listen(1)
+    try:
+        binds = _listening_binds(sock.getsockname()[1])
+        assert binds and any(_is_public_bind(b) for b in binds), binds
+    finally:
+        sock.close()
+
+
+def test_an_unparseable_bind_is_unknown_rather_than_public():
+    """A bind this code could not read is not evidence of exposure."""
+    from condor.doctor import _is_public_bind
+
+    assert _is_public_bind("") is False
+    assert _is_public_bind("0.0.0.0:8088") is True
+    assert _is_public_bind("[::]:8088") is True
+
+
+# ── The id the dashboard signs in as must be able to administer (V10) ──
+
+
+def _admin_checks(tmp_path, monkeypatch, *, admin_id, users, env_lines=None):
+    import condor.doctor as doctor_module
+
+    env = tmp_path / ".env"
+    env.write_text("\n".join(env_lines or [f"ADMIN_USER_ID={admin_id}"]) + "\n")
+    monkeypatch.setattr(doctor_module, "ENV_PATH", env)
+    monkeypatch.setattr("utils.config.ADMIN_USER_ID", admin_id)
+    monkeypatch.setattr("utils.config.LOCAL_MODE", True)
+    return doctor_module._check_admin_can_administer({"users": users})
+
+
+def test_a_matching_admin_passes_quietly(tmp_path, monkeypatch):
+    assert (
+        _admin_checks(tmp_path, monkeypatch, admin_id=1, users={1: {"role": "admin"}})
+        == []
+    )
+
+
+def test_an_id_config_yml_calls_a_user_is_reported(tmp_path, monkeypatch):
+    """Two files have to agree about one number, and nothing checked that.
+
+    `.env` decides who the dashboard *is* — local mode signs in as
+    `ADMIN_USER_ID` with no password — and `config.yml` decides what that id
+    may *do*. Disagree and every admin route answers 403: no Updates tab, and
+    the "Updates available" notification links to a tab that is not rendered.
+    The old check asked only whether the variable was set, so an install in
+    exactly this state reported `ADMIN_USER_ID` green.
+    """
+    checks = _admin_checks(
+        tmp_path,
+        monkeypatch,
+        admin_id=777,
+        users={1: {"role": "admin"}, 777: {"role": "user"}},
+    )
+    assert [c.name for c in checks] == ["Admin access"]
+    detail = checks[0].detail
+    assert "777" in detail and "'user'" in detail
+    assert "role: admin" in detail, "the remedy has to name the knob"
+
+
+def test_an_id_config_yml_has_never_heard_of_is_reported(tmp_path, monkeypatch):
+    checks = _admin_checks(
+        tmp_path, monkeypatch, admin_id=999, users={1: {"role": "admin"}}
+    )
+    assert [c.name for c in checks] == ["Admin access"]
+    assert "no user 999" in checks[0].detail
+
+
+def test_a_duplicated_assignment_is_named_on_its_own(tmp_path, monkeypatch):
+    """`.env` is read by three parsers and the last assignment wins in all of
+    them, so a second line is silently authoritative and the first is the one
+    people read."""
+    checks = _admin_checks(
+        tmp_path,
+        monkeypatch,
+        admin_id=777,
+        users={777: {"role": "admin"}},
+        env_lines=["ADMIN_USER_ID=1", "OTHER=x", "ADMIN_USER_ID=777"],
+    )
+    assert [c.name for c in checks] == ["ADMIN_USER_ID (duplicate)"]
+    assert "the last one wins (777)" in checks[0].detail
+
+
+def test_one_assignment_and_a_good_role_says_nothing(tmp_path, monkeypatch):
+    assert (
+        _admin_checks(
+            tmp_path,
+            monkeypatch,
+            admin_id=777,
+            users={777: {"role": "admin"}},
+            env_lines=["ADMIN_USER_ID=777", "OTHER=x"],
+        )
+        == []
+    )

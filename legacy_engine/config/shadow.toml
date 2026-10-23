@@ -1,0 +1,26 @@
+# Explicit research assumptions, NOT verified exchange/account fees.
+initial_cash_tmn = "5000000"
+entry_fee = "0.003"
+exit_fee = "0.003"
+slippage_bps = "10"
+extra_edge_bps = "20"
+resolution_minutes = 15
+horizon_bars = 4
+feature_window = 32
+ridge_penalty = 0.1
+max_position_fraction = "0.10"
+max_total_fraction = "0.40"
+risk_per_trade_fraction = "0.00125"
+stop_fraction = "0.02"
+take_profit_fraction = "0.04"
+max_daily_loss_fraction = "0.02"
+max_drawdown_fraction = "0.04"
+max_quote_age_seconds = 10
+max_spread_bps = "50"
+max_depth_fraction = "0.05"
+max_candle_age_seconds = 120
+min_notional_tmn = "50000"
+# Narrow research universe; credit-account permission remains unverified.
+symbols = ["BTCTMN", "ETHTMN"]
+# Optional official timezone-aware cutoff. Live trading is not implemented.
+# deadline = "2026-10-25T18:00:00+03:30"

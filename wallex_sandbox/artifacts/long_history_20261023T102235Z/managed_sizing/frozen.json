@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-23T10:37:05.426597+00:00",
+  "hashes": {
+    "managed_trend.py": "e321d4d9393a73ebb645f370fcc279be3aa3b6f5c875671d9cf6225302eca527",
+    "managed_trend_experiment.json": "f0fc591a6cc27f0f742a0374f6931cf0cb9ed6e0ddb193673c4a6d2f114fa93a",
+    "backtest_candidates.py": "12a73384d9280b9893bef32fdb94b60d46a17c0d2260630752f866136ff7be94",
+    "momentum_research.py": "63fa467c3c234eef8bdec0eb69a9b53fc2109a36aec161baa4cfb89f26d5b865",
+    "indicator_candidates.py": "fbbe7aa6e3544267dde44999335b37912c82ae21a09666a654fe3f4b38c0a00c",
+    "managed_sizing.py": "2bc829420b459eda4830f22a20d3b2492ed78d297c773f69b1ba5fffb2e5fb09",
+    "managed_sizing_experiment.json": "fd0884cc76fbfcb948ead36416a41921d2033a7ab95169dad82cdade4d2207f8",
+    "manifest": "5c7136c995e8806c4b85bb95fde100eb4b1a5729cdd8ebf98d335432373181b5"
+  },
+  "spec": {
+    "purpose": "Separate paper sizing sensitivity, not evidence that the strategy edge improved",
+    "strategy": "Predeclared trail4h72; parameters unchanged",
+    "cases": [
+      {
+        "name": "original_risk",
+        "planned_risk_fraction": 0.001,
+        "max_spend": 100
+      },
+      {
+        "name": "paper_half_percent_ceiling",
+        "planned_risk_fraction": 0.005,
+        "max_spend": 100
+      }
+    ],
+    "rules": "Same 1000 USDT starting cash, one spot position, 100-USDT/10%-of-equity allocation cap, 2% account drawdown stop, signal prices and fees. The allocation cap can prevent reaching the higher risk ceiling. Higher sizing is simulation only; no real orders or production risk changes.",
+    "evaluation": "Run both the separate January-June 2026 historical check and the previously inspected July-October diagnostic; report both costs and doubled friction; no selecting the best dates",
+    "limitations": "Historical depth impact at larger quantities is unavailable; spread/slippage assumptions can understate size-dependent execution costs. Signals remain fixed. The original-risk case is the fair strategy-quality comparison."
+  }
+}

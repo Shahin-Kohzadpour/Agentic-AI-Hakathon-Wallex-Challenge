@@ -1,0 +1,231 @@
+{
+  "created_at": "2026-10-23T10:22:36.034512+00:00",
+  "start": 1714521600,
+  "end": 1792746000,
+  "interval_seconds": 3600,
+  "symbols": {
+    "BTCUSDT": {
+      "metadata": {
+        "quantity_precision": 8,
+        "min_notional": "1",
+        "min_quantity": "0.00000001"
+      },
+      "spread_snapshot_bps": 6.4680498119446055,
+      "spread_snapshot_epoch": 1792749236.0596466,
+      "3600": {
+        "file": "BTCUSDT_3600s.json",
+        "sha256": "ee5c006a50ba979a3035aa15af4c9b525371bdc95eaec0327b07cfac08254849",
+        "rows": 21720,
+        "first": 1714521600,
+        "last": 1792742400,
+        "gaps": 3,
+        "failed_chunks": []
+      }
+    },
+    "ETHUSDT": {
+      "metadata": {
+        "quantity_precision": 5,
+        "min_notional": "1",
+        "min_quantity": "0.00001"
+      },
+      "spread_snapshot_bps": 18.047644949056043,
+      "spread_snapshot_epoch": 1792749265.0390527,
+      "3600": {
+        "file": "ETHUSDT_3600s.json",
+        "sha256": "68c6ae03a5ea4dc984e9c5be7f1fb7161f0b6ebbb6af01218f394f91becf2580",
+        "rows": 21718,
+        "first": 1714521600,
+        "last": 1792742400,
+        "gaps": 4,
+        "failed_chunks": []
+      }
+    },
+    "SOLUSDT": {
+      "metadata": {
+        "quantity_precision": 5,
+        "min_notional": "1",
+        "min_quantity": "0.00001"
+      },
+      "spread_snapshot_bps": 29.763333493351254,
+      "spread_snapshot_epoch": 1792749294.3294282,
+      "3600": {
+        "file": "SOLUSDT_3600s.json",
+        "sha256": "c57ee03264841de7db09324a0d3f22fa65ea4b04ec0ae63c5002bcd07a79b793",
+        "rows": 21720,
+        "first": 1714521600,
+        "last": 1792742400,
+        "gaps": 3,
+        "failed_chunks": []
+      }
+    },
+    "BNBUSDT": {
+      "metadata": {
+        "quantity_precision": 5,
+        "min_notional": "1",
+        "min_quantity": "0.00001"
+      },
+      "spread_snapshot_bps": 21.76259024138116,
+      "spread_snapshot_epoch": 1792749327.8976426,
+      "3600": {
+        "file": "BNBUSDT_3600s.json",
+        "sha256": "86301095d6d18cdd474f0ea9e23d087aec66bb66ab1999f2d86d8e8b8224ae69",
+        "rows": 21719,
+        "first": 1714521600,
+        "last": 1792742400,
+        "gaps": 3,
+        "failed_chunks": []
+      }
+    },
+    "XRPUSDT": {
+      "metadata": {
+        "quantity_precision": 1,
+        "min_notional": "1",
+        "min_quantity": "0.1"
+      },
+      "spread_snapshot_bps": 16.76662152576256,
+      "spread_snapshot_epoch": 1792749360.210097,
+      "3600": {
+        "file": "XRPUSDT_3600s.json",
+        "sha256": "c1d9951211db015d096e624e6e2a90d2922d343ed5df573e7a150586c445d6b5",
+        "rows": 21720,
+        "first": 1714521600,
+        "last": 1792742400,
+        "gaps": 3,
+        "failed_chunks": []
+      }
+    },
+    "DOGEUSDT": {
+      "metadata": {
+        "quantity_precision": 1,
+        "min_notional": "1",
+        "min_quantity": "0.1"
+      },
+      "spread_snapshot_bps": 33.693142821488735,
+      "spread_snapshot_epoch": 1792749384.178725,
+      "3600": {
+        "file": "DOGEUSDT_3600s.json",
+        "sha256": "4d70b84c344070852b96a94247b2ebe62d4253fc5bb501281c561603bb69b234",
+        "rows": 21716,
+        "first": 1714521600,
+        "last": 1792742400,
+        "gaps": 4,
+        "failed_chunks": []
+      }
+    },
+    "ADAUSDT": {
+      "metadata": {
+        "quantity_precision": 1,
+        "min_notional": "1",
+        "min_quantity": "0.1"
+      },
+      "spread_snapshot_bps": 568.6142825162301,
+      "spread_snapshot_epoch": 1792749408.479133,
+      "3600": {
+        "file": "ADAUSDT_3600s.json",
+        "sha256": "1baee18d81648d2cee7aad4df9dd04ae8429185f52d4e92ce33144a4cea8e41f",
+        "rows": 21719,
+        "first": 1714521600,
+        "last": 1792742400,
+        "gaps": 4,
+        "failed_chunks": []
+      }
+    },
+    "LINKUSDT": {
+      "metadata": {
+        "quantity_precision": 2,
+        "min_notional": "1",
+        "min_quantity": "0.01"
+      },
+      "spread_snapshot_bps": 24.511427625041403,
+      "spread_snapshot_epoch": 1792749431.8359194,
+      "3600": {
+        "file": "LINKUSDT_3600s.json",
+        "sha256": "ef4919584f0b53d547a3aaf7ac4cc2504f655788bb0b16fdb5a2b30d7432a35d",
+        "rows": 21697,
+        "first": 1714521600,
+        "last": 1792742400,
+        "gaps": 7,
+        "failed_chunks": []
+      }
+    },
+    "AVAXUSDT": {
+      "metadata": {
+        "quantity_precision": 5,
+        "min_notional": "1",
+        "min_quantity": "0.00001"
+      },
+      "spread_snapshot_bps": 97.66684753119914,
+      "spread_snapshot_epoch": 1792749456.0930524,
+      "3600": {
+        "file": "AVAXUSDT_3600s.json",
+        "sha256": "27055d3ce57ed43835c2b0f731dc112a7231da585d9388369b3ef923c81c9224",
+        "rows": 21687,
+        "first": 1714521600,
+        "last": 1792742400,
+        "gaps": 10,
+        "failed_chunks": []
+      }
+    },
+    "LTCUSDT": {
+      "metadata": {
+        "quantity_precision": 5,
+        "min_notional": "1",
+        "min_quantity": "0.00001"
+      },
+      "spread_snapshot_bps": 62.50527916209139,
+      "spread_snapshot_epoch": 1792749478.8286917,
+      "3600": {
+        "file": "LTCUSDT_3600s.json",
+        "sha256": "4e49f536f6b912716aaffee46545d804d1078900aa3ed91339899024d7cf3a51",
+        "rows": 21704,
+        "first": 1714521600,
+        "last": 1792742400,
+        "gaps": 9,
+        "failed_chunks": []
+      }
+    },
+    "BCHUSDT": {
+      "metadata": {
+        "quantity_precision": 5,
+        "min_notional": "1",
+        "min_quantity": "0.00001"
+      },
+      "spread_snapshot_bps": 59.057194080219354,
+      "spread_snapshot_epoch": 1792749503.7731674,
+      "3600": {
+        "file": "BCHUSDT_3600s.json",
+        "sha256": "5c974ac2eccf0d13872313d9b5ad9481635e2b3bbc22623f195f3fd9dd67d350",
+        "rows": 21693,
+        "first": 1714521600,
+        "last": 1792742400,
+        "gaps": 11,
+        "failed_chunks": []
+      }
+    },
+    "TRXUSDT": {
+      "metadata": {
+        "quantity_precision": 1,
+        "min_notional": "1",
+        "min_quantity": "0.1"
+      },
+      "spread_snapshot_bps": 178.3132530120482,
+      "spread_snapshot_epoch": 1792749527.68536,
+      "3600": {
+        "file": "TRXUSDT_3600s.json",
+        "sha256": "5880d54103fb86f059c4344755a577697c7a3b913c9bf74a3005dee67747113a",
+        "rows": 21705,
+        "first": 1714521600,
+        "last": 1792742400,
+        "gaps": 7,
+        "failed_chunks": []
+      }
+    }
+  },
+  "metadata_source": "wallex_sandbox/artifacts/research_data_20261023T095350Z/manifest.json",
+  "metadata_sha256": "8641d71d790aafd56e0ac6e92acd32413c7d83b494acfd8fd7e7597e359b642b",
+  "spread_source": "Previously captured current public spreads, frozen for all experiments; not historical spreads",
+  "credentials_used": false,
+  "real_orders": 0,
+  "public_get_requests": 396,
+  "finished_at": "2026-10-23T10:25:42.146938+00:00"
+}

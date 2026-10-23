@@ -1,0 +1,23 @@
+{
+  "holdout": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 2
+  },
+  "cost_stress": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 0
+  },
+  "first_ten_holdout": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 2
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "purpose": "Improve net expectancy at unchanged account risk; preserve all failures; no real orders",
+  "variants": ["baseline48", "retained_regime48", "trail4h72", "pullback4h72"],
+  "primary_hypothesis": "Avoid expensive markets, stop entering stale trends, exit on regime deterioration and let winners trail instead of reopening them on a timer",
+  "risk": {"initial_usdt":1000,"max_spend":100,"planned_risk_fraction":0.001,"account_drawdown_limit_pct":2},
+  "costs": "0.2% fee per side; frozen current spread proxy with 15bps round-trip floor; 1bp extra slippage each side; stress doubles spreads/slippage",
+  "eligible_spread_bps":30,
+  "market_regime": "Completed BTC 4h close above EMA50, EMA50 above EMA200, EMA20 rising over three completed bars",
+  "retained_regime48": "Original 7/28-day momentum plus market regime/spread filter; daily ATR stop; exit on regime loss or own hourly close below EMA200; retain eligible positions at 48h until hard 72h; no fixed profit cap",
+  "trail4h72": "At completed 4h closes: own close above EMA20 above EMA50 above EMA200; 24h return above round-trip cost and 7d return positive; select highest cost-adjusted 7d return/volatility; 2x 4h ATR stop, 3x 4h ATR trailing stop based on previously closed hourly prices; exit on BTC regime loss or own 4h close below EMA50; hard maximum 72h",
+  "pullback4h72": "Same as trail4h72, also require previous 4h low at or below EMA20 and current close recovering above previous close",
+  "development": ["2025-01-01", "2025-07-01"],
+  "validation": ["2025-07-01", "2026-01-01"],
+  "secondary_historical_check": ["2026-01-01", "2026-07-01"],
+  "recent_seen_diagnostic": ["2026-07-25T09:00:00", "2026-10-23T09:00:00"],
+  "selection": "Validation only: at least 10 trades; positive base AND stressed net P&L; observed drawdown below 2%; rank by stressed P&L then base P&L; baseline is a control, not a promotable variant",
+  "integrity": "Source/spec hashes frozen before development results. Record every variant. Previously uninspected earlier historical prices are an additional historical check, not prospective live evidence. July-Oct 2026 was already inspected in earlier work and cannot be presented as a new holdout. Present-day universe and spreads create historical selection assumptions."
+}

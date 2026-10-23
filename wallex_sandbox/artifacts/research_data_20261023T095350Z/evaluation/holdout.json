@@ -1,0 +1,3481 @@
+{
+  "selection": {
+    "frozen_at": "2026-10-23T10:00:54.187213+00:00",
+    "spec_sha256": "4a3f3dbd33e4731bda8ab66837fe1314b44ed7e572858e0acb3244ddbf4c9e35",
+    "source_hashes": {
+      "backtest_candidates.py": "ca8472fe9f5cd00411bc0019da0828b99bad030efa0f3d8ed87b5cc937c5574d",
+      "indicator_candidates.py": "fbbe7aa6e3544267dde44999335b37912c82ae21a09666a654fe3f4b38c0a00c"
+    },
+    "data_manifest_sha256": "8641d71d790aafd56e0ac6e92acd32413c7d83b494acfd8fd7e7597e359b642b",
+    "validation_start": 1791536400,
+    "holdout_start": 1792141200,
+    "holdout_end": 1792746000,
+    "validation_results": [
+      {
+        "candidate": "trend_pullback",
+        "timeframe_seconds": 900,
+        "start": 1791536400,
+        "end": 1792141200,
+        "observed_start": 1791536400,
+        "observed_end": 1792141200,
+        "initial": 1000,
+        "final": 998.1453614632765,
+        "net_pnl": -1.85463853672357,
+        "return_pct": -0.18546385367235702,
+        "trades": 2,
+        "wins": 0,
+        "win_rate_pct": 0.0,
+        "profit_factor": 0.0,
+        "fees": 0.2312362126405007,
+        "average_trade": -0.927319268361785,
+        "max_drawdown_pct": 0.1927985919391631,
+        "selection_rejections": {
+          "quantity_or_notional": 0,
+          "invalid_atr": 0,
+          "no_room_for_stop": 0,
+          "account_drawdown": 0,
+          "insufficient_net_reward": 0
+        },
+        "fills": "historical OHLC simulation with assumed costs",
+        "config": {
+          "initial": 1000,
+          "fee": 0.002,
+          "half_spread_bps": 7.5,
+          "slippage_bps": 1,
+          "risk_fraction": 0.001,
+          "max_spend": 100,
+          "stop_atr": 1.5,
+          "net_reward_multiple": 2,
+          "max_hold_bars": 16,
+          "symbol_half_spread_bps": {
+            "BTCUSDT": 3.2340249059723027,
+            "ETHUSDT": 9.023822474528021,
+            "SOLUSDT": 14.881666746675627,
+            "BNBUSDT": 10.88129512069058,
+            "XRPUSDT": 8.38331076288128,
+            "DOGEUSDT": 16.846571410744367,
+            "ADAUSDT": 284.30714125811505,
+            "LINKUSDT": 12.255713812520701,
+            "AVAXUSDT": 48.83342376559957,
+            "LTCUSDT": 31.252639581045695,
+            "BCHUSDT": 29.528597040109677,
+            "TRXUSDT": 89.1566265060241
+          }
+        }
+      },
+      {
+        "candidate": "macd_bb_filtered",
+        "timeframe_seconds": 900,
+        "start": 1791536400,
+        "end": 1792141200,
+        "observed_start": 1791536400,
+        "observed_end": 1792141200,
+        "initial": 1000,
+        "final": 1000,
+        "net_pnl": 0,
+        "return_pct": 0.0,
+        "trades": 0,
+        "wins": 0,
+        "win_rate_pct": null,
+        "profit_factor": null,
+        "fees": 0.0,
+        "average_trade": null,
+        "max_drawdown_pct": 0.0,
+        "selection_rejections": {
+          "quantity_or_notional": 0,
+          "invalid_atr": 0,
+          "no_room_for_stop": 0,
+          "account_drawdown": 0,
+          "insufficient_net_reward": 0
+        },
+        "fills": "historical OHLC simulation with assumed costs",
+        "config": {
+          "initial": 1000,
+          "fee": 0.002,
+          "half_spread_bps": 7.5,
+          "slippage_bps": 1,
+          "risk_fraction": 0.001,
+          "max_spend": 100,
+          "stop_atr": 1.5,
+          "net_reward_multiple": 2,
+          "max_hold_bars": 16,
+          "symbol_half_spread_bps": {
+            "BTCUSDT": 3.2340249059723027,
+            "ETHUSDT": 9.023822474528021,
+            "SOLUSDT": 14.881666746675627,
+            "BNBUSDT": 10.88129512069058,
+            "XRPUSDT": 8.38331076288128,
+            "DOGEUSDT": 16.846571410744367,
+            "ADAUSDT": 284.30714125811505,
+            "LINKUSDT": 12.255713812520701,
+            "AVAXUSDT": 48.83342376559957,
+            "LTCUSDT": 31.252639581045695,
+            "BCHUSDT": 29.528597040109677,
+            "TRXUSDT": 89.1566265060241
+          }
+        }
+      },
+      {
+        "candidate": "macd_bb_unfiltered",
+        "timeframe_seconds": 900,
+        "start": 1791536400,
+        "end": 1792141200,
+        "observed_start": 1791536400,
+        "observed_end": 1792141200,
+        "initial": 1000,
+        "final": 997.6905431496732,
+        "net_pnl": -2.3094568503268533,
+        "return_pct": -0.23094568503268534,
+        "trades": 2,
+        "wins": 0,
+        "win_rate_pct": 0.0,
+        "profit_factor": 0.0,
+        "fees": 0.7046065592703066,
+        "average_trade": -1.1547284251634267,
+        "max_drawdown_pct": 0.23094568503267965,
+        "selection_rejections": {
+          "quantity_or_notional": 0,
+          "invalid_atr": 0,
+          "no_room_for_stop": 0,
+          "account_drawdown": 0,
+          "insufficient_net_reward": 0
+        },
+        "fills": "historical OHLC simulation with assumed costs",
+        "config": {
+          "initial": 1000,
+          "fee": 0.002,
+          "half_spread_bps": 7.5,
+          "slippage_bps": 1,
+          "risk_fraction": 0.001,
+          "max_spend": 100,
+          "stop_atr": 1.5,
+          "net_reward_multiple": 2,
+          "max_hold_bars": 16,
+          "symbol_half_spread_bps": {
+            "BTCUSDT": 3.2340249059723027,
+            "ETHUSDT": 9.023822474528021,
+            "SOLUSDT": 14.881666746675627,
+            "BNBUSDT": 10.88129512069058,
+            "XRPUSDT": 8.38331076288128,
+            "DOGEUSDT": 16.846571410744367,
+            "ADAUSDT": 284.30714125811505,
+            "LINKUSDT": 12.255713812520701,
+            "AVAXUSDT": 48.83342376559957,
+            "LTCUSDT": 31.252639581045695,
+            "BCHUSDT": 29.528597040109677,
+            "TRXUSDT": 89.1566265060241
+          }
+        }
+      },
+      {
+        "candidate": "supertrend",
+        "timeframe_seconds": 900,
+        "start": 1791536400,
+        "end": 1792141200,
+        "observed_start": 1791536400,
+        "observed_end": 1792141200,
+        "initial": 1000,
+        "final": 995.0136568127464,
+        "net_pnl": -4.986343187253455,
+        "return_pct": -0.49863431872534547,
+        "trades": 5,
+        "wins": 0,
+        "win_rate_pct": 0.0,
+        "profit_factor": 0.0,
+        "fees": 0.5175803667936997,
+        "average_trade": -0.997268637450691,
+        "max_drawdown_pct": 0.4986343187253624,
+        "selection_rejections": {
+          "quantity_or_notional": 0,
+          "invalid_atr": 0,
+          "no_room_for_stop": 0,
+          "account_drawdown": 0,
+          "insufficient_net_reward": 0
+        },
+        "fills": "historical OHLC simulation with assumed costs",
+        "config": {
+          "initial": 1000,
+          "fee": 0.002,
+          "half_spread_bps": 7.5,
+          "slippage_bps": 1,
+          "risk_fraction": 0.001,
+          "max_spend": 100,
+          "stop_atr": 1.5,
+          "net_reward_multiple": 2,
+          "max_hold_bars": 16,
+          "symbol_half_spread_bps": {
+            "BTCUSDT": 3.2340249059723027,
+            "ETHUSDT": 9.023822474528021,
+            "SOLUSDT": 14.881666746675627,
+            "BNBUSDT": 10.88129512069058,
+            "XRPUSDT": 8.38331076288128,
+            "DOGEUSDT": 16.846571410744367,
+            "ADAUSDT": 284.30714125811505,
+            "LINKUSDT": 12.255713812520701,
+            "AVAXUSDT": 48.83342376559957,
+            "LTCUSDT": 31.252639581045695,
+            "BCHUSDT": 29.528597040109677,
+            "TRXUSDT": 89.1566265060241
+          }
+        }
+      },
+      {
+        "candidate": "bb_reentry",
+        "timeframe_seconds": 900,
+        "start": 1791536400,
+        "end": 1792141200,
+        "observed_start": 1791536400,
+        "observed_end": 1792141200,
+        "initial": 1000,
+        "final": 999.4974915885723,
+        "net_pnl": -0.5025084114277618,
+        "return_pct": -0.05025084114277618,
+        "trades": 2,
+        "wins": 0,
+        "win_rate_pct": 0.0,
+        "profit_factor": 0.0,
+        "fees": 0.42397996189472986,
+        "average_trade": -0.2512542057138809,
+        "max_drawdown_pct": 0.13466511821555752,
+        "selection_rejections": {
+          "quantity_or_notional": 0,
+          "invalid_atr": 0,
+          "no_room_for_stop": 0,
+          "account_drawdown": 0,
+          "insufficient_net_reward": 92
+        },
+        "fills": "historical OHLC simulation with assumed costs",
+        "config": {
+          "initial": 1000,
+          "fee": 0.002,
+          "half_spread_bps": 7.5,
+          "slippage_bps": 1,
+          "risk_fraction": 0.001,
+          "max_spend": 100,
+          "stop_atr": 2,
+          "net_reward_multiple": 2,
+          "max_hold_bars": 24,
+          "symbol_half_spread_bps": {
+            "BTCUSDT": 3.2340249059723027,
+            "ETHUSDT": 9.023822474528021,
+            "SOLUSDT": 14.881666746675627,
+            "BNBUSDT": 10.88129512069058,
+            "XRPUSDT": 8.38331076288128,
+            "DOGEUSDT": 16.846571410744367,
+            "ADAUSDT": 284.30714125811505,
+            "LINKUSDT": 12.255713812520701,
+            "AVAXUSDT": 48.83342376559957,
+            "LTCUSDT": 31.252639581045695,
+            "BCHUSDT": 29.528597040109677,
+            "TRXUSDT": 89.1566265060241
+          }
+        }
+      },
+      {
+        "candidate": "donchian_breakout",
+        "timeframe_seconds": 900,
+        "start": 1791536400,
+        "end": 1792141200,
+        "observed_start": 1791536400,
+        "observed_end": 1792141200,
+        "initial": 1000,
+        "final": 988.9684701370011,
+        "net_pnl": -11.031529862998854,
+        "return_pct": -1.1031529862998852,
+        "trades": 19,
+        "wins": 3,
+        "win_rate_pct": 15.789473684210526,
+        "profit_factor": 0.23167880857834697,
+        "fees": 4.794821124599051,
+        "average_trade": -0.5806068348946765,
+        "max_drawdown_pct": 1.2719456865645156,
+        "selection_rejections": {
+          "quantity_or_notional": 0,
+          "invalid_atr": 0,
+          "no_room_for_stop": 0,
+          "account_drawdown": 0,
+          "insufficient_net_reward": 0
+        },
+        "fills": "historical OHLC simulation with assumed costs",
+        "config": {
+          "initial": 1000,
+          "fee": 0.002,
+          "half_spread_bps": 7.5,
+          "slippage_bps": 1,
+          "risk_fraction": 0.001,
+          "max_spend": 100,
+          "stop_atr": 2.5,
+          "net_reward_multiple": 2,
+          "max_hold_bars": 48,
+          "symbol_half_spread_bps": {
+            "BTCUSDT": 3.2340249059723027,
+            "ETHUSDT": 9.023822474528021,
+            "SOLUSDT": 14.881666746675627,
+            "BNBUSDT": 10.88129512069058,
+            "XRPUSDT": 8.38331076288128,
+            "DOGEUSDT": 16.846571410744367,
+            "ADAUSDT": 284.30714125811505,
+            "LINKUSDT": 12.255713812520701,
+            "AVAXUSDT": 48.83342376559957,
+            "LTCUSDT": 31.252639581045695,
+            "BCHUSDT": 29.528597040109677,
+            "TRXUSDT": 89.1566265060241
+          }
+        }
+      },
+      {
+        "candidate": "trend_pullback",
+        "timeframe_seconds": 3600,
+        "start": 1791536400,
+        "end": 1792141200,
+        "observed_start": 1791536400,
+        "observed_end": 1792141200,
+        "initial": 1000,
+        "final": 998.5967719056438,
+        "net_pnl": -1.4032280943561677,
+        "return_pct": -0.14032280943561676,
+        "trades": 2,
+        "wins": 0,
+        "win_rate_pct": 0.0,
+        "profit_factor": 0.0,
+        "fees": 0.32880682008739004,
+        "average_trade": -0.7016140471780838,
+        "max_drawdown_pct": 0.1541124126966224,
+        "selection_rejections": {
+          "quantity_or_notional": 0,
+          "invalid_atr": 0,
+          "no_room_for_stop": 0,
+          "account_drawdown": 0,
+          "insufficient_net_reward": 0
+        },
+        "fills": "historical OHLC simulation with assumed costs",
+        "config": {
+          "initial": 1000,
+          "fee": 0.002,
+          "half_spread_bps": 7.5,
+          "slippage_bps": 1,
+          "risk_fraction": 0.001,
+          "max_spend": 100,
+          "stop_atr": 1.5,
+          "net_reward_multiple": 2,
+          "max_hold_bars": 16,
+          "symbol_half_spread_bps": {
+            "BTCUSDT": 3.2340249059723027,
+            "ETHUSDT": 9.023822474528021,
+            "SOLUSDT": 14.881666746675627,
+            "BNBUSDT": 10.88129512069058,
+            "XRPUSDT": 8.38331076288128,
+            "DOGEUSDT": 16.846571410744367,
+            "ADAUSDT": 284.30714125811505,
+            "LINKUSDT": 12.255713812520701,
+            "AVAXUSDT": 48.83342376559957,
+            "LTCUSDT": 31.252639581045695,
+            "BCHUSDT": 29.528597040109677,
+            "TRXUSDT": 89.1566265060241
+          }
+        }
+      },
+      {
+        "candidate": "macd_bb_filtered",
+        "timeframe_seconds": 3600,
+        "start": 1791536400,
+        "end": 1792141200,
+        "observed_start": 1791536400,
+        "observed_end": 1792141200,
+        "initial": 1000,
+        "final": 1000,
+        "net_pnl": 0,
+        "return_pct": 0.0,
+        "trades": 0,
+        "wins": 0,
+        "win_rate_pct": null,
+        "profit_factor": null,
+        "fees": 0.0,
+        "average_trade": null,
+        "max_drawdown_pct": 0.0,
+        "selection_rejections": {
+          "quantity_or_notional": 0,
+          "invalid_atr": 0,
+          "no_room_for_stop": 0,
+          "account_drawdown": 0,
+          "insufficient_net_reward": 0
+        },
+        "fills": "historical OHLC simulation with assumed costs",
+        "config": {
+          "initial": 1000,
+          "fee": 0.002,
+          "half_spread_bps": 7.5,
+          "slippage_bps": 1,
+          "risk_fraction": 0.001,
+          "max_spend": 100,
+          "stop_atr": 1.5,
+          "net_reward_multiple": 2,
+          "max_hold_bars": 16,
+          "symbol_half_spread_bps": {
+            "BTCUSDT": 3.2340249059723027,
+            "ETHUSDT": 9.023822474528021,
+            "SOLUSDT": 14.881666746675627,
+            "BNBUSDT": 10.88129512069058,
+            "XRPUSDT": 8.38331076288128,
+            "DOGEUSDT": 16.846571410744367,
+            "ADAUSDT": 284.30714125811505,
+            "LINKUSDT": 12.255713812520701,
+            "AVAXUSDT": 48.83342376559957,
+            "LTCUSDT": 31.252639581045695,
+            "BCHUSDT": 29.528597040109677,
+            "TRXUSDT": 89.1566265060241
+          }
+        }
+      },
+      {
+        "candidate": "macd_bb_unfiltered",
+        "timeframe_seconds": 3600,
+        "start": 1791536400,
+        "end": 1792141200,
+        "observed_start": 1791536400,
+        "observed_end": 1792141200,
+        "initial": 1000,
+        "final": 999.7290016222481,
+        "net_pnl": -0.2709983777519369,
+        "return_pct": -0.027099837775193692,
+        "trades": 1,
+        "wins": 0,
+        "win_rate_pct": 0.0,
+        "profit_factor": 0.0,
+        "fees": 0.19544883819549014,
+        "average_trade": -0.2709983777519369,
+        "max_drawdown_pct": 0.0668313983667872,
+        "selection_rejections": {
+          "quantity_or_notional": 0,
+          "invalid_atr": 0,
+          "no_room_for_stop": 0,
+          "account_drawdown": 0,
+          "insufficient_net_reward": 0
+        },
+        "fills": "historical OHLC simulation with assumed costs",
+        "config": {
+          "initial": 1000,
+          "fee": 0.002,
+          "half_spread_bps": 7.5,
+          "slippage_bps": 1,
+          "risk_fraction": 0.001,
+          "max_spend": 100,
+          "stop_atr": 1.5,
+          "net_reward_multiple": 2,
+          "max_hold_bars": 16,
+          "symbol_half_spread_bps": {
+            "BTCUSDT": 3.2340249059723027,
+            "ETHUSDT": 9.023822474528021,
+            "SOLUSDT": 14.881666746675627,
+            "BNBUSDT": 10.88129512069058,
+            "XRPUSDT": 8.38331076288128,
+            "DOGEUSDT": 16.846571410744367,
+            "ADAUSDT": 284.30714125811505,
+            "LINKUSDT": 12.255713812520701,
+            "AVAXUSDT": 48.83342376559957,
+            "LTCUSDT": 31.252639581045695,
+            "BCHUSDT": 29.528597040109677,
+            "TRXUSDT": 89.1566265060241
+          }
+        }
+      },
+      {
+        "candidate": "supertrend",
+        "timeframe_seconds": 3600,
+        "start": 1791536400,
+        "end": 1792141200,
+        "observed_start": 1791536400,
+        "observed_end": 1792141200,
+        "initial": 1000,
+        "final": 997.8956695098645,
+        "net_pnl": -2.1043304901354674,
+        "return_pct": -0.21043304901354676,
+        "trades": 2,
+        "wins": 0,
+        "win_rate_pct": 0.0,
+        "profit_factor": 0.0,
+        "fees": 0.46082482517217255,
+        "average_trade": -1.0521652450677337,
+        "max_drawdown_pct": 0.21330957290102504,
+        "selection_rejections": {
+          "quantity_or_notional": 0,
+          "invalid_atr": 0,
+          "no_room_for_stop": 0,
+          "account_drawdown": 0,
+          "insufficient_net_reward": 0
+        },
+        "fills": "historical OHLC simulation with assumed costs",
+        "config": {
+          "initial": 1000,
+          "fee": 0.002,
+          "half_spread_bps": 7.5,
+          "slippage_bps": 1,
+          "risk_fraction": 0.001,
+          "max_spend": 100,
+          "stop_atr": 1.5,
+          "net_reward_multiple": 2,
+          "max_hold_bars": 16,
+          "symbol_half_spread_bps": {
+            "BTCUSDT": 3.2340249059723027,
+            "ETHUSDT": 9.023822474528021,
+            "SOLUSDT": 14.881666746675627,
+            "BNBUSDT": 10.88129512069058,
+            "XRPUSDT": 8.38331076288128,
+            "DOGEUSDT": 16.846571410744367,
+            "ADAUSDT": 284.30714125811505,
+            "LINKUSDT": 12.255713812520701,
+            "AVAXUSDT": 48.83342376559957,
+            "LTCUSDT": 31.252639581045695,
+            "BCHUSDT": 29.528597040109677,
+            "TRXUSDT": 89.1566265060241
+          }
+        }
+      },
+      {
+        "candidate": "bb_reentry",
+        "timeframe_seconds": 3600,
+        "start": 1791536400,
+        "end": 1792141200,
+        "observed_start": 1791536400,
+        "observed_end": 1792141200,
+        "initial": 1000,
+        "final": 999.9743790475455,
+        "net_pnl": -0.0256209524543749,
+        "return_pct": -0.00256209524543749,
+        "trades": 4,
+        "wins": 2,
+        "win_rate_pct": 50.0,
+        "profit_factor": 0.9871666216347897,
+        "fees": 0.716324164193221,
+        "average_trade": -0.006405238113593725,
+        "max_drawdown_pct": 0.19760067960350314,
+        "selection_rejections": {
+          "quantity_or_notional": 0,
+          "invalid_atr": 0,
+          "no_room_for_stop": 0,
+          "account_drawdown": 0,
+          "insufficient_net_reward": 17
+        },
+        "fills": "historical OHLC simulation with assumed costs",
+        "config": {
+          "initial": 1000,
+          "fee": 0.002,
+          "half_spread_bps": 7.5,
+          "slippage_bps": 1,
+          "risk_fraction": 0.001,
+          "max_spend": 100,
+          "stop_atr": 2,
+          "net_reward_multiple": 2,
+          "max_hold_bars": 24,
+          "symbol_half_spread_bps": {
+            "BTCUSDT": 3.2340249059723027,
+            "ETHUSDT": 9.023822474528021,
+            "SOLUSDT": 14.881666746675627,
+            "BNBUSDT": 10.88129512069058,
+            "XRPUSDT": 8.38331076288128,
+            "DOGEUSDT": 16.846571410744367,
+            "ADAUSDT": 284.30714125811505,
+            "LINKUSDT": 12.255713812520701,
+            "AVAXUSDT": 48.83342376559957,
+            "LTCUSDT": 31.252639581045695,
+            "BCHUSDT": 29.528597040109677,
+            "TRXUSDT": 89.1566265060241
+          }
+        }
+      },
+      {
+        "candidate": "donchian_breakout",
+        "timeframe_seconds": 3600,
+        "start": 1791536400,
+        "end": 1792141200,
+        "observed_start": 1791536400,
+        "observed_end": 1792141200,
+        "initial": 1000,
+        "final": 995.5868407282677,
+        "net_pnl": -4.413159271732219,
+        "return_pct": -0.4413159271732219,
+        "trades": 5,
+        "wins": 0,
+        "win_rate_pct": 0.0,
+        "profit_factor": 0.0,
+        "fees": 0.7968021407744871,
+        "average_trade": -0.8826318543464439,
+        "max_drawdown_pct": 0.460933950451647,
+        "selection_rejections": {
+          "quantity_or_notional": 0,
+          "invalid_atr": 0,
+          "no_room_for_stop": 0,
+          "account_drawdown": 0,
+          "insufficient_net_reward": 0
+        },
+        "fills": "historical OHLC simulation with assumed costs",
+        "config": {
+          "initial": 1000,
+          "fee": 0.002,
+          "half_spread_bps": 7.5,
+          "slippage_bps": 1,
+          "risk_fraction": 0.001,
+          "max_spend": 100,
+          "stop_atr": 2.5,
+          "net_reward_multiple": 2,
+          "max_hold_bars": 48,
+          "symbol_half_spread_bps": {
+            "BTCUSDT": 3.2340249059723027,
+            "ETHUSDT": 9.023822474528021,
+            "SOLUSDT": 14.881666746675627,
+            "BNBUSDT": 10.88129512069058,
+            "XRPUSDT": 8.38331076288128,
+            "DOGEUSDT": 16.846571410744367,
+            "ADAUSDT": 284.30714125811505,
+            "LINKUSDT": 12.255713812520701,
+            "AVAXUSDT": 48.83342376559957,
+            "LTCUSDT": 31.252639581045695,
+            "BCHUSDT": 29.528597040109677,
+            "TRXUSDT": 89.1566265060241
+          }
+        }
+      }
+    ],
+    "selected": {
+      "candidate": "bb_reentry",
+      "timeframe_seconds": 3600,
+      "start": 1791536400,
+      "end": 1792141200,
+      "observed_start": 1791536400,
+      "observed_end": 1792141200,
+      "initial": 1000,
+      "final": 999.9743790475455,
+      "net_pnl": -0.0256209524543749,
+      "return_pct": -0.00256209524543749,
+      "trades": 4,
+      "wins": 2,
+      "win_rate_pct": 50.0,
+      "profit_factor": 0.9871666216347897,
+      "fees": 0.716324164193221,
+      "average_trade": -0.006405238113593725,
+      "max_drawdown_pct": 0.19760067960350314,
+      "selection_rejections": {
+        "quantity_or_notional": 0,
+        "invalid_atr": 0,
+        "no_room_for_stop": 0,
+        "account_drawdown": 0,
+        "insufficient_net_reward": 17
+      },
+      "fills": "historical OHLC simulation with assumed costs",
+      "config": {
+        "initial": 1000,
+        "fee": 0.002,
+        "half_spread_bps": 7.5,
+        "slippage_bps": 1,
+        "risk_fraction": 0.001,
+        "max_spend": 100,
+        "stop_atr": 2,
+        "net_reward_multiple": 2,
+        "max_hold_bars": 24,
+        "symbol_half_spread_bps": {
+          "BTCUSDT": 3.2340249059723027,
+          "ETHUSDT": 9.023822474528021,
+          "SOLUSDT": 14.881666746675627,
+          "BNBUSDT": 10.88129512069058,
+          "XRPUSDT": 8.38331076288128,
+          "DOGEUSDT": 16.846571410744367,
+          "ADAUSDT": 284.30714125811505,
+          "LINKUSDT": 12.255713812520701,
+          "AVAXUSDT": 48.83342376559957,
+          "LTCUSDT": 31.252639581045695,
+          "BCHUSDT": 29.528597040109677,
+          "TRXUSDT": 89.1566265060241
+        }
+      }
+    },
+    "reason": "Best validation net P&L among candidates with at least three trades; exploratory evaluation only, original positive-profit/minimum-five criteria failed",
+    "holdout_opened": false,
+    "promotion_criteria_passed": false,
+    "research_frozen_at": "2026-10-23T10:03:13.460571+00:00",
+    "research_evaluator_sha256": "ea7f51dae26709c24ebc3cc7b9f4698f2849dda91178608abb433ba325730db1",
+    "live_strategy_enabled": false
+  },
+  "holdout": {
+    "candidate": "bb_reentry",
+    "timeframe_seconds": 3600,
+    "start": 1792141200,
+    "end": 1792746000,
+    "observed_start": 1792141200,
+    "observed_end": 1792746000,
+    "initial": 1000,
+    "final": 998.6230198626195,
+    "net_pnl": -1.3769801373805635,
+    "return_pct": -0.13769801373805635,
+    "trades": 2,
+    "wins": 0,
+    "win_rate_pct": 0.0,
+    "profit_factor": 0.0,
+    "fees": 0.4189464668333076,
+    "average_trade": -0.6884900686902817,
+    "max_drawdown_pct": 0.1629338567481495,
+    "selection_rejections": {
+      "quantity_or_notional": 0,
+      "invalid_atr": 0,
+      "no_room_for_stop": 0,
+      "account_drawdown": 0,
+      "insufficient_net_reward": 23
+    },
+    "fills": "historical OHLC simulation with assumed costs",
+    "trades_detail": [
+      {
+        "symbol": "XRPUSDT",
+        "opened_epoch": 1792180800,
+        "closed_epoch": 1792267200,
+        "signal_available_at": 1792180800,
+        "entry_price": 1.3022207687302507,
+        "exit_price": 1.2975912862148062,
+        "quantity": 38.4,
+        "entry_fee": 0.10001055503848325,
+        "exit_fee": 0.09965501078129713,
+        "spent": 50.105288074280104,
+        "gross_pnl": -0.17777212859306246,
+        "net_pnl": -0.3774376944128406,
+        "net_return": -0.007532891415638537,
+        "reason": "time_limit",
+        "stop_raw": 1.2825947987352466,
+        "target_raw": 1.3293575,
+        "planned_net_risk": 0.9982729993251069
+      },
+      {
+        "symbol": "DOGEUSDT",
+        "opened_epoch": 1792648800,
+        "closed_epoch": 1792659600,
+        "signal_available_at": 1792648800,
+        "entry_price": 0.08014277257128596,
+        "exit_price": 0.07901015311715011,
+        "quantity": 688.9,
+        "entry_fee": 0.11042071204871781,
+        "exit_fee": 0.10886018896480941,
+        "spent": 55.320776736407616,
+        "gross_pnl": -0.7802615419541965,
+        "net_pnl": -0.9995424429677229,
+        "net_return": -0.018068120188014382,
+        "reason": "stop_loss",
+        "stop_raw": 0.0791514112484608,
+        "target_raw": 0.082097,
+        "planned_net_risk": 0.9995424429677114
+      }
+    ],
+    "equity": [
+      {
+        "t": 1792144800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792148400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792152000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792155600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792159200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792162800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792166400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792170000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792173600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792177200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792180800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792184400,
+        "equity": 999.8595603221187,
+        "drawdown": 0.00014043967788131796
+      },
+      {
+        "t": 1792188000,
+        "equity": 999.9771021493807,
+        "drawdown": 2.2897850619301607e-05
+      },
+      {
+        "t": 1792191600,
+        "equity": 1000.0509965228712,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792195200,
+        "equity": 1000.0509965228712,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792198800,
+        "equity": 1000.0012231106756,
+        "drawdown": 4.9770874054060276e-05
+      },
+      {
+        "t": 1792202400,
+        "equity": 1000.0012231106756,
+        "drawdown": 4.9770874054060276e-05
+      },
+      {
+        "t": 1792206000,
+        "equity": 999.8649205357398,
+        "drawdown": 0.0001860664983869625
+      },
+      {
+        "t": 1792209600,
+        "equity": 1000.2527702784644,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792213200,
+        "equity": 1000.0398932232275,
+        "drawdown": 0.00021282325984219106
+      },
+      {
+        "t": 1792216800,
+        "equity": 1000.1003870626654,
+        "drawdown": 0.00015234470758481851
+      },
+      {
+        "t": 1792220400,
+        "equity": 1000.0127092827207,
+        "drawdown": 0.0002400003307932011
+      },
+      {
+        "t": 1792224000,
+        "equity": 1000.0509965228712,
+        "drawdown": 0.00020172276607344146
+      },
+      {
+        "t": 1792227600,
+        "equity": 1000.03797886122,
+        "drawdown": 0.00021473713807813928
+      },
+      {
+        "t": 1792231200,
+        "equity": 1000.0199838583493,
+        "drawdown": 0.00023272759349646157
+      },
+      {
+        "t": 1792234800,
+        "equity": 999.9104823515189,
+        "drawdown": 0.00034220142859506285
+      },
+      {
+        "t": 1792238400,
+        "equity": 999.9897369386304,
+        "drawdown": 0.00026296686962514783
+      },
+      {
+        "t": 1792242000,
+        "equity": 999.6681241213662,
+        "drawdown": 0.0005844984132714928
+      },
+      {
+        "t": 1792245600,
+        "equity": 999.5804463414216,
+        "drawdown": 0.0006721540364797617
+      },
+      {
+        "t": 1792249200,
+        "equity": 999.6229451779886,
+        "drawdown": 0.0006296659396408251
+      },
+      {
+        "t": 1792252800,
+        "equity": 999.2860174646643,
+        "drawdown": 0.0009665085091750965
+      },
+      {
+        "t": 1792256400,
+        "equity": 999.2829544854523,
+        "drawdown": 0.0009695707143526592
+      },
+      {
+        "t": 1792260000,
+        "equity": 999.3660377965788,
+        "drawdown": 0.000886508398910734
+      },
+      {
+        "t": 1792263600,
+        "equity": 999.5544110181193,
+        "drawdown": 0.000698182780489271
+      },
+      {
+        "t": 1792267200,
+        "equity": 999.7603963701289,
+        "drawdown": 0.0004922494822967663
+      },
+      {
+        "t": 1792270800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792274400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792278000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792281600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792285200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792288800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792292400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792296000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792299600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792303200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792306800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792310400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792314000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792317600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792321200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792324800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792328400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792332000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792335600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792339200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792342800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792346400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792350000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792353600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792357200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792360800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792364400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792368000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792371600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792375200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792378800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792382400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792386000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792389600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792393200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792396800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792400400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792404000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792407600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792411200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792414800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792418400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792422000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792425600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792429200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792432800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792436400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792440000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792443600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792447200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792450800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792454400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792458000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792461600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792465200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792468800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792472400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792476000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792479600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792483200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792486800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792490400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792494000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792497600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792501200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792504800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792508400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792512000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792515600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792519200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792522800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792526400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792530000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792533600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792537200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792540800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792544400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792548000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792551600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792555200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792558800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792562400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792566000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792569600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792573200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792576800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792580400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792584000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792587600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792591200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792594800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792598400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792602000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792605600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792609200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792612800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792616400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792620000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792623600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792627200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792630800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792634400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792638000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792641600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792645200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792648800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792652400,
+        "equity": 998.9308841734309,
+        "drawdown": 0.0013215520559523254
+      },
+      {
+        "t": 1792656000,
+        "equity": 999.274031777729,
+        "drawdown": 0.0009784911672505825
+      },
+      {
+        "t": 1792659600,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792663200,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792666800,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792670400,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792674000,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792677600,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792681200,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792684800,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792688400,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792692000,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792695600,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792699200,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792702800,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792706400,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792710000,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792713600,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792717200,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792720800,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792724400,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792728000,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792731600,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792735200,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792738800,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792742400,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792746000,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      }
+    ],
+    "config": {
+      "initial": 1000,
+      "fee": 0.002,
+      "half_spread_bps": 7.5,
+      "slippage_bps": 1,
+      "risk_fraction": 0.001,
+      "max_spend": 100,
+      "stop_atr": 2,
+      "net_reward_multiple": 2,
+      "max_hold_bars": 24,
+      "symbol_half_spread_bps": {
+        "BTCUSDT": 3.2340249059723027,
+        "ETHUSDT": 9.023822474528021,
+        "SOLUSDT": 14.881666746675627,
+        "BNBUSDT": 10.88129512069058,
+        "XRPUSDT": 8.38331076288128,
+        "DOGEUSDT": 16.846571410744367,
+        "ADAUSDT": 284.30714125811505,
+        "LINKUSDT": 12.255713812520701,
+        "AVAXUSDT": 48.83342376559957,
+        "LTCUSDT": 31.252639581045695,
+        "BCHUSDT": 29.528597040109677,
+        "TRXUSDT": 89.1566265060241
+      }
+    }
+  },
+  "cost_stress": {
+    "candidate": "bb_reentry",
+    "timeframe_seconds": 3600,
+    "start": 1792141200,
+    "end": 1792746000,
+    "observed_start": 1792141200,
+    "observed_end": 1792746000,
+    "initial": 1000,
+    "final": 1000,
+    "net_pnl": 0,
+    "return_pct": 0.0,
+    "trades": 0,
+    "wins": 0,
+    "win_rate_pct": null,
+    "profit_factor": null,
+    "fees": 0.0,
+    "average_trade": null,
+    "max_drawdown_pct": 0.0,
+    "selection_rejections": {
+      "quantity_or_notional": 0,
+      "invalid_atr": 0,
+      "no_room_for_stop": 0,
+      "account_drawdown": 0,
+      "insufficient_net_reward": 42
+    },
+    "fills": "historical OHLC simulation with assumed costs",
+    "trades_detail": [],
+    "equity": [
+      {
+        "t": 1792144800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792148400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792152000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792155600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792159200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792162800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792166400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792170000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792173600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792177200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792180800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792184400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792188000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792191600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792195200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792198800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792202400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792206000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792209600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792213200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792216800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792220400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792224000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792227600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792231200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792234800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792238400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792242000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792245600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792249200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792252800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792256400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792260000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792263600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792267200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792270800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792274400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792278000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792281600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792285200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792288800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792292400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792296000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792299600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792303200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792306800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792310400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792314000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792317600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792321200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792324800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792328400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792332000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792335600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792339200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792342800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792346400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792350000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792353600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792357200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792360800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792364400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792368000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792371600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792375200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792378800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792382400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792386000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792389600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792393200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792396800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792400400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792404000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792407600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792411200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792414800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792418400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792422000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792425600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792429200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792432800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792436400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792440000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792443600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792447200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792450800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792454400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792458000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792461600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792465200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792468800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792472400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792476000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792479600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792483200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792486800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792490400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792494000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792497600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792501200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792504800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792508400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792512000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792515600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792519200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792522800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792526400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792530000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792533600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792537200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792540800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792544400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792548000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792551600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792555200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792558800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792562400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792566000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792569600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792573200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792576800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792580400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792584000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792587600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792591200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792594800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792598400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792602000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792605600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792609200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792612800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792616400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792620000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792623600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792627200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792630800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792634400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792638000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792641600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792645200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792648800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792652400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792656000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792659600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792663200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792666800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792670400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792674000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792677600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792681200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792684800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792688400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792692000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792695600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792699200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792702800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792706400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792710000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792713600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792717200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792720800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792724400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792728000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792731600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792735200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792738800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792742400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792746000,
+        "equity": 1000,
+        "drawdown": 0.0
+      }
+    ],
+    "config": {
+      "initial": 1000,
+      "fee": 0.002,
+      "half_spread_bps": 15,
+      "slippage_bps": 2,
+      "risk_fraction": 0.001,
+      "max_spend": 100,
+      "stop_atr": 2,
+      "net_reward_multiple": 2,
+      "max_hold_bars": 24,
+      "symbol_half_spread_bps": {
+        "BTCUSDT": 6.4680498119446055,
+        "ETHUSDT": 18.047644949056043,
+        "SOLUSDT": 29.763333493351254,
+        "BNBUSDT": 21.76259024138116,
+        "XRPUSDT": 16.76662152576256,
+        "DOGEUSDT": 33.693142821488735,
+        "ADAUSDT": 568.6142825162301,
+        "LINKUSDT": 24.511427625041403,
+        "AVAXUSDT": 97.66684753119914,
+        "LTCUSDT": 62.50527916209139,
+        "BCHUSDT": 59.057194080219354,
+        "TRXUSDT": 178.3132530120482
+      }
+    }
+  },
+  "first_ten_holdout": {
+    "candidate": "bb_reentry",
+    "timeframe_seconds": 3600,
+    "start": 1792141200,
+    "end": 1792746000,
+    "observed_start": 1792141200,
+    "observed_end": 1792746000,
+    "initial": 1000,
+    "final": 998.6230198626195,
+    "net_pnl": -1.3769801373805635,
+    "return_pct": -0.13769801373805635,
+    "trades": 2,
+    "wins": 0,
+    "win_rate_pct": 0.0,
+    "profit_factor": 0.0,
+    "fees": 0.4189464668333076,
+    "average_trade": -0.6884900686902817,
+    "max_drawdown_pct": 0.1629338567481495,
+    "selection_rejections": {
+      "quantity_or_notional": 0,
+      "invalid_atr": 0,
+      "no_room_for_stop": 0,
+      "account_drawdown": 0,
+      "insufficient_net_reward": 23
+    },
+    "fills": "historical OHLC simulation with assumed costs",
+    "trades_detail": [
+      {
+        "symbol": "XRPUSDT",
+        "opened_epoch": 1792180800,
+        "closed_epoch": 1792267200,
+        "signal_available_at": 1792180800,
+        "entry_price": 1.3022207687302507,
+        "exit_price": 1.2975912862148062,
+        "quantity": 38.4,
+        "entry_fee": 0.10001055503848325,
+        "exit_fee": 0.09965501078129713,
+        "spent": 50.105288074280104,
+        "gross_pnl": -0.17777212859306246,
+        "net_pnl": -0.3774376944128406,
+        "net_return": -0.007532891415638537,
+        "reason": "time_limit",
+        "stop_raw": 1.2825947987352466,
+        "target_raw": 1.3293575,
+        "planned_net_risk": 0.9982729993251069
+      },
+      {
+        "symbol": "DOGEUSDT",
+        "opened_epoch": 1792648800,
+        "closed_epoch": 1792659600,
+        "signal_available_at": 1792648800,
+        "entry_price": 0.08014277257128596,
+        "exit_price": 0.07901015311715011,
+        "quantity": 688.9,
+        "entry_fee": 0.11042071204871781,
+        "exit_fee": 0.10886018896480941,
+        "spent": 55.320776736407616,
+        "gross_pnl": -0.7802615419541965,
+        "net_pnl": -0.9995424429677229,
+        "net_return": -0.018068120188014382,
+        "reason": "stop_loss",
+        "stop_raw": 0.0791514112484608,
+        "target_raw": 0.082097,
+        "planned_net_risk": 0.9995424429677114
+      }
+    ],
+    "equity": [
+      {
+        "t": 1792144800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792148400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792152000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792155600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792159200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792162800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792166400,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792170000,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792173600,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792177200,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792180800,
+        "equity": 1000,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792184400,
+        "equity": 999.8595603221187,
+        "drawdown": 0.00014043967788131796
+      },
+      {
+        "t": 1792188000,
+        "equity": 999.9771021493807,
+        "drawdown": 2.2897850619301607e-05
+      },
+      {
+        "t": 1792191600,
+        "equity": 1000.0509965228712,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792195200,
+        "equity": 1000.0509965228712,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792198800,
+        "equity": 1000.0012231106756,
+        "drawdown": 4.9770874054060276e-05
+      },
+      {
+        "t": 1792202400,
+        "equity": 1000.0012231106756,
+        "drawdown": 4.9770874054060276e-05
+      },
+      {
+        "t": 1792206000,
+        "equity": 999.8649205357398,
+        "drawdown": 0.0001860664983869625
+      },
+      {
+        "t": 1792209600,
+        "equity": 1000.2527702784644,
+        "drawdown": 0.0
+      },
+      {
+        "t": 1792213200,
+        "equity": 1000.0398932232275,
+        "drawdown": 0.00021282325984219106
+      },
+      {
+        "t": 1792216800,
+        "equity": 1000.1003870626654,
+        "drawdown": 0.00015234470758481851
+      },
+      {
+        "t": 1792220400,
+        "equity": 1000.0127092827207,
+        "drawdown": 0.0002400003307932011
+      },
+      {
+        "t": 1792224000,
+        "equity": 1000.0509965228712,
+        "drawdown": 0.00020172276607344146
+      },
+      {
+        "t": 1792227600,
+        "equity": 1000.03797886122,
+        "drawdown": 0.00021473713807813928
+      },
+      {
+        "t": 1792231200,
+        "equity": 1000.0199838583493,
+        "drawdown": 0.00023272759349646157
+      },
+      {
+        "t": 1792234800,
+        "equity": 999.9104823515189,
+        "drawdown": 0.00034220142859506285
+      },
+      {
+        "t": 1792238400,
+        "equity": 999.9897369386304,
+        "drawdown": 0.00026296686962514783
+      },
+      {
+        "t": 1792242000,
+        "equity": 999.6681241213662,
+        "drawdown": 0.0005844984132714928
+      },
+      {
+        "t": 1792245600,
+        "equity": 999.5804463414216,
+        "drawdown": 0.0006721540364797617
+      },
+      {
+        "t": 1792249200,
+        "equity": 999.6229451779886,
+        "drawdown": 0.0006296659396408251
+      },
+      {
+        "t": 1792252800,
+        "equity": 999.2860174646643,
+        "drawdown": 0.0009665085091750965
+      },
+      {
+        "t": 1792256400,
+        "equity": 999.2829544854523,
+        "drawdown": 0.0009695707143526592
+      },
+      {
+        "t": 1792260000,
+        "equity": 999.3660377965788,
+        "drawdown": 0.000886508398910734
+      },
+      {
+        "t": 1792263600,
+        "equity": 999.5544110181193,
+        "drawdown": 0.000698182780489271
+      },
+      {
+        "t": 1792267200,
+        "equity": 999.7603963701289,
+        "drawdown": 0.0004922494822967663
+      },
+      {
+        "t": 1792270800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792274400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792278000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792281600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792285200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792288800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792292400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792296000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792299600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792303200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792306800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792310400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792314000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792317600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792321200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792324800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792328400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792332000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792335600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792339200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792342800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792346400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792350000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792353600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792357200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792360800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792364400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792368000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792371600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792375200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792378800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792382400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792386000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792389600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792393200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792396800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792400400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792404000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792407600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792411200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792414800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792418400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792422000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792425600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792429200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792432800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792436400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792440000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792443600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792447200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792450800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792454400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792458000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792461600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792465200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792468800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792472400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792476000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792479600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792483200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792486800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792490400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792494000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792497600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792501200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792504800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792508400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792512000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792515600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792519200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792522800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792526400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792530000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792533600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792537200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792540800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792544400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792548000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792551600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792555200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792558800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792562400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792566000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792569600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792573200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792576800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792580400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792584000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792587600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792591200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792594800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792598400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792602000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792605600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792609200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792612800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792616400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792620000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792623600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792627200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792630800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792634400,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792638000,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792641600,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792645200,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792648800,
+        "equity": 999.6225623055872,
+        "drawdown": 0.000630048715287992
+      },
+      {
+        "t": 1792652400,
+        "equity": 998.9308841734309,
+        "drawdown": 0.0013215520559523254
+      },
+      {
+        "t": 1792656000,
+        "equity": 999.274031777729,
+        "drawdown": 0.0009784911672505825
+      },
+      {
+        "t": 1792659600,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792663200,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792666800,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792670400,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792674000,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792677600,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792681200,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792684800,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792688400,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792692000,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792695600,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792699200,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792702800,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792706400,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792710000,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792713600,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792717200,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792720800,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792724400,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792728000,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792731600,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792735200,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792738800,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792742400,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      },
+      {
+        "t": 1792746000,
+        "equity": 998.6230198626195,
+        "drawdown": 0.001629338567481495
+      }
+    ],
+    "config": {
+      "initial": 1000,
+      "fee": 0.002,
+      "half_spread_bps": 7.5,
+      "slippage_bps": 1,
+      "risk_fraction": 0.001,
+      "max_spend": 100,
+      "stop_atr": 2,
+      "net_reward_multiple": 2,
+      "max_hold_bars": 24,
+      "symbol_half_spread_bps": {
+        "BTCUSDT": 3.2340249059723027,
+        "ETHUSDT": 9.023822474528021,
+        "SOLUSDT": 14.881666746675627,
+        "BNBUSDT": 10.88129512069058,
+        "XRPUSDT": 8.38331076288128,
+        "DOGEUSDT": 16.846571410744367,
+        "ADAUSDT": 284.30714125811505,
+        "LINKUSDT": 12.255713812520701,
+        "AVAXUSDT": 48.83342376559957,
+        "LTCUSDT": 31.252639581045695,
+        "BCHUSDT": 29.528597040109677,
+        "TRXUSDT": 89.1566265060241
+      }
+    }
+  },
+  "buy_hold": {
+    "initial": 1000,
+    "final": 998.715659521134,
+    "net_pnl": -1.2843404788660564,
+    "max_drawdown_pct": 0.43160714200815775,
+    "description": "100 USDT all-in BTC holding plus cash, same assumed trading costs"
+  },
+  "cash_net_pnl": 0,
+  "not_prospective": true,
+  "real_orders": 0,
+  "credentials_used": false,
+  "limitations": [
+    "Exploratory candidate FAILED the original promotion criteria; it was chosen before opening this holdout and is not enabled for live trading.",
+    "Historical candle fills, not prospective live fills or exchange-confirmed trades.",
+    "Historical spread assumption is max(15 bps round trip,current measured spread); historical books are unavailable.",
+    "Fees 0.2% each side; additional slippage 1 bp each side. Stress doubles spread and slippage.",
+    "One seven-day holdout and multiple development candidates; a positive result is not proof of a durable edge.",
+    "Original live 10-trade run covers another period; the return comparison is descriptive, not matched-period evidence.",
+    "Observed drawdown uses candle closes and fills; intrabar drawdown can be worse."
+  ]
+}

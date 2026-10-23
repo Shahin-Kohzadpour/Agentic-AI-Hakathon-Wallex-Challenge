@@ -1,0 +1,42 @@
+{
+  "mode": "FAKE",
+  "initial_cash_tmn": "5000000",
+  "cash_tmn": "5000794.0000",
+  "positions": {
+    "BTC/TMN": {
+      "quantity": "0.0",
+      "cost": "0.0000"
+    }
+  },
+  "orders": {
+    "demo_buy": {
+      "intent_id": "demo_buy",
+      "intent_hash": "87d17520d93a474df8f92c7670a79b621b6e9f3bd09030a01361b4bf06377ba6",
+      "mode": "FAKE",
+      "status": "FILLED",
+      "symbol": "BTC/TMN",
+      "side": "BUY",
+      "quantity": "0.1",
+      "price_tmn": "2000000",
+      "fee_tmn": "600.0000",
+      "owner": "wallex_paper_challenge",
+      "replayed": false
+    },
+    "demo_sell": {
+      "intent_id": "demo_sell",
+      "intent_hash": "614d7ecc5fb51653df60ce93127ade3601f14c03861bf90774d21bdaa92f28e7",
+      "mode": "FAKE",
+      "status": "FILLED",
+      "symbol": "BTC/TMN",
+      "side": "SELL",
+      "quantity": "0.1",
+      "price_tmn": "2020000",
+      "fee_tmn": "606.0000",
+      "owner": "wallex_paper_challenge",
+      "replayed": false
+    }
+  },
+  "realized_pnl_tmn": "794.0000",
+  "fees_tmn": "1206.0000",
+  "peak_tmn": "5000000"
+}

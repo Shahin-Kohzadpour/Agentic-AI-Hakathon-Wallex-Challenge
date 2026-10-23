@@ -1,0 +1,922 @@
+"""Session-scoped bot ownership (FEAT-017).
+
+The agent's namespace ``{agent_slug}-{strategy_slug}`` is the ownership proof, and
+the permission callback is where it is enforced. These tests pin the naming
+property the whole scheme rests on, the ledger's persistence, and the guard's
+behavior at the tool call.
+"""
+
+import asyncio
+import json
+import time
+
+from condor.agents.ownership import (
+    BotLedger,
+    bot_namespace,
+    declared_names,
+    in_namespace,
+    resolve_bot_name,
+    strip_deploy_suffix,
+)
+from condor.agents.risk import (
+    RiskEngine,
+    RiskLimits,
+    RiskState,
+    auto_approve_with_risk_check,
+)
+from condor.frontmatter import slugify
+
+_OPTIONS = [{"kind": "allow_once", "optionId": "allow"}]
+NS = "brigado-ema_trend"
+
+
+def _bot_call(action: str, bot_name: str, cap: float = 100.0) -> dict:
+    return {
+        "tool": "manage_bots",
+        "input": {
+            "action": action,
+            "bot_name": bot_name,
+            "max_global_drawdown_quote": cap,
+        },
+    }
+
+
+def _drive(callback, call) -> str:
+    return asyncio.run(callback(call, _OPTIONS))["outcome"]["outcome"]
+
+
+# ---------------------------------------------------------------------------
+# Namespace matching
+# ---------------------------------------------------------------------------
+
+
+def test_slugs_never_contain_the_delimiter():
+    """The whole scheme rests on '-' being unambiguous: slugify maps it to '_'."""
+    for name in ("RIVER Scalper v2", "ema-trend", "  spot - perp  ", "BTC/USD mm"):
+        assert "-" not in slugify(name)
+
+
+def test_namespace_matches_base_tag_and_deployed_instance():
+    assert bot_namespace("brigado", "ema_trend") == NS
+    assert in_namespace(NS, NS)
+    assert in_namespace(f"{NS}-btc", NS)
+    assert in_namespace(f"{NS}-btc-20260731-101500", NS)
+
+
+def test_namespace_rejects_foreign_and_partial_names():
+    assert not in_namespace("ema_trend_loop", NS)
+    assert not in_namespace("brigado-ema_trendy", NS)  # no delimiter → different bot
+    assert not in_namespace("other-ema_trend", NS)
+    assert not in_namespace("", NS)
+
+
+def test_strip_deploy_suffix_only_drops_the_timestamp():
+    assert strip_deploy_suffix(f"{NS}-btc-20260731-101500") == f"{NS}-btc"
+    assert strip_deploy_suffix(f"{NS}-btc") == f"{NS}-btc"
+    assert strip_deploy_suffix(f"{NS}-2026") == f"{NS}-2026"
+
+
+def test_strip_deploy_suffix_drops_every_stamp_a_redeploy_left():
+    """A redeploy stamps a name that already carries a stamp.
+
+    ``pmm-king-btcbrl`` deployed twice becomes
+    ``pmm-king-btcbrl-20260903-181000-20260903-151237``, and every caller here
+    compares one stripped name against another -- an instance against a ledger
+    base, a running bot against the deed index's key. Taking one stamp off left
+    the two sides disagreeing from the first redeploy on, which is the bot with
+    the most trading behind it.
+    """
+    assert (
+        strip_deploy_suffix("pmm-king-btcbrl-20260903-181000-20260903-151237")
+        == "pmm-king-btcbrl"
+    )
+    # Four digits short of a stamp: a name, not a deploy, and it stays whole.
+    assert strip_deploy_suffix("pmm-king-btcbrl-20260901-2315") == (
+        "pmm-king-btcbrl-20260901-2315"
+    )
+
+
+# ---------------------------------------------------------------------------
+# Ledger
+# ---------------------------------------------------------------------------
+
+
+def test_ledger_records_deploy_and_persists(tmp_path):
+    ledger = BotLedger(NS, tmp_path)
+    ledger.note_deploy(f"{NS}-btc", now=1000.0)
+
+    data = json.loads((tmp_path / "owned_bots.json").read_text())
+    assert data["namespace"] == NS
+    assert data["bots"][f"{NS}-btc"]["origin"] == "deployed"
+    assert data["bots"][f"{NS}-btc"]["since"] == 1000.0
+
+
+def test_read_owned_reads_the_ledger_without_instantiating_it(tmp_path):
+    """The read-only view PnL attribution (FEAT-018) uses, oldest takeover first."""
+    from condor.agents.ownership import read_owned
+
+    ledger = BotLedger(NS, tmp_path)
+    ledger.note_deploy(f"{NS}-eth", now=2000.0)
+    ledger.note_deploy(f"{NS}-btc", now=1000.0)
+
+    owned = read_owned(tmp_path)
+    assert [(b.base, b.since) for b in owned] == [
+        (f"{NS}-btc", 1000.0),
+        (f"{NS}-eth", 2000.0),
+    ]
+
+
+def test_read_owned_is_empty_without_a_ledger(tmp_path):
+    """A session predating the ledger reads as 'no evidence', not as an error."""
+    from condor.agents.ownership import read_owned
+
+    assert read_owned(tmp_path) == []
+    assert read_owned(None) == []
+    (tmp_path / "owned_bots.json").write_text("{not json")
+    assert read_owned(tmp_path) == []
+
+
+def test_ledger_round_trips_from_disk(tmp_path):
+    first = BotLedger(NS, tmp_path)
+    first.note_deploy(f"{NS}-btc", now=1000.0)
+    first.note_violation("foreign-bot", "deploy", now=1001.0)
+
+    reloaded = BotLedger(NS, tmp_path)
+    assert reloaded.bases() == [f"{NS}-btc"]
+    assert reloaded.owned()[0].origin == "deployed"
+    assert reloaded.violations[0]["name"] == "foreign-bot"
+    # Violations already on disk are history, not pending journal work.
+    assert reloaded.drain_violations() == []
+
+
+def test_deploy_records_the_base_not_the_instance(tmp_path):
+    ledger = BotLedger(NS, tmp_path)
+    ledger.adopt(f"{NS}-btc-20260731-101500", now=1000.0)
+    assert ledger.bases() == [f"{NS}-btc"]
+    assert ledger.owned()[0].origin == "adopted"
+
+
+def test_adoption_does_not_downgrade_a_deployed_bot(tmp_path):
+    ledger = BotLedger(NS, tmp_path)
+    ledger.note_deploy(f"{NS}-btc", now=1000.0)
+    ledger.adopt(f"{NS}-btc-20260731-101500", now=2000.0)
+
+    owned = ledger.owned()[0]
+    assert owned.origin == "deployed"
+    assert owned.since == 1000.0
+    assert owned.last_seen == 2000.0
+
+
+def test_second_session_adopts_with_a_later_since(tmp_path):
+    """A restart mints a new session; it takes over the live bot, not a duplicate."""
+    s1 = tmp_path / "session_1"
+    s2 = tmp_path / "session_2"
+    s1.mkdir()
+    s2.mkdir()
+
+    first = BotLedger(NS, s1)
+    first.note_deploy(f"{NS}-btc", now=1000.0)
+
+    second = BotLedger(NS, s2)
+    second.adopt(f"{NS}-btc-20260731-101500", now=5000.0)
+
+    assert second.owned()[0].origin == "adopted"
+    assert second.owned()[0].since > first.owned()[0].since
+
+
+def test_declared_legacy_name_is_owned(tmp_path):
+    ledger = BotLedger(NS, tmp_path, declared=["river-scalper"])
+    assert ledger.owns("river-scalper")
+    assert ledger.owns("river-scalper-20260731-101500")
+    assert not ledger.owns("someone-elses-bot")
+
+
+def test_declared_names_only_covers_out_of_namespace_config():
+    assert declared_names({"bot_name": "river-scalper"}, NS) == ["river-scalper"]
+    assert declared_names({"bot_name": f"{NS}-btc"}, NS) == []
+    assert declared_names({}, NS) == []
+
+
+def test_experiment_ledger_is_memory_only(tmp_path):
+    ledger = BotLedger(NS, None)
+    ledger.note_deploy(f"{NS}-btc", now=1000.0)
+    ledger.note_violation("foreign", "deploy", now=1000.0)
+
+    assert ledger.bases() == [f"{NS}-btc"]
+    assert ledger.path is None
+    assert list(tmp_path.iterdir()) == []
+
+
+# ---------------------------------------------------------------------------
+# bot_mode resolution
+# ---------------------------------------------------------------------------
+
+
+def test_bot_mode_auto_reproduces_current_behavior():
+    assert resolve_bot_name({}, "brigado", "ema_trend") == ""
+    assert resolve_bot_name({"bot_name": "river-scalper"}, "brigado", "ema_trend") == (
+        "river-scalper"
+    )
+
+
+def test_bot_mode_bot_derives_the_namespace():
+    cfg = {"bot_mode": "bot", "bot_name": ""}
+    assert resolve_bot_name(cfg, "brigado", "ema_trend") == NS
+    # An explicit name still wins.
+    cfg = {"bot_mode": "bot", "bot_name": "river-scalper"}
+    assert resolve_bot_name(cfg, "brigado", "ema_trend") == "river-scalper"
+
+
+def test_bot_mode_executors_forces_executor_mode():
+    cfg = {"bot_mode": "executors", "bot_name": "river-scalper"}
+    assert resolve_bot_name(cfg, "brigado", "ema_trend") == ""
+
+
+# ---------------------------------------------------------------------------
+# Enforcement at the permission callback
+# ---------------------------------------------------------------------------
+
+
+def _callback(ledger, **kw):
+    return auto_approve_with_risk_check(
+        RiskEngine(RiskLimits(max_position_size_quote=500.0)),
+        RiskState(),
+        ledger=ledger,
+        **kw,
+    )
+
+
+def test_out_of_namespace_deploy_is_cancelled_and_recorded(tmp_path):
+    ledger = BotLedger(NS, tmp_path)
+    outcome = _drive(_callback(ledger), _bot_call("deploy", "ema_trend_loop"))
+
+    assert outcome == "cancelled"
+    assert ledger.bases() == []
+    assert ledger.violations[-1] == {
+        "name": "ema_trend_loop",
+        "action": "deploy",
+        "at": ledger.violations[-1]["at"],
+    }
+    assert ledger.drain_violations()  # the engine journals it next tick
+
+
+def test_in_namespace_deploy_is_allowed_and_recorded(tmp_path):
+    ledger = BotLedger(NS, tmp_path)
+    outcome = _drive(_callback(ledger), _bot_call("deploy", f"{NS}-btc"))
+
+    assert outcome == "selected"
+    assert ledger.bases() == [f"{NS}-btc"]
+    assert ledger.owned()[0].origin == "deployed"
+
+
+def test_declared_legacy_name_deploy_is_allowed(tmp_path):
+    ledger = BotLedger(NS, tmp_path, declared=["river-scalper"])
+    assert _drive(_callback(ledger), _bot_call("deploy", "river-scalper")) == "selected"
+
+
+def test_foreign_mutations_are_cancelled_too(tmp_path):
+    ledger = BotLedger(NS, tmp_path)
+    for action in (
+        "stop_bot",
+        "start_controllers",
+        "stop_controllers",
+        "update_config",
+    ):
+        call = {
+            "tool": "manage_bots",
+            "input": {"action": action, "bot_name": "foreign"},
+        }
+        assert _drive(_callback(ledger), call) == "cancelled"
+    assert len(ledger.violations) == 4
+
+
+def test_read_only_actions_see_the_whole_fleet(tmp_path):
+    ledger = BotLedger(NS, tmp_path)
+    for action in ("status", "logs", "get_config"):
+        call = {
+            "tool": "manage_bots",
+            "input": {"action": action, "bot_name": "foreign"},
+        }
+        assert _drive(_callback(ledger), call) == "selected"
+    assert ledger.violations == []
+
+
+def test_risk_rejected_deploy_is_not_recorded_as_owned(tmp_path):
+    """A deploy without a loss cap is blocked by risk — it never entered the ledger."""
+    ledger = BotLedger(NS, tmp_path)
+    call = {
+        "tool": "manage_bots",
+        "input": {"action": "deploy", "bot_name": f"{NS}-btc"},
+    }
+
+    assert _drive(_callback(ledger), call) == "cancelled"
+    assert ledger.bases() == []
+
+
+def test_no_ledger_changes_nothing():
+    """Consults, delegations and executor-mode runs keep today's behavior exactly."""
+    callback = _callback(None)
+    assert _drive(callback, _bot_call("deploy", "any-name-at-all")) == "selected"
+
+
+def test_dry_run_blocks_before_ownership_ever_applies(tmp_path):
+    ledger = BotLedger(NS, tmp_path)
+    callback = _callback(ledger, execution_mode="dry_run")
+
+    assert _drive(callback, _bot_call("deploy", f"{NS}-btc")) == "cancelled"
+    assert ledger.bases() == []
+    assert ledger.violations == []
+
+
+# ---------------------------------------------------------------------------
+# Prompt rendering
+# ---------------------------------------------------------------------------
+
+
+def test_controller_block_states_the_namespace_rule(tmp_path):
+    from condor.agents.prompts import _build_controller_mode_section
+
+    ledger = BotLedger(NS, tmp_path)
+    ledger.note_deploy(f"{NS}-btc", now=1000.0)
+    ledger.note_violation("ema_trend_loop", "deploy", now=1001.0)
+
+    block = _build_controller_mode_section(NS, ledger)
+    assert f"'{NS}-<tag>'" in block
+    assert "REFUSED" in block
+    assert f"{NS}-btc (deployed)" in block
+    assert "ema_trend_loop" in block
+
+
+def test_controller_block_without_ledger_is_the_plain_statement():
+    from condor.agents.prompts import _build_controller_mode_section
+
+    block = _build_controller_mode_section("river-scalper", None)
+    assert "[CONTROLLER MODE]" in block
+    assert "river-scalper" in block
+    assert "OWNERSHIP" not in block
+
+
+# ---------------------------------------------------------------------------
+# Engine wiring
+# ---------------------------------------------------------------------------
+
+
+def _engine(tmp_path, monkeypatch, config):
+    from condor.agents import strategy as strategy_module
+    from condor.agents.agent import Agent
+    from condor.agents.engine import TickEngine
+    from condor.agents.strategy import Strategy
+
+    monkeypatch.setenv("CONDOR_AGENTS_ROOT", str(tmp_path))
+    strategy = Strategy(agent_slug="brigado", name="EMA Trend")
+    strategy.home.mkdir(parents=True, exist_ok=True)
+    agent = Agent(slug="brigado", name="Brigado")
+    return TickEngine(
+        agent=agent, strategy=strategy, config=dict(config), chat_id=1, user_id=1
+    )
+
+
+def test_engine_builds_a_ledger_in_controller_mode(tmp_path, monkeypatch):
+    engine = _engine(tmp_path, monkeypatch, {"bot_name": f"{NS}-btc"})
+
+    assert engine.ledger is not None
+    assert engine.ledger.namespace == NS
+    assert engine.ledger.enforced
+    assert engine.ledger.path == engine.session_dir / "owned_bots.json"
+
+
+def test_engine_executor_mode_still_gets_an_unenforced_ledger(tmp_path, monkeypatch):
+    """Executor mode records what it deploys; it just isn't held to the namespace.
+
+    Skipping the ledger here is what let a session operate three bots and report
+    $0.00: with nothing recorded, every PnL surface fell back to searching
+    executors tagged with the agent_id, which a bot's controllers never carry.
+    """
+    engine = _engine(tmp_path, monkeypatch, {"bot_name": ""})
+
+    assert engine.ledger is not None
+    assert not engine.ledger.enforced
+    # Nothing deployed yet, so nothing is written — the file appears on first deploy.
+    assert not (engine.session_dir / "owned_bots.json").exists()
+
+    engine.ledger.note_deploy("ema_trend_loop-20260807-045821")
+
+    assert engine.ledger.bases() == ["ema_trend_loop"]
+    assert (engine.session_dir / "owned_bots.json").exists()
+
+
+def test_engine_derives_the_bot_name_under_bot_mode(tmp_path, monkeypatch):
+    from condor.agents.config import load_full_config
+
+    engine = _engine(tmp_path, monkeypatch, {"bot_mode": "bot", "bot_name": ""})
+
+    assert engine.config["bot_name"] == NS
+    # The session config — what per-session PnL attribution reads back — records
+    # the resolved name, not the empty one it was started with.
+    assert load_full_config(engine.session_dir, None)["bot_name"] == NS
+
+
+def test_engine_carries_a_legacy_name_as_declared(tmp_path, monkeypatch):
+    engine = _engine(tmp_path, monkeypatch, {"bot_name": "river-scalper"})
+
+    assert engine.ledger.declared == ["river-scalper"]
+    assert engine.ledger.owns("river-scalper")
+
+
+def test_experiment_engine_ledger_writes_no_file(tmp_path, monkeypatch):
+    engine = _engine(
+        tmp_path, monkeypatch, {"bot_name": NS, "execution_mode": "dry_run"}
+    )
+
+    assert engine.session_dir is None
+    assert engine.ledger is not None and engine.ledger.path is None
+    engine.ledger.note_deploy(f"{NS}-btc", now=1000.0)
+    assert not list(engine.strategy.home.rglob("owned_bots.json"))
+
+
+def test_engine_adopts_a_live_bot_in_its_namespace(tmp_path, monkeypatch):
+    engine = _engine(tmp_path, monkeypatch, {"bot_name": NS})
+
+    # Both are running: the namespace, not liveness, is what decides here.
+    client = _FakeClient(
+        [
+            {"bot_name": f"{NS}-btc-20260731-101500"},
+            {"bot_name": "someone-elses-bot-20260731-101500"},
+        ]
+    )
+    asyncio.run(engine._adopt_running_bots(client))
+
+    assert engine.ledger.bases() == [f"{NS}-btc"]
+    assert engine.ledger.owned()[0].origin == "adopted"
+    assert engine._adoption_done
+
+
+def test_engine_recovers_a_fleet_from_its_own_action_log(tmp_path, monkeypatch):
+    """FEAT-102: a session whose bots fall outside its namespace, restarted.
+
+    ``bot_name: ''`` means the namespace rule claims nothing, and on a first
+    session there is no prior lineage to inherit — so the fleet it deployed was
+    adopted by nobody and every money surface below the ledger read $0.00. The
+    session's own action log is a record, not a guess, so it is a safe third
+    source.
+    """
+    from condor.agents.actions import AgentAction, append_actions
+
+    engine = _engine(tmp_path, monkeypatch, {"bot_name": ""})
+    assert not engine.ledger.enforced
+    assert not (engine.session_dir / "owned_bots.json").exists()
+
+    append_actions(
+        engine.session_dir,
+        [
+            AgentAction(
+                tick=1,
+                at=1.0,
+                tool="manage_bots",
+                verb="manage_bots:deploy",
+                summary="Deploy bot 'pmm-king-btcbrl-20260903-181000'",
+                ok=True,
+                subject="pmm-king-btcbrl-20260903-181000",
+            )
+        ],
+    )
+
+    client = _FakeClient(
+        [
+            {"bot_name": "pmm-king-btcbrl-20260903-181000"},
+            {"bot_name": "someone-elses-bot-20260731-101500"},
+        ]
+    )
+    asyncio.run(engine._adopt_running_bots(client))
+
+    assert engine.ledger.bases() == ["pmm-king-btcbrl"]
+    assert (engine.session_dir / "owned_bots.json").exists()
+
+
+def test_engine_adopts_nothing_from_a_log_with_no_deploys(tmp_path, monkeypatch):
+    """The third source stays as conservative as the other two."""
+    from condor.agents.actions import AgentAction, append_actions
+
+    engine = _engine(tmp_path, monkeypatch, {"bot_name": ""})
+    append_actions(
+        engine.session_dir,
+        [
+            AgentAction(
+                tick=1,
+                at=1.0,
+                tool="stop_executor",
+                verb="stop_executor",
+                summary="Stop executor a1",
+                ok=True,
+            )
+        ],
+    )
+
+    # Listed as running, so what is left out is left out on the rule, not on
+    # a deferral (CORR-723).
+    client = _FakeClient([{"bot_name": "someone-elses-bot-20260731-101500"}])
+    asyncio.run(engine._adopt_running_bots(client))
+
+    assert engine.ledger.bases() == []
+    # Owning nothing is not a finished state (CORR-724): the pass answered, and
+    # the next tick asks again in case this session's bot has since appeared.
+    assert not engine._adoption_done
+
+
+def test_adoption_owns_a_live_bot_the_snapshot_never_reported(tmp_path, monkeypatch):
+    """CORR-724: the live registry is the source set, not the performance snapshot.
+
+    Adoption used to iterate ``fetch_all_bot_performance`` and keep the names the
+    orchestrator also listed, so a bot that *is* live but has no performance row
+    yet — one deployed seconds ago, or one whose controllers have not reported —
+    could not be reached by any of the three rules however well its name matched
+    the namespace. And the snapshot failing outright deferred the whole pass.
+
+    ``_FakeClient`` answers the active-bots listing and nothing else, so it has no
+    performance endpoint at all: exactly that shape, and the bot is adopted from
+    the listing alone.
+    """
+    engine = _engine(tmp_path, monkeypatch, {"bot_name": NS})
+
+    asyncio.run(
+        engine._adopt_running_bots(
+            _FakeClient([{"bot_name": f"{NS}-btc-20260731-101500"}])
+        )
+    )
+
+    assert engine.ledger.bases() == [f"{NS}-btc"]
+    assert engine.ledger.owned()[0].origin == "adopted"
+    assert engine._adoption_done
+
+
+class _Orchestrator:
+    def __init__(self, answer):
+        self._answer = answer
+
+    async def get_active_bots_status(self):
+        if isinstance(self._answer, Exception):
+            raise self._answer
+        return self._answer
+
+
+class _FakeClient:
+    """A client the real ``fetch_live_instance_names`` can question.
+
+    No ``base_url``, so nothing it answers is cached across tests.
+    """
+
+    def __init__(self, answer):
+        self.bot_orchestration = _Orchestrator(answer)
+
+
+def test_adoption_skips_a_stopped_bot_in_the_namespace(tmp_path, monkeypatch):
+    """A name in the namespace is not enough: the orchestrator has to still list it.
+
+    Both bots below carry the namespace and would be adopted on name alone
+    (CORR-699) — the long-stopped ``-eth`` still has a frozen performance row to
+    be found in. Only the one the orchestrator lists is running, and only that
+    one may get an ownership window opened on it now.
+    """
+    engine = _engine(tmp_path, monkeypatch, {"bot_name": NS})
+
+    client = _FakeClient([{"bot_name": f"{NS}-btc-20260731-101500"}])
+    asyncio.run(engine._adopt_running_bots(client))
+
+    assert engine.ledger.bases() == [f"{NS}-btc"]
+    assert engine._adoption_done
+
+
+def test_adoption_defers_when_liveness_is_unknown_and_retries(tmp_path, monkeypatch):
+    """An unanswered orchestrator must adopt nothing and come back next tick.
+
+    Adoption is not a read: it opens an ownership window starting now and
+    licenses stop/resume on whatever it claims. So unknown liveness fails closed
+    (CORR-723) — unlike the read surfaces, which keep the unfiltered fallback —
+    and the deferral is the same best-effort retry a failed snapshot gets.
+    """
+    engine = _engine(tmp_path, monkeypatch, {"bot_name": NS})
+
+    asyncio.run(engine._adopt_running_bots(_FakeClient(RuntimeError("unavailable"))))
+
+    assert engine.ledger.bases() == []
+    assert not engine._adoption_done
+
+    # Next tick, the orchestrator answers: only the instance it lists is adopted.
+    asyncio.run(
+        engine._adopt_running_bots(
+            _FakeClient([{"bot_name": f"{NS}-btc-20260731-101500"}])
+        )
+    )
+
+    assert engine.ledger.bases() == [f"{NS}-btc"]
+    assert engine._adoption_done
+
+
+def test_adoption_defers_when_the_listing_is_an_error_payload(tmp_path, monkeypatch):
+    """``{"status": "error"}`` flattens to no bots, which is unknown, not empty.
+
+    The quieter path to the same fallback: nothing raises, so without
+    ``_is_bots_listing`` feeding the fail-closed branch this would read as an
+    empty server and adopt the whole snapshot unfiltered.
+    """
+    engine = _engine(tmp_path, monkeypatch, {"bot_name": NS})
+
+    asyncio.run(engine._adopt_running_bots(_FakeClient({"status": "error"})))
+
+    assert engine.ledger.bases() == []
+    assert not engine._adoption_done
+
+
+def test_adoption_adopts_nothing_when_the_server_is_genuinely_empty(
+    tmp_path, monkeypatch
+):
+    """An empty *answer* is not unknown: nothing is live, so nothing is adopted.
+
+    It is not final either (CORR-724). This pass used to set ``_adoption_done``
+    and close adoption for the life of the session, so a session whose first tick
+    landed a second before its bot appeared never owned it — and then reported
+    the bot's lifetime totals instead of its own window.
+    """
+    engine = _engine(tmp_path, monkeypatch, {"bot_name": NS})
+
+    asyncio.run(engine._adopt_running_bots(_FakeClient([])))
+
+    assert engine.ledger.bases() == []
+    assert not engine._adoption_done
+
+    # Second tick: the bot is up, and adoption is still open to see it.
+    asyncio.run(
+        engine._adopt_running_bots(
+            _FakeClient([{"bot_name": f"{NS}-btc-20260731-101500"}])
+        )
+    )
+
+    assert engine.ledger.bases() == [f"{NS}-btc"]
+    assert engine._adoption_done
+
+
+def test_a_recorded_deploy_is_adopted_on_the_tick_it_turns_up_live(
+    tmp_path, monkeypatch
+):
+    """CORR-724 / #262: ownership is repaired on confirmation, not only on tick 1.
+
+    The reported shape: a deployment the engine did not recognise as one, so
+    ``note_deploy`` never wrote the ledger — while the action log recorded it
+    happening. Two earlier passes had already run and found nothing, and the
+    one-shot gate meant none ever looked again. The session then operated the bot
+    with no ownership window at all, and its figures fell back to the base's
+    lifetime totals, carrying an earlier stopped deployment's volume and PnL.
+    """
+    from condor.agents.actions import AgentAction, append_actions
+
+    engine = _engine(tmp_path, monkeypatch, {"bot_name": ""})
+    instance = "pmm-king-btcbrl-20260903-181000"
+
+    # Ticks 1 and 2: the server answers, and there is nothing of ours on it.
+    for _ in range(2):
+        asyncio.run(engine._adopt_running_bots(_FakeClient([])))
+    assert engine.ledger.bases() == []
+
+    deployed_at = time.time()
+    append_actions(
+        engine.session_dir,
+        [
+            AgentAction(
+                tick=3,
+                at=deployed_at,
+                tool="manage_bots",
+                verb="manage_bots:deploy",
+                summary=f"Deploy bot '{instance}'",
+                ok=True,
+                subject=instance,
+            )
+        ],
+    )
+
+    # Tick 3: the bot this session deployed is confirmed live, and the deploy in
+    # its own log is what re-opens adoption to see it.
+    asyncio.run(engine._adopt_running_bots(_FakeClient([{"bot_name": instance}])))
+
+    assert engine.ledger.bases() == ["pmm-king-btcbrl"]
+    owned = engine.ledger.owned()[0]
+    assert owned.since >= deployed_at  # the window cannot open before the deploy
+    assert owned.until == 0.0  # and it is still open
+
+
+def test_tick_blocks_a_foreign_bot_and_journals_it(tmp_path, monkeypatch):
+    """The two halves of a tick joined by one ledger: the guard, then the journal."""
+    engine = _engine(tmp_path, monkeypatch, {"bot_name": NS})
+    callback = auto_approve_with_risk_check(
+        engine.risk, RiskState(), ledger=engine.ledger
+    )
+
+    assert _drive(callback, _bot_call("deploy", "ema_trend_loop")) == "cancelled"
+
+    engine._journal_ownership_violations(tick_num=1)
+    journal = engine.journal.read_full()
+    assert "bot_ownership_blocked" in journal
+    assert "ema_trend_loop" in journal
+    # Drained: the same refusal is not journaled again next tick.
+    engine._journal_ownership_violations(tick_num=2)
+    assert engine.journal.read_full().count("ema_trend_loop") == 1
+
+
+# ---------------------------------------------------------------------------
+# Recording vs enforcement (PnL unification)
+#
+# A real session ran with bot_mode=auto and an empty bot_name, so it got no
+# ledger at all. Its strategy playbook told it to deploy bots anyway; it deployed
+# three, lost $1.46, and reported $0.00 on every structured surface for twenty
+# ticks because nothing had recorded what it deployed.
+# ---------------------------------------------------------------------------
+
+
+def test_unenforced_ledger_records_an_out_of_namespace_deploy(tmp_path):
+    """Not enforcing the namespace must not mean not writing the deploy down."""
+    ledger = BotLedger(NS, tmp_path, enforced=False)
+    outcome = _drive(_callback(ledger), _bot_call("deploy", "ema_trend_loop"))
+
+    assert outcome == "selected"
+    assert ledger.bases() == ["ema_trend_loop"]
+    assert ledger.owned()[0].origin == "deployed"
+    assert ledger.violations == []  # nothing was violated — the rule is off
+
+
+def test_unenforced_ledger_lets_other_bot_actions_through(tmp_path):
+    ledger = BotLedger(NS, tmp_path, enforced=False)
+
+    assert (
+        _drive(_callback(ledger), _bot_call("stop_bot", "someone_elses")) == "selected"
+    )
+    assert ledger.violations == []
+
+
+def test_enforced_flag_survives_a_reload(tmp_path):
+    BotLedger(NS, tmp_path, enforced=False).note_deploy("ema_trend_loop")
+
+    # A reader that does not restate the mode still sees what was persisted.
+    assert BotLedger(NS, tmp_path).to_dict()["enforced"] is False
+
+
+def test_prior_session_bases_reads_the_whole_lineage(tmp_path):
+    from condor.agents.ownership import prior_session_bases
+
+    sessions = tmp_path / "sessions"
+    BotLedger(NS, sessions / "session_1", enforced=False).note_deploy(
+        "ema_trend_loop-20260806-213931"
+    )
+    BotLedger(NS, sessions / "session_2", enforced=False).note_deploy("other_bot")
+
+    # Deploy suffixes are stripped, so a restart recognises the base it left running.
+    assert prior_session_bases(sessions) == {"ema_trend_loop", "other_bot"}
+    assert prior_session_bases(tmp_path / "nope") == set()
+
+
+# ---------------------------------------------------------------------------
+# Disowning — handing a bot back
+# ---------------------------------------------------------------------------
+
+
+def test_forget_erases_the_entry_and_the_declared_name(tmp_path):
+    """A claim writes two things; the undo has to take both.
+
+    The claim route puts the name in ``declared`` as well as in ``bots``, and a
+    surviving ``declared`` entry makes ``owns()`` true, which re-adopts on the
+    next tick the entry this just deleted.
+    """
+    ledger = BotLedger(NS, tmp_path, declared=["pmm-king-btcbrl"], enforced=False)
+    ledger.adopt("pmm-king-btcbrl-20260903-181000", now=1000.0)
+    assert ledger.bases() == ["pmm-king-btcbrl"]
+
+    assert ledger.forget("pmm-king-btcbrl-20260903-181000") is True
+    assert ledger.bases() == []
+    assert ledger.declared == []
+    assert not ledger.owns("pmm-king-btcbrl")
+    # Idempotent: a second unassign of the same bot is not an error.
+    assert ledger.forget("pmm-king-btcbrl") is False
+
+
+def test_disown_clears_every_session_not_just_the_newest(tmp_path):
+    """The lineage rule is why a single-session delete undoes itself."""
+    from condor.agents.ownership import disown, prior_session_bases, read_disowned
+
+    sessions = tmp_path / "sessions"
+    BotLedger(NS, sessions / "session_1", enforced=False).adopt("pmm-fleet-btcbrl")
+    BotLedger(NS, sessions / "session_2", enforced=False).adopt("pmm-fleet-btcbrl")
+    BotLedger(NS, sessions / "session_2", enforced=False).adopt("pmm-king-btcbrl")
+
+    result = disown(tmp_path, "pmm-fleet-btcbrl-20260902-101324")
+
+    assert result["base"] == "pmm-fleet-btcbrl"
+    assert result["sessions"] == ["session_1", "session_2"]
+    # Gone from the lineage every future session inherits from...
+    assert prior_session_bases(sessions) == {"pmm-king-btcbrl"}
+    # ...and written down, so nothing re-derives it.
+    assert read_disowned(tmp_path) == {"pmm-fleet-btcbrl"}
+    # The strategy's other bot is untouched.
+    assert BotLedger(NS, sessions / "session_2").bases() == ["pmm-king-btcbrl"]
+
+
+def test_disowning_a_bot_the_strategy_never_owned_is_harmless(tmp_path):
+    from condor.agents.ownership import disown, read_disowned
+
+    result = disown(tmp_path, "not-ours")
+
+    assert result["sessions"] == []
+    assert read_disowned(tmp_path) == {"not-ours"}
+
+
+def test_reown_lifts_the_disown(tmp_path):
+    from condor.agents.ownership import disown, read_disowned, reown
+
+    disown(tmp_path, "pmm-fleet-btcbrl")
+
+    assert reown(tmp_path, "pmm-fleet-btcbrl-20260902-101324") is True
+    assert read_disowned(tmp_path) == set()
+    # Nothing to lift is False, not a crash.
+    assert reown(tmp_path, "pmm-fleet-btcbrl") is False
+
+
+def test_adoption_skips_a_disowned_bot_in_the_namespace(tmp_path, monkeypatch):
+    """A person's answer outranks the name, which is otherwise the proof."""
+    from condor.agents.ownership import disown
+
+    engine = _engine(tmp_path, monkeypatch, {"bot_name": NS})
+    disown(engine.strategy.home, f"{NS}-btc")
+
+    client = _FakeClient(
+        [
+            {"bot_name": f"{NS}-btc-20260731-101500"},
+            {"bot_name": f"{NS}-eth-20260731-101500"},
+        ]
+    )
+    asyncio.run(engine._adopt_running_bots(client))
+
+    assert engine.ledger.bases() == [f"{NS}-eth"]
+
+
+def test_adoption_skips_a_disowned_bot_it_recorded_deploying(tmp_path, monkeypatch):
+    """The regression the whole feature exists for.
+
+    A recorded deploy is permanent, so without the disowned set the unassign is
+    undone on the next restart — which is exactly what a mis-claimed bot did:
+    cleared by hand, back on the strategy's book at the next boot with a fresh
+    ``since``, reading as a brand-new claim nobody made.
+    """
+    from condor.agents.actions import AgentAction, append_actions
+    from condor.agents.ownership import disown
+
+    engine = _engine(tmp_path, monkeypatch, {"bot_name": ""})
+    append_actions(
+        engine.session_dir,
+        [
+            AgentAction(
+                tick=1,
+                at=1.0,
+                tool="manage_bots",
+                verb="manage_bots:deploy",
+                summary="Deploy bot 'pmm-king-btcbrl-20260903-181000'",
+                ok=True,
+                subject="pmm-king-btcbrl-20260903-181000",
+            )
+        ],
+    )
+    disown(engine.strategy.home, "pmm-king-btcbrl")
+
+    # Listed as running, so the disowned set is what stops it — not a deferral.
+    asyncio.run(
+        engine._adopt_running_bots(
+            _FakeClient([{"bot_name": "pmm-king-btcbrl-20260903-181000"}])
+        )
+    )
+
+    assert engine.ledger.bases() == []
+
+
+def test_a_disowned_bot_is_not_re_adopted_by_a_later_pass(tmp_path, monkeypatch):
+    """Adoption retries now, so the disowned set has to outrank it on every pass.
+
+    Unassigning empties the ledger, which is exactly the "owns nothing" state
+    that re-opens adoption (CORR-724) — and the bot is still live and still
+    carries the namespace, the one proof that cannot be argued with. So
+    ``read_disowned`` is re-read per pass: without that, the unassign would be
+    undone by the next tick rather than surviving until a human lifts it.
+    """
+    from condor.agents.ownership import disown
+
+    engine = _engine(tmp_path, monkeypatch, {"bot_name": NS})
+    client = _FakeClient([{"bot_name": f"{NS}-btc-20260731-101500"}])
+
+    asyncio.run(engine._adopt_running_bots(client))
+    assert engine.ledger.bases() == [f"{NS}-btc"]
+
+    # What the unclaim route does: the standing "not ours", then the live loop's
+    # own in-memory ledger, which would otherwise rewrite the file it cleared.
+    disown(engine.strategy.home, f"{NS}-btc")
+    assert engine.ledger.forget(f"{NS}-btc")
+    assert engine.ledger.bases() == []
+
+    asyncio.run(engine._adopt_running_bots(client))
+
+    assert engine.ledger.bases() == []
+    assert not engine._adoption_done

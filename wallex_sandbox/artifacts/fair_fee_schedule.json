@@ -1,0 +1,10 @@
+{
+  "at": "2026-10-23T11:53:24.549278+00:00",
+  "status": "not_verified",
+  "rates": {},
+  "method": "GET",
+  "path": "/v1/account/fee",
+  "real_orders": 0,
+  "fee_asset": "NOT verified; paper ledger assumes fees charged in quote currency",
+  "http_status": 401
+}

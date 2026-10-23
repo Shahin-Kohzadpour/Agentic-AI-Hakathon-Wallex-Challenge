@@ -1,0 +1,995 @@
+{
+  "endpoint": "https://api.wallex.ir/mcp",
+  "credentials_sent": false,
+  "discovery_only": true,
+  "tools": [
+    {
+      "name": "wallex_basic_add_account_iban",
+      "title": "Add a bank IBAN to the account",
+      "description": "STATE-CHANGING: requires explicit user confirmation. Register a new bank IBAN, without the IR prefix, on the authenticated Wallex account.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "iban": {
+            "type": "string",
+            "description": "شماره شبا بدون پیشوند IR",
+            "example": "230170000000230285711000"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "iban"
+        ]
+      }
+    },
+    {
+      "name": "wallex_basic_candle_history",
+      "title": "Get market candle history",
+      "description": "Retrieve public OHLCV candles for one market symbol, resolution, and Unix time range.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "The symbol to retrieve historical data for",
+            "example": "BTCTMN"
+          },
+          "resolution": {
+            "type": "string",
+            "description": "Candle resolution (e.g. 1, 5, 15, 60, D)",
+            "example": "60"
+          },
+          "from": {
+            "type": "integer",
+            "description": "Start of time range (Unix timestamp)",
+            "format": "int64",
+            "example": 1733425200
+          },
+          "to": {
+            "type": "integer",
+            "description": "End of time range (Unix timestamp)",
+            "format": "int64",
+            "example": 1733428800
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "symbol",
+          "resolution",
+          "from",
+          "to"
+        ]
+      }
+    },
+    {
+      "name": "wallex_basic_get_account_balances",
+      "title": "List account asset balances",
+      "description": "List asset balances for the authenticated Wallex account.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_basic_get_account_card_numbers",
+      "title": "List account bank cards",
+      "description": "List bank cards registered to the authenticated account, including each card's status, owner, and bank.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_basic_get_account_fees",
+      "title": "Get account trading fee rates",
+      "description": "Get the authenticated account's maker and taker fee rates by market, with recent aggregate trading volume.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_basic_get_account_ibans",
+      "title": "List account bank IBANs",
+      "description": "List bank IBANs registered to the authenticated account, including each IBAN's status, owner, and bank.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "per_page": {
+            "type": "integer",
+            "description": "تعداد آیتم‌ها در هر صفحه",
+            "example": 10
+          },
+          "page": {
+            "type": "integer",
+            "description": "شماره صفحه مورد نظر",
+            "example": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_basic_get_account_wallet_by_symbol",
+      "title": "Get an account deposit address",
+      "description": "Get the authenticated account's wallet deposit address for one asset symbol and blockchain network.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "نماد ارز دیجیتال مورد نظر (مانند ETH)",
+            "example": "eth"
+          },
+          "network": {
+            "type": "string",
+            "description": "شبکه مورد نظر برای دریافت آدرس (مثلاً ERC20 یا TRC20)",
+            "example": "erc20"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "symbol"
+        ]
+      }
+    },
+    {
+      "name": "wallex_basic_get_latest_trades",
+      "title": "List latest public market trades",
+      "description": "List the most recent public trades executed for one market symbol.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "نماد معاملاتی مورد نظر",
+            "example": "USDCUSDT"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "symbol"
+        ]
+      }
+    },
+    {
+      "name": "wallex_basic_get_market_depth",
+      "title": "Get a public market order book",
+      "description": "Get current bid and ask depth for one market symbol.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "نماد معاملاتی مورد نظر",
+            "example": "USDCUSDT"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "symbol"
+        ]
+      }
+    },
+    {
+      "name": "wallex_basic_get_markets",
+      "title": "List markets through the basic API",
+      "description": "List all Wallex markets using the basic-services market endpoint.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_credit_activate_user_package",
+      "title": "Activate a prop trading package",
+      "description": "STATE-CHANGING: requires explicit user confirmation. Activate the selected prop trading package for the authenticated account.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "prop_package_id": {
+            "type": "number",
+            "example": 69
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_credit_active_sub_accounts_list",
+      "title": "List active credit sub-accounts",
+      "description": "List active sub-accounts available to the authenticated credit account.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_credit_active_user_package_details",
+      "title": "Get a sub-account's active prop package",
+      "description": "Get details of the active prop trading package for the selected sub-account.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_credit_active_user_packages_overview",
+      "title": "Get active prop packages overview",
+      "description": "Get an account-wide overview of active prop trading packages.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_credit_cancel_user_package",
+      "title": "Cancel a sub-account's prop package",
+      "description": "STATE-CHANGING: requires explicit user confirmation. Cancel the active prop trading package for the selected sub-account.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_credit_check_prop_package_availability",
+      "title": "Check prop package activation availability",
+      "description": "Check whether the authenticated account is eligible to activate a specific prop trading package.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "wallex_credit_create_transfer_to_sub_account",
+      "title": "Transfer funds to a credit sub-account",
+      "description": "STATE-CHANGING: requires explicit user confirmation. Transfer a specified currency amount from the authenticated account to a selected sub-account.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "currency": {
+            "type": "string",
+            "example": "TMN"
+          },
+          "subAccount_client_id": {
+            "type": "string",
+            "example": "{{subAccountClientId}}"
+          },
+          "value": {
+            "type": "string",
+            "example": "1000"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_credit_disable_connect_to_wallet",
+      "title": "Disconnect a prop package from its wallet",
+      "description": "STATE-CHANGING: requires explicit user confirmation. Disconnect the selected sub-account's active prop package from its wallet.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_credit_enable_connect_to_wallet",
+      "title": "Connect a prop package to a wallet",
+      "description": "STATE-CHANGING: requires explicit user confirmation. Connect the selected sub-account's prop package to a wallet using the requested currency, credit, and usage count.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "credit": {
+            "type": "string",
+            "example": "10000"
+          },
+          "currency": {
+            "type": "string",
+            "example": "USDT"
+          },
+          "usageCount": {
+            "type": "number",
+            "example": 3
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_credit_enable_user_package_renew",
+      "title": "Enable prop package auto-renewal",
+      "description": "STATE-CHANGING: requires explicit user confirmation. Enable renewal settings for the selected sub-account's prop trading package.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "body": {}
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_credit_prop_package_details",
+      "title": "Get prop package offering details",
+      "description": "Get terms and details for one prop trading package offering by package ID.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "wallex_credit_prop_packages_list",
+      "title": "List available prop package offerings",
+      "description": "List prop trading package offerings available for activation.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_credit_sub_account_balances_details",
+      "title": "Get detailed credit sub-account balances",
+      "description": "Get detailed asset balances for the selected credit sub-account.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_credit_sub_account_transfer",
+      "title": "List transfers for a credit sub-account",
+      "description": "List fund transfers associated with the selected credit sub-account.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_credit_user_package_history_details",
+      "title": "Get prop package history for one sub-account",
+      "description": "Get prop trading package history for the sub-account identified in the request path.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "subAccountClientId": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "subAccountClientId"
+        ]
+      }
+    },
+    {
+      "name": "wallex_credit_user_package_history_list",
+      "title": "List account-wide prop package history",
+      "description": "List prop trading package history across the authenticated account's sub-accounts.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_margin_calculate_loan",
+      "title": "Calculate margin collateral and loan limits",
+      "description": "Calculate minimum and maximum collateral and loan values for a proposed margin position without opening it.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "collateral": {
+            "type": "string"
+          },
+          "market": {
+            "type": "string"
+          },
+          "open_price": {
+            "type": "string"
+          },
+          "risk_coef": {
+            "type": "string"
+          },
+          "side": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_margin_close_position_id",
+      "title": "Close a margin position by ID",
+      "description": "STATE-CHANGING: requires explicit user confirmation. Close an existing margin position by ID, optionally at the requested price.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Position ID"
+          },
+          "price": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "wallex_margin_detailed_information",
+      "title": "Preview a margin position",
+      "description": "Run a dry-run calculation for a proposed margin position, including optional stop-loss and take-profit values, without opening it.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "collateral": {
+            "type": "string"
+          },
+          "market": {
+            "type": "string"
+          },
+          "open_price": {
+            "type": "string"
+          },
+          "risk_coef": {
+            "type": "string"
+          },
+          "side": {
+            "type": "string"
+          },
+          "stop_loss": {
+            "type": "string"
+          },
+          "take_profit": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_margin_edit_colateral",
+      "title": "Adjust a margin position's collateral",
+      "description": "STATE-CHANGING: requires explicit user confirmation. Increase or decrease collateral on an existing margin position by ID.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Position ID"
+          },
+          "change": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "wallex_margin_edit_sltp",
+      "title": "Update a margin position's exit targets",
+      "description": "STATE-CHANGING: requires explicit user confirmation. Set the stop-loss and take-profit prices for an existing margin position by ID.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Position ID"
+          },
+          "stop_loss": {
+            "type": "string"
+          },
+          "take_profit": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "wallex_margin_get_levels",
+      "title": "Get account-wide margin trading levels",
+      "description": "Get the authenticated account's margin trading level information across markets.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_margin_get_levels_market",
+      "title": "Get margin trading level for a market",
+      "description": "Get the authenticated account's margin trading level information for one market symbol.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "market": {
+            "type": "string",
+            "description": "market e.g. USDTTMN"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "market"
+        ]
+      }
+    },
+    {
+      "name": "wallex_margin_get_markets",
+      "title": "List active margin markets",
+      "description": "List public markets currently enabled for margin trading.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_margin_get_orders",
+      "title": "List filtered margin orders",
+      "description": "List margin orders filtered by activity, market, position, position side or type, and order side.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "active": {
+            "type": "boolean",
+            "description": "List active/inactive orders"
+          },
+          "market": {
+            "type": "string",
+            "description": "Market symbol"
+          },
+          "position_side": {
+            "type": "string",
+            "description": "Position side (long/short)"
+          },
+          "position_id": {
+            "type": "string",
+            "description": "Position ID"
+          },
+          "position_type": {
+            "type": "string",
+            "description": "Position type"
+          },
+          "side": {
+            "type": "string",
+            "description": "Order side"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_margin_get_pnl",
+      "title": "Get margin profit-and-loss summary",
+      "description": "Get the authenticated account's aggregate margin trading profit-and-loss summary.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_margin_get_position_id",
+      "title": "Get a margin position by ID",
+      "description": "Get details of one margin position by its position ID.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Position ID"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "wallex_margin_get_positions",
+      "title": "List filtered margin positions",
+      "description": "List margin positions filtered by activity, market symbol, and long or short side.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "active": {
+            "type": "boolean",
+            "description": "List active/inactive positions"
+          },
+          "position_side": {
+            "type": "string",
+            "description": "Position side (long/short)"
+          },
+          "market": {
+            "type": "string",
+            "description": "market symbol (e.g. USDTTMN)"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_margin_open_position",
+      "title": "Open a new margin position",
+      "description": "STATE-CHANGING: requires explicit user confirmation. Open a long or short margin position with the requested collateral, risk, price, and optional exit targets.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "collateral": {
+            "type": "string"
+          },
+          "market": {
+            "type": "string"
+          },
+          "open_price": {
+            "type": "string"
+          },
+          "risk_coef": {
+            "type": "string"
+          },
+          "side": {
+            "type": "string"
+          },
+          "stop_loss": {
+            "type": "string"
+          },
+          "take_profit": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_margin_profit_position_id",
+      "title": "Calculate profit for a margin position",
+      "description": "Estimate profit for an existing margin position at a specified close price and strategy without closing it.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Position ID"
+          },
+          "close_price": {
+            "type": "string"
+          },
+          "strategy": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      }
+    },
+    {
+      "name": "wallex_margin_public_ratio",
+      "title": "Get a market's long-to-short position ratio",
+      "description": "Get the public ratio of long versus short margin positions for one market symbol.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "market": {
+            "type": "string",
+            "description": "market e.g. USDTTMN"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "market"
+        ]
+      }
+    },
+    {
+      "name": "wallex_otc_get_otc_price",
+      "title": "Get an OTC buy or sell quote",
+      "description": "Get the current OTC quote for buying or selling one asset symbol.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "نماد معاملاتی مورد نظر برای دریافت قیمت OTC",
+            "example": "BTCTMN"
+          },
+          "side": {
+            "type": "string",
+            "description": "نوع عملیات؛ خرید یا فروش",
+            "enum": [
+              "BUY",
+              "SELL"
+            ],
+            "example": "BUY"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "symbol",
+          "side"
+        ]
+      }
+    },
+    {
+      "name": "wallex_otc_get_otcmarkets",
+      "title": "List OTC-enabled markets",
+      "description": "List markets currently available for over-the-counter trading.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_otc_place_easy_trade_order",
+      "title": "Place an OTC easy-trade order",
+      "description": "STATE-CHANGING: requires explicit user confirmation. Execute an OTC easy-trade buy or sell order for the requested symbol and quantity.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "example": "BTCTMN"
+          },
+          "side": {
+            "type": "string",
+            "enum": [
+              "BUY",
+              "SELL"
+            ],
+            "example": "BUY"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "float",
+            "example": 2.9e-05
+          },
+          "from": {
+            "type": "string",
+            "example": "otc"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "symbol",
+          "side",
+          "quantity",
+          "from"
+        ]
+      }
+    },
+    {
+      "name": "wallex_spot_delete_account_orders",
+      "title": "Cancel a spot order using a body ID",
+      "description": "STATE-CHANGING: requires explicit user confirmation. Cancel a spot order by sending its client order ID in the request body.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "clientOrderId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "clientOrderId"
+        ]
+      }
+    },
+    {
+      "name": "wallex_spot_delete_orders_client",
+      "title": "Cancel a spot order using a path ID",
+      "description": "STATE-CHANGING: requires explicit user confirmation. Cancel a spot order by supplying its client order ID as the path argument.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "client_id": {
+            "type": "string",
+            "description": "Client Order ID"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "client_id"
+        ]
+      }
+    },
+    {
+      "name": "wallex_spot_get_depth",
+      "title": "Get order-book depth for all spot markets",
+      "description": "Retrieve current bid and ask depth for every spot market in one response.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_spot_get_markets",
+      "title": "List markets through the spot API",
+      "description": "List all Wallex markets using the spot-trading market endpoint.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_spot_get_open_order",
+      "title": "List open spot orders",
+      "description": "List currently open spot orders, optionally filtered by market symbol and paginated.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Market symbol"
+          },
+          "page": {
+            "type": "integer",
+            "description": "Page number (default: 1)"
+          },
+          "per_page": {
+            "type": "integer",
+            "description": "Items per page"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_spot_get_orders",
+      "title": "Search spot order history",
+      "description": "Search paginated spot orders by market, order type, side, and date range.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "market": {
+            "type": "string",
+            "description": "Market symbol"
+          },
+          "type": {
+            "type": "string",
+            "description": "Order type (STOP_LIMIT, STOP_MARKET, LIMIT, MARKET)",
+            "enum": [
+              "STOP_LIMIT",
+              "STOP_MARKET",
+              "LIMIT",
+              "MARKET"
+            ]
+          },
+          "side": {
+            "type": "string",
+            "description": "Order side (BUY, SELL)",
+            "enum": [
+              "BUY",
+              "SELL"
+            ]
+          },
+          "page": {
+            "type": "integer",
+            "description": "Page number (default: 1)"
+          },
+          "per_page": {
+            "type": "integer",
+            "description": "Items per page (default: 25, max: 100)"
+          },
+          "from": {
+            "type": "string",
+            "description": "Start date (format: YYYY-MM-DD)"
+          },
+          "to": {
+            "type": "string",
+            "description": "End date (format: YYYY-MM-DD)"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "wallex_spot_get_orders_client",
+      "title": "Get a spot order by client ID",
+      "description": "Get detailed information for one spot order using its client order ID.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "client_id": {
+            "type": "string",
+            "description": "Client Order ID"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "client_id"
+        ]
+      }
+    },
+    {
+      "name": "wallex_spot_post_account_orders",
+      "title": "Place a new spot order",
+      "description": "STATE-CHANGING: requires explicit user confirmation. Place a spot order with the requested market, side, order type, quantity, and applicable prices.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "client_id": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "string"
+          },
+          "side": {
+            "type": "string"
+          },
+          "stop_Price": {
+            "type": "string"
+          },
+          "symbol": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "side",
+          "symbol",
+          "type"
+        ]
+      }
+    }
+  ],
+  "error": null,
+  "discovered_at_utc": "2026-10-22T21:28:51.815425+00:00",
+  "protocol_version": "2025-03-26",
+  "tool_count": 52
+}

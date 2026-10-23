@@ -1,0 +1,7 @@
+{
+  "at": "2026-10-23T10:46:58.979438+00:00",
+  "source_sha256": "2d994fab1d9ccf3c8a7c431822bd4f80df7cf14fba66e77ddcd647226521f5c6",
+  "description": "Matched non-ML controls: same liquidity, horizon, size, stops and costs.",
+  "rule": "positive 7/28-day momentum, price above EMA200, 7-day move above twice cost; rank cost-adjusted momentum/planned risk; 4h decisions; both 24h and48h reported",
+  "timing_note": "Controls added after ML validation, before ML check output inspected; not selected on test returns"
+}

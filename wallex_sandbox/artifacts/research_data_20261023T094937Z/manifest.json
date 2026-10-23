@@ -1,0 +1,112 @@
+{
+  "created_at": "2026-10-23T09:49:38.334190+00:00",
+  "requested_days": 90,
+  "end": 1792746000,
+  "symbols": {
+    "BTCUSDT": {
+      "metadata": {
+        "quantity_precision": 8,
+        "min_notional": "1",
+        "min_quantity": "0.00000001"
+      },
+      "60": {
+        "file": "BTCUSDT_60s.json",
+        "rows": 27319,
+        "first": 1791104400,
+        "last": 1792745940,
+        "gaps": 3,
+        "failed_chunks": [],
+        "sha256": "8c296630c10cc28f1b135b893f8ea4fb7725239e2d9ebc6428072973d59688e8"
+      },
+      "900": {
+        "file": "BTCUSDT_900s.json",
+        "rows": 1818,
+        "first": 1791104400,
+        "last": 1792745100,
+        "sha256": "c90412def42d5b75848ef29e3ca5596fe5add2a9461eeeb35cead946caa6c31e"
+      },
+      "3600": {
+        "file": "BTCUSDT_3600s.json",
+        "rows": 2447,
+        "first": 1783933200,
+        "last": 1792742400,
+        "gaps": 1,
+        "failed_chunks": [],
+        "sha256": "6e0eba7b82cd4e169d12c4a33f84dfc7bf4bddbb824ab287137dc6d93e2e5c2e"
+      }
+    },
+    "ETHUSDT": {
+      "metadata": {
+        "quantity_precision": 5,
+        "min_notional": "1",
+        "min_quantity": "0.00001"
+      },
+      "60": {
+        "file": "ETHUSDT_60s.json",
+        "rows": 27182,
+        "first": 1791104400,
+        "last": 1792745940,
+        "gaps": 2,
+        "failed_chunks": [],
+        "sha256": "9c9df3d5de70e928150f3411d3c74239d72e5c5bab3518058cd050235bd39cf5"
+      },
+      "900": {
+        "file": "ETHUSDT_900s.json",
+        "rows": 1810,
+        "first": 1791104400,
+        "last": 1792745100,
+        "sha256": "5e9154a96e6ba78eb20ef9425cfd5424a7e41535b95d679e8952b59f5851a042"
+      },
+      "3600": {
+        "file": "ETHUSDT_3600s.json",
+        "rows": 2445,
+        "first": 1783933200,
+        "last": 1792742400,
+        "gaps": 2,
+        "failed_chunks": [],
+        "sha256": "42fb0379dda66b8d16848e17bc95b5de76c3e184d2927ab4ccc65d1f46bc7480"
+      }
+    },
+    "SOLUSDT": {
+      "metadata": {
+        "quantity_precision": 5,
+        "min_notional": "1",
+        "min_quantity": "0.00001"
+      },
+      "60": {
+        "file": "SOLUSDT_60s.json",
+        "rows": 27274,
+        "first": 1791104400,
+        "last": 1792745940,
+        "gaps": 4,
+        "failed_chunks": [],
+        "sha256": "331ff97e6aa16dff1f6c166c1d8da2b38237a945d5f7e6430b33edbfb02a66fe"
+      },
+      "900": {
+        "file": "SOLUSDT_900s.json",
+        "rows": 1813,
+        "first": 1791104400,
+        "last": 1792745100,
+        "sha256": "11795c4c7acc01d3a2e7cb4095d753e7140080893d3b408a52c483b82e8adc81"
+      },
+      "3600": {
+        "file": "SOLUSDT_3600s.json",
+        "rows": 2447,
+        "first": 1783933200,
+        "last": 1792742400,
+        "gaps": 1,
+        "failed_chunks": [],
+        "sha256": "2de91abac492cb2944c14990d0efb9178aebd36bf11fd0514ebb7cfd5ce6b689"
+      }
+    }
+  },
+  "minute_query_resolution": 15,
+  "minute_actual_interval_seconds": 60,
+  "hour_resolution": 60,
+  "query_note": "15 returns minute-spaced candles on the observed endpoint; intervals are validated from timestamps, not the query label",
+  "fifteen_minute_source": "strict aggregation of 15 contiguous public 1m candles",
+  "real_orders": 0,
+  "credentials_used": false,
+  "public_get_requests": 50,
+  "finished_at": "2026-10-23T09:50:43.949300+00:00"
+}

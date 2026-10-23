@@ -1,0 +1,61 @@
+{
+  "at": "2026-10-23T12:21:38.574945+00:00",
+  "pid": 67516,
+  "mode": "LIVE_DATA_LOCAL_PAPER",
+  "status": "calibrating",
+  "started_epoch": 1792757476.4485395,
+  "deadline_epoch": 1792771876.4485395,
+  "initial_cash_usdt": "1000",
+  "cash_usdt": "1000",
+  "last_liquidation_equity_usdt": "1000",
+  "equity_mark_epoch": 1792758098.4749427,
+  "open_position": null,
+  "completed_round_trips": 0,
+  "winning_round_trips": 0,
+  "realized_net_usdt": "0",
+  "fees_usdt": "0",
+  "max_drawdown_pct": "0",
+  "snapshots": 60,
+  "data_errors": 22,
+  "rejections": {
+    "baseline_warming_up": 60
+  },
+  "baselines": {
+    "BTCUSDT": {
+      "samples": 29,
+      "span_seconds": 614.097188949585,
+      "median_log_basis": -0.0004556468340977367,
+      "sigma": 0.000501819035902147,
+      "ready": false
+    },
+    "ETHUSDT": {
+      "samples": 31,
+      "span_seconds": 614.0969762802124,
+      "median_log_basis": -0.0001920371389028401,
+      "sigma": 0.0002870648348968558,
+      "ready": false
+    }
+  },
+  "fee_schedule": {
+    "rates": {
+      "BTCUSDT": "0.002",
+      "ETHUSDT": "0.002"
+    },
+    "source": {
+      "BTCUSDT": "assumed",
+      "ETHUSDT": "assumed"
+    },
+    "lookup_status": "not_verified",
+    "fee_asset_assumption": "quote charged on both sides; fee asset was not verified",
+    "credential_loaded_by_strategy": false
+  },
+  "public_get_requests_this_process": 248,
+  "real_orders": 0,
+  "credentials_used_by_strategy": false,
+  "notes": [
+    "USDT is a dollar proxy; fills local and not exchange-confirmed.",
+    "Potential return assumes future local-basis convergence, not a demonstrated expected return.",
+    "No passive fills inferred from price touches. Fees charged in quote are an assumption.",
+    "Wallex provides receipt freshness here, not a verified exchange book-event timestamp."
+  ]
+}

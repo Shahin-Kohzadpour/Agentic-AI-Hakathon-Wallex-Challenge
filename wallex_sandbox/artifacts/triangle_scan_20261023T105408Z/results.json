@@ -1,0 +1,99 @@
+{
+  "at": "2026-10-23T10:54:09.054904+00:00",
+  "real_orders": 0,
+  "simulated_fills": 0,
+  "credentials_used": false,
+  "quotes": [
+    {
+      "asset": "BTC",
+      "at": "2026-10-23T10:54:14.400013+00:00",
+      "quote_skew_seconds": 1.3891856670379639,
+      "usdt_tmn_asset_usdt_upper_return_pct": "-1.038842546305613822873370030",
+      "usdt_asset_tmn_usdt_upper_return_pct": "-1.114228983563037272036476830"
+    },
+    {
+      "asset": "ETH",
+      "at": "2026-10-23T10:54:16.200278+00:00",
+      "quote_skew_seconds": 0.2333076000213623,
+      "usdt_tmn_asset_usdt_upper_return_pct": "-1.017617429328810734768397240",
+      "usdt_asset_tmn_usdt_upper_return_pct": "-0.9603776672559629845592316100"
+    },
+    {
+      "asset": "SOL",
+      "at": "2026-10-23T10:54:17.578213+00:00",
+      "quote_skew_seconds": 0.20002222061157227,
+      "usdt_tmn_asset_usdt_upper_return_pct": "-1.228380229778374852520533200",
+      "usdt_asset_tmn_usdt_upper_return_pct": "-1.162931835829674519475247450"
+    },
+    {
+      "asset": "BNB",
+      "at": "2026-10-23T10:54:18.944885+00:00",
+      "quote_skew_seconds": 0.1779029369354248,
+      "usdt_tmn_asset_usdt_upper_return_pct": "-1.112605947741711414025206330",
+      "usdt_asset_tmn_usdt_upper_return_pct": "-1.042134380361268423896928770"
+    },
+    {
+      "asset": "XRP",
+      "at": "2026-10-23T10:54:20.333704+00:00",
+      "quote_skew_seconds": 0.21125507354736328,
+      "usdt_tmn_asset_usdt_upper_return_pct": "-0.9448097593621566116092920500",
+      "usdt_asset_tmn_usdt_upper_return_pct": "-1.085765566929980826313825720"
+    },
+    {
+      "asset": "DOGE",
+      "at": "2026-10-23T10:54:21.756045+00:00",
+      "quote_skew_seconds": 0.22210335731506348,
+      "usdt_tmn_asset_usdt_upper_return_pct": "-1.097282955469408989375501690",
+      "usdt_asset_tmn_usdt_upper_return_pct": "-1.105096977135947885884809640"
+    },
+    {
+      "asset": "ADA",
+      "at": "2026-10-23T10:54:23.200567+00:00",
+      "quote_skew_seconds": 0.24456048011779785,
+      "usdt_tmn_asset_usdt_upper_return_pct": "-3.555470769862242745137362780",
+      "usdt_asset_tmn_usdt_upper_return_pct": "-5.673611518953037249852087430"
+    },
+    {
+      "asset": "LINK",
+      "at": "2026-10-23T10:54:24.634664+00:00",
+      "quote_skew_seconds": 0.1889019012451172,
+      "usdt_tmn_asset_usdt_upper_return_pct": "-1.362879173104547407992311390",
+      "usdt_asset_tmn_usdt_upper_return_pct": "-1.611545205157698772923034780"
+    },
+    {
+      "asset": "AVAX",
+      "at": "2026-10-23T10:54:26.012091+00:00",
+      "quote_skew_seconds": 0.19982028007507324,
+      "usdt_tmn_asset_usdt_upper_return_pct": "-1.027829268094331933924566960",
+      "usdt_asset_tmn_usdt_upper_return_pct": "-1.433458959829051183919957730"
+    },
+    {
+      "asset": "LTC",
+      "at": "2026-10-23T10:54:27.478987+00:00",
+      "quote_skew_seconds": 0.2112255096435547,
+      "usdt_tmn_asset_usdt_upper_return_pct": "-1.306154416929888218222474050",
+      "usdt_asset_tmn_usdt_upper_return_pct": "-1.302393221717478592450289660"
+    },
+    {
+      "asset": "BCH",
+      "at": "2026-10-23T10:54:28.856580+00:00",
+      "quote_skew_seconds": 0.18875598907470703,
+      "usdt_tmn_asset_usdt_upper_return_pct": "-1.511447434472075754785167420",
+      "usdt_asset_tmn_usdt_upper_return_pct": "-0.9523734139696663301225015800"
+    },
+    {
+      "asset": "TRX",
+      "at": "2026-10-23T10:54:30.368411+00:00",
+      "quote_skew_seconds": 0.22243928909301758,
+      "usdt_tmn_asset_usdt_upper_return_pct": "-1.386749911795557768937124660",
+      "usdt_asset_tmn_usdt_upper_return_pct": "-1.270733561222013576020359580"
+    }
+  ],
+  "fees": {
+    "USDT_pair": "0.002",
+    "TMN_pair": "0.0035"
+  },
+  "limitation": "Upper-bound quoted conversion margins before depth/precision/latency, not executed P&L; fees assumed",
+  "public_get_requests": 37,
+  "positive_upper_bound_candidates": 0
+}

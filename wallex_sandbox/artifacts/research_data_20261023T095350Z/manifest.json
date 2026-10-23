@@ -1,0 +1,424 @@
+{
+  "created_at": "2026-10-23T09:53:51.514558+00:00",
+  "requested_days": 90,
+  "end": 1792746000,
+  "symbols": {
+    "BTCUSDT": {
+      "metadata": {
+        "quantity_precision": 8,
+        "min_notional": "1",
+        "min_quantity": "0.00000001"
+      },
+      "spread_snapshot_bps": 6.4680498119446055,
+      "spread_snapshot_epoch": 1792749236.0596466,
+      "60": {
+        "file": "BTCUSDT_60s.json",
+        "rows": 27319,
+        "first": 1791104400,
+        "last": 1792745940,
+        "gaps": 3,
+        "failed_chunks": [],
+        "sha256": "8c296630c10cc28f1b135b893f8ea4fb7725239e2d9ebc6428072973d59688e8"
+      },
+      "900": {
+        "file": "BTCUSDT_900s.json",
+        "rows": 1818,
+        "first": 1791104400,
+        "last": 1792745100,
+        "sha256": "c90412def42d5b75848ef29e3ca5596fe5add2a9461eeeb35cead946caa6c31e"
+      },
+      "3600": {
+        "file": "BTCUSDT_3600s.json",
+        "rows": 2447,
+        "first": 1783933200,
+        "last": 1792742400,
+        "gaps": 1,
+        "failed_chunks": [],
+        "sha256": "6e0eba7b82cd4e169d12c4a33f84dfc7bf4bddbb824ab287137dc6d93e2e5c2e"
+      }
+    },
+    "ETHUSDT": {
+      "metadata": {
+        "quantity_precision": 5,
+        "min_notional": "1",
+        "min_quantity": "0.00001"
+      },
+      "spread_snapshot_bps": 18.047644949056043,
+      "spread_snapshot_epoch": 1792749265.0390527,
+      "60": {
+        "file": "ETHUSDT_60s.json",
+        "rows": 27182,
+        "first": 1791104400,
+        "last": 1792745940,
+        "gaps": 2,
+        "failed_chunks": [],
+        "sha256": "9c9df3d5de70e928150f3411d3c74239d72e5c5bab3518058cd050235bd39cf5"
+      },
+      "900": {
+        "file": "ETHUSDT_900s.json",
+        "rows": 1810,
+        "first": 1791104400,
+        "last": 1792745100,
+        "sha256": "5e9154a96e6ba78eb20ef9425cfd5424a7e41535b95d679e8952b59f5851a042"
+      },
+      "3600": {
+        "file": "ETHUSDT_3600s.json",
+        "rows": 2445,
+        "first": 1783933200,
+        "last": 1792742400,
+        "gaps": 2,
+        "failed_chunks": [],
+        "sha256": "42fb0379dda66b8d16848e17bc95b5de76c3e184d2927ab4ccc65d1f46bc7480"
+      }
+    },
+    "SOLUSDT": {
+      "metadata": {
+        "quantity_precision": 5,
+        "min_notional": "1",
+        "min_quantity": "0.00001"
+      },
+      "spread_snapshot_bps": 29.763333493351254,
+      "spread_snapshot_epoch": 1792749294.3294282,
+      "60": {
+        "file": "SOLUSDT_60s.json",
+        "rows": 27274,
+        "first": 1791104400,
+        "last": 1792745940,
+        "gaps": 4,
+        "failed_chunks": [],
+        "sha256": "331ff97e6aa16dff1f6c166c1d8da2b38237a945d5f7e6430b33edbfb02a66fe"
+      },
+      "900": {
+        "file": "SOLUSDT_900s.json",
+        "rows": 1813,
+        "first": 1791104400,
+        "last": 1792745100,
+        "sha256": "11795c4c7acc01d3a2e7cb4095d753e7140080893d3b408a52c483b82e8adc81"
+      },
+      "3600": {
+        "file": "SOLUSDT_3600s.json",
+        "rows": 2447,
+        "first": 1783933200,
+        "last": 1792742400,
+        "gaps": 1,
+        "failed_chunks": [],
+        "sha256": "2de91abac492cb2944c14990d0efb9178aebd36bf11fd0514ebb7cfd5ce6b689"
+      }
+    },
+    "BNBUSDT": {
+      "metadata": {
+        "quantity_precision": 5,
+        "min_notional": "1",
+        "min_quantity": "0.00001"
+      },
+      "spread_snapshot_bps": 21.76259024138116,
+      "spread_snapshot_epoch": 1792749327.8976426,
+      "60": {
+        "file": "BNBUSDT_60s.json",
+        "rows": 27295,
+        "first": 1791104400,
+        "last": 1792745940,
+        "gaps": 3,
+        "failed_chunks": [],
+        "sha256": "84e490cefa6d7b110f7708ca83c1a3bfb233bcc0436828b7a7baf2ded0727332"
+      },
+      "900": {
+        "file": "BNBUSDT_900s.json",
+        "rows": 1815,
+        "first": 1791104400,
+        "last": 1792745100,
+        "sha256": "0148015f1c2d59140eca29d0f1253f234f8127c353ccc2dcc5ea261351ed54bb"
+      },
+      "3600": {
+        "file": "BNBUSDT_3600s.json",
+        "rows": 2447,
+        "first": 1783933200,
+        "last": 1792742400,
+        "gaps": 1,
+        "failed_chunks": [],
+        "sha256": "f7fd68fca6963c63b1e18bac613e3fd73eabf62bd001b51fa653c58343274670"
+      }
+    },
+    "XRPUSDT": {
+      "metadata": {
+        "quantity_precision": 1,
+        "min_notional": "1",
+        "min_quantity": "0.1"
+      },
+      "spread_snapshot_bps": 16.76662152576256,
+      "spread_snapshot_epoch": 1792749360.210097,
+      "60": {
+        "file": "XRPUSDT_60s.json",
+        "rows": 27308,
+        "first": 1791104400,
+        "last": 1792745940,
+        "gaps": 2,
+        "failed_chunks": [],
+        "sha256": "f76311fa9990d84e54858f9fffa4d269d166cbbce60d6de942c32ebf16c059a1"
+      },
+      "900": {
+        "file": "XRPUSDT_900s.json",
+        "rows": 1818,
+        "first": 1791104400,
+        "last": 1792745100,
+        "sha256": "8f67a7bb9be2fb63cdbbe4e775eb5fd9c77fccd51c67bf2b77d898d318489f6b"
+      },
+      "3600": {
+        "file": "XRPUSDT_3600s.json",
+        "rows": 2447,
+        "first": 1783933200,
+        "last": 1792742400,
+        "gaps": 1,
+        "failed_chunks": [],
+        "sha256": "4be3a09f290c51ad5e1a5e845dae627d4d310281a0062e49ddc130fb8771ef30"
+      }
+    },
+    "DOGEUSDT": {
+      "metadata": {
+        "quantity_precision": 1,
+        "min_notional": "1",
+        "min_quantity": "0.1"
+      },
+      "spread_snapshot_bps": 33.693142821488735,
+      "spread_snapshot_epoch": 1792749384.178725,
+      "60": {
+        "file": "DOGEUSDT_60s.json",
+        "rows": 26943,
+        "first": 1791104400,
+        "last": 1792745940,
+        "gaps": 4,
+        "failed_chunks": [],
+        "sha256": "0320472994e67c8ae036fa55644eb6a6ea03423f90ecc2f0e8150a70c880d8a6"
+      },
+      "900": {
+        "file": "DOGEUSDT_900s.json",
+        "rows": 1791,
+        "first": 1791104400,
+        "last": 1792745100,
+        "sha256": "4d817fcbdadea1873dd1f7989dd67af4a5465fb40fb7bf6ceac722381044f415"
+      },
+      "3600": {
+        "file": "DOGEUSDT_3600s.json",
+        "rows": 2443,
+        "first": 1783933200,
+        "last": 1792742400,
+        "gaps": 2,
+        "failed_chunks": [],
+        "sha256": "c7abc711149e735e47f1acd714ca41932272a3099f4c9fdae7745bb778d7447f"
+      }
+    },
+    "ADAUSDT": {
+      "metadata": {
+        "quantity_precision": 1,
+        "min_notional": "1",
+        "min_quantity": "0.1"
+      },
+      "spread_snapshot_bps": 568.6142825162301,
+      "spread_snapshot_epoch": 1792749408.479133,
+      "60": {
+        "file": "ADAUSDT_60s.json",
+        "rows": 27177,
+        "first": 1791104400,
+        "last": 1792745940,
+        "gaps": 4,
+        "failed_chunks": [],
+        "sha256": "e8d7937afca81daaebc08f835d251dafb69b00b3dcd3c68a3b97acbf42c9d8a3"
+      },
+      "900": {
+        "file": "ADAUSDT_900s.json",
+        "rows": 1808,
+        "first": 1791104400,
+        "last": 1792745100,
+        "sha256": "5d7c46967106d3a37fa18e422759cd994f1079e50c2cd82ff28502e49f488de1"
+      },
+      "3600": {
+        "file": "ADAUSDT_3600s.json",
+        "rows": 2446,
+        "first": 1783933200,
+        "last": 1792742400,
+        "gaps": 2,
+        "failed_chunks": [],
+        "sha256": "fcd6428795206ad3237dba736f030be61614d13c1a8527f6e1bc9b281cfd0118"
+      }
+    },
+    "LINKUSDT": {
+      "metadata": {
+        "quantity_precision": 2,
+        "min_notional": "1",
+        "min_quantity": "0.01"
+      },
+      "spread_snapshot_bps": 24.511427625041403,
+      "spread_snapshot_epoch": 1792749431.8359194,
+      "60": {
+        "file": "LINKUSDT_60s.json",
+        "rows": 27135,
+        "first": 1791104400,
+        "last": 1792745940,
+        "gaps": 3,
+        "failed_chunks": [],
+        "sha256": "5bd40990a141d9a169da4552dde0c6e1709e68ad30d80e083b178b80a3c826b0"
+      },
+      "900": {
+        "file": "LINKUSDT_900s.json",
+        "rows": 1805,
+        "first": 1791104400,
+        "last": 1792745100,
+        "sha256": "a01251c4419d2f296723c003509393661c1ee36a3a590943a15dbd533438af8b"
+      },
+      "3600": {
+        "file": "LINKUSDT_3600s.json",
+        "rows": 2430,
+        "first": 1783933200,
+        "last": 1792742400,
+        "gaps": 3,
+        "failed_chunks": [],
+        "sha256": "767dd50a18cf1a284a6b1f99458b885c36fd8ab8f897c4c865282f7c772add1f"
+      }
+    },
+    "AVAXUSDT": {
+      "metadata": {
+        "quantity_precision": 5,
+        "min_notional": "1",
+        "min_quantity": "0.00001"
+      },
+      "spread_snapshot_bps": 97.66684753119914,
+      "spread_snapshot_epoch": 1792749456.0930524,
+      "60": {
+        "file": "AVAXUSDT_60s.json",
+        "rows": 26635,
+        "first": 1791104400,
+        "last": 1792745940,
+        "gaps": 3,
+        "failed_chunks": [],
+        "sha256": "2c7a071af1b9eb229d02983a46e422896850fcae5bbd1cce4e3bdd09440cf4ec"
+      },
+      "900": {
+        "file": "AVAXUSDT_900s.json",
+        "rows": 1773,
+        "first": 1791104400,
+        "last": 1792745100,
+        "sha256": "8449bb464e7bd096b718099ae82f058046f8eeffea4f98483d4b9498dba12041"
+      },
+      "3600": {
+        "file": "AVAXUSDT_3600s.json",
+        "rows": 2438,
+        "first": 1783933200,
+        "last": 1792742400,
+        "gaps": 4,
+        "failed_chunks": [],
+        "sha256": "9eec725f74b8590ae3c819cb9d1347851d84d0f073351a93f22218ed9010ccca"
+      }
+    },
+    "LTCUSDT": {
+      "metadata": {
+        "quantity_precision": 5,
+        "min_notional": "1",
+        "min_quantity": "0.00001"
+      },
+      "spread_snapshot_bps": 62.50527916209139,
+      "spread_snapshot_epoch": 1792749478.8286917,
+      "60": {
+        "file": "LTCUSDT_60s.json",
+        "rows": 27085,
+        "first": 1791104400,
+        "last": 1792745940,
+        "gaps": 3,
+        "failed_chunks": [],
+        "sha256": "9e8efa921a5e6b132f70789cac4cb61a493254e2e1b37a7182901e49c3513fd9"
+      },
+      "900": {
+        "file": "LTCUSDT_900s.json",
+        "rows": 1804,
+        "first": 1791104400,
+        "last": 1792745100,
+        "sha256": "81642b148576e841890d9fbfd91d2559508612d5ad51b21c85535d6b4f64b8c9"
+      },
+      "3600": {
+        "file": "LTCUSDT_3600s.json",
+        "rows": 2445,
+        "first": 1783933200,
+        "last": 1792742400,
+        "gaps": 3,
+        "failed_chunks": [],
+        "sha256": "118a2140397f39a2d1d63f67a280a84ad07a614a06782a6db874347fd63981cd"
+      }
+    },
+    "BCHUSDT": {
+      "metadata": {
+        "quantity_precision": 5,
+        "min_notional": "1",
+        "min_quantity": "0.00001"
+      },
+      "spread_snapshot_bps": 59.057194080219354,
+      "spread_snapshot_epoch": 1792749503.7731674,
+      "60": {
+        "file": "BCHUSDT_60s.json",
+        "rows": 27010,
+        "first": 1791104400,
+        "last": 1792745940,
+        "gaps": 5,
+        "failed_chunks": [],
+        "sha256": "1014f0ea0512c8070a3df094745361db559b1681e2a04d4d4ffeb67487b24365"
+      },
+      "900": {
+        "file": "BCHUSDT_900s.json",
+        "rows": 1795,
+        "first": 1791104400,
+        "last": 1792745100,
+        "sha256": "78212e9eebcd031bb59570976517d6d59158cb7a4b9d88038de7aae09e9b8e5c"
+      },
+      "3600": {
+        "file": "BCHUSDT_3600s.json",
+        "rows": 2440,
+        "first": 1783933200,
+        "last": 1792742400,
+        "gaps": 4,
+        "failed_chunks": [],
+        "sha256": "b3443a8feb84fae7944fe88248c1f68cef3ee0ad85f372a3c2e7661895216921"
+      }
+    },
+    "TRXUSDT": {
+      "metadata": {
+        "quantity_precision": 1,
+        "min_notional": "1",
+        "min_quantity": "0.1"
+      },
+      "spread_snapshot_bps": 178.3132530120482,
+      "spread_snapshot_epoch": 1792749527.68536,
+      "60": {
+        "file": "TRXUSDT_60s.json",
+        "rows": 27157,
+        "first": 1791104400,
+        "last": 1792745940,
+        "gaps": 2,
+        "failed_chunks": [],
+        "sha256": "a13d9f42380d8630000feb1173f677dbe9f7dbf145fdc45cce5f51df441d34b2"
+      },
+      "900": {
+        "file": "TRXUSDT_900s.json",
+        "rows": 1808,
+        "first": 1791104400,
+        "last": 1792745100,
+        "sha256": "9741187aea324f97904e9caa680e4d6c3734d6fe0ba102d973deb3f379b2ed36"
+      },
+      "3600": {
+        "file": "TRXUSDT_3600s.json",
+        "rows": 2436,
+        "first": 1783933200,
+        "last": 1792742400,
+        "gaps": 3,
+        "failed_chunks": [],
+        "sha256": "0f645034ff330e4aa22095d9f4f85f3a678fcb55e65f1e1e955eb37a86e40e94"
+      }
+    }
+  },
+  "minute_query_resolution": 15,
+  "minute_actual_interval_seconds": 60,
+  "hour_resolution": 60,
+  "query_note": "15 returns minute-spaced candles on the observed endpoint; intervals are validated from timestamps, not the query label",
+  "fifteen_minute_source": "strict aggregation of 15 contiguous public 1m candles",
+  "real_orders": 0,
+  "credentials_used": false,
+  "public_get_requests": 206,
+  "finished_at": "2026-10-23T09:59:07.753481+00:00"
+}

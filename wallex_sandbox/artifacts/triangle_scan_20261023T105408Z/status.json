@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-23T10:54:30.567610+00:00",
+  "status": "quote_scan_complete",
+  "completed_round_trips": 0,
+  "target": 10,
+  "cash_usdt": "1000",
+  "realized_pnl_usdt": "0",
+  "fees_usdt": "0",
+  "position": null,
+  "data_errors": 0
+}

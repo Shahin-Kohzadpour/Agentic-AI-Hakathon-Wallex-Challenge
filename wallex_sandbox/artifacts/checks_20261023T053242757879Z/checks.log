@@ -1,0 +1,126 @@
+test_cannot_sell_unheld_inventory (wallex_sandbox.test_sandbox.CondorPaperChecks.test_cannot_sell_unheld_inventory) ... ok
+test_changed_intent_with_same_id_is_refused (wallex_sandbox.test_sandbox.CondorPaperChecks.test_changed_intent_with_same_id_is_refused) ... ok
+test_complete_exclusion_manifest (wallex_sandbox.test_sandbox.CondorPaperChecks.test_complete_exclusion_manifest) ... ok
+test_condor_native_dry_run_refuses_code_execution (wallex_sandbox.test_sandbox.CondorPaperChecks.test_condor_native_dry_run_refuses_code_execution) ... ok
+test_condor_permission_reaches_fake_fill (wallex_sandbox.test_sandbox.CondorPaperChecks.test_condor_permission_reaches_fake_fill) ... ok
+test_condor_same_tick_approvals_accumulate (wallex_sandbox.test_sandbox.CondorPaperChecks.test_condor_same_tick_approvals_accumulate) ... ok
+test_cumulative_exposure (wallex_sandbox.test_sandbox.CondorPaperChecks.test_cumulative_exposure) ... Risk gate refused create_order_executor: Would exceed position limit: $600000.00 > $500000.00
+ok
+test_dry_run_blocks_even_fake_mutations (wallex_sandbox.test_sandbox.CondorPaperChecks.test_dry_run_blocks_even_fake_mutations) ... ok
+test_dry_run_keeps_market_reads (wallex_sandbox.test_sandbox.CondorPaperChecks.test_dry_run_keeps_market_reads) ... ok
+test_excluded_market (wallex_sandbox.test_sandbox.CondorPaperChecks.test_excluded_market) ... ok
+test_executor_count (wallex_sandbox.test_sandbox.CondorPaperChecks.test_executor_count) ... Risk gate refused create_order_executor: Max open executors (1) reached
+ok
+test_foreign_exchange (wallex_sandbox.test_sandbox.CondorPaperChecks.test_foreign_exchange) ... ok
+test_future_quote (wallex_sandbox.test_sandbox.CondorPaperChecks.test_future_quote) ... ok
+test_insufficient_cash (wallex_sandbox.test_sandbox.CondorPaperChecks.test_insufficient_cash) ... ok
+test_ip_connections_are_disabled (wallex_sandbox.test_sandbox.CondorPaperChecks.test_ip_connections_are_disabled) ... ok
+test_leverage (wallex_sandbox.test_sandbox.CondorPaperChecks.test_leverage) ... Risk gate refused create_order_executor: create_order_executor: leverage 5x exceeds the 1x leverage limit
+ok
+test_minimum_notional (wallex_sandbox.test_sandbox.CondorPaperChecks.test_minimum_notional) ... ok
+test_missing_quote (wallex_sandbox.test_sandbox.CondorPaperChecks.test_missing_quote) ... ok
+test_negative_or_zero_quantity (wallex_sandbox.test_sandbox.CondorPaperChecks.test_negative_or_zero_quantity) ... ok
+test_non_finite_quantity (wallex_sandbox.test_sandbox.CondorPaperChecks.test_non_finite_quantity) ... ok
+test_oversized_order (wallex_sandbox.test_sandbox.CondorPaperChecks.test_oversized_order) ... Risk gate refused create_order_executor: Would exceed position limit: $2000000.00 > $500000.00
+ok
+test_partial_sell_inventory_and_realized_cost (wallex_sandbox.test_sandbox.CondorPaperChecks.test_partial_sell_inventory_and_realized_cost) ... ok
+test_raw_order_and_arbitrary_code_not_exposed (wallex_sandbox.test_sandbox.CondorPaperChecks.test_raw_order_and_arbitrary_code_not_exposed) ... ok
+test_repeated_intent_does_not_duplicate_fill (wallex_sandbox.test_sandbox.CondorPaperChecks.test_repeated_intent_does_not_duplicate_fill) ... ok
+test_restart_preserves_cash_inventory_and_fees (wallex_sandbox.test_sandbox.CondorPaperChecks.test_restart_preserves_cash_inventory_and_fees) ... ok
+test_round_trip_and_fees (wallex_sandbox.test_sandbox.CondorPaperChecks.test_round_trip_and_fees) ... Risk gate refused create_order_executor: Would exceed position limit: $2200000.00 > $500000.00
+ok
+test_shutdown_allows_owned_exit (wallex_sandbox.test_sandbox.CondorPaperChecks.test_shutdown_allows_owned_exit) ... ok
+test_shutdown_drawdown_blocks_new_exposure (wallex_sandbox.test_sandbox.CondorPaperChecks.test_shutdown_drawdown_blocks_new_exposure) ... ok
+test_soft_drawdown_blocks_new_exposure (wallex_sandbox.test_sandbox.CondorPaperChecks.test_soft_drawdown_blocks_new_exposure) ... ok
+test_stale_quote (wallex_sandbox.test_sandbox.CondorPaperChecks.test_stale_quote) ... ok
+test_timeout_after_acceptance_is_reconciled_after_restart (wallex_sandbox.test_sandbox.CondorPaperChecks.test_timeout_after_acceptance_is_reconciled_after_restart) ... ok
+test_untrusted_book_blocks_entry (wallex_sandbox.test_sandbox.CondorPaperChecks.test_untrusted_book_blocks_entry) ... Risk gate refused create_order_executor: Book untrusted: Fake venue reconciliation mismatch
+ok
+test_usdt_outside_initial_paper_universe (wallex_sandbox.test_sandbox.CondorPaperChecks.test_usdt_outside_initial_paper_universe) ... ok
+test_wrong_session_owner (wallex_sandbox.test_sandbox.CondorPaperChecks.test_wrong_session_owner) ... Risk gate refused create_order_executor: controller_id 'someone_else' is not this session's id 'wallex_paper_challenge' — the position would be unattributable
+ok
+test_complete_scripted_tick_records_denial_and_releases_model (wallex_sandbox.test_tick.CondorTickChecks.test_complete_scripted_tick_records_denial_and_releases_model) ... ok
+test_model_failure_is_persisted_then_raised (wallex_sandbox.test_tick.CondorTickChecks.test_model_failure_is_persisted_then_raised) ... ok
+
+----------------------------------------------------------------------
+Ran 36 tests in 13.775s
+
+OK
+............Risk gate refused create_order_executor: it could not be priced: reference price is unavailable
+.Risk gate refused create_grid_executor: Max open executors (5) reached
+.Failed to compute risk state from tracker
+Traceback (most recent call last):
+  File "/home/arash/wallex challenge/condor/condor/agents/risk.py", line 304, in get_state
+    state.drawdown_pct = tracker.get_drawdown_pct()
+                         ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/arash/wallex challenge/condor/tests/test_risk_gate.py", line 218, in get_drawdown_pct
+    raise ValueError("could not convert string to float: 'garbage'")
+ValueError: could not convert string to float: 'garbage'
+..Risk gate refused create_grid_executor: Would exceed position limit: $550.00 > $500.00
+....Risk gate refused manage_bots: Bot deploy must declare max_global_drawdown_quote (≤ $500.00) so the platform kill switch bounds the loss
+..Risk gate refused manage_bots: max_global_drawdown_quote $5000.00 exceeds position limit $500.00
+.Risk gate refused manage_bots: update_config total_amount_quote $900.00 exceeds position limit $500.00
+..Risk gate refused manage_bots: manage_bots deploy: max_global_drawdown_quote must be a non-negative finite number, got 'nan'
+.Risk gate refused manage_bots: manage_bots deploy: max_global_drawdown_quote must be a non-negative finite number, got nan
+.Risk gate refused manage_bots: manage_bots deploy: max_global_drawdown_quote must be a non-negative finite number, got '-inf'
+.Risk gate refused manage_bots: manage_bots deploy: max_global_drawdown_quote must be a non-negative finite number, got -1
+.Risk gate refused manage_bots: manage_bots deploy: max_global_drawdown_quote must be a non-negative finite number, got '-5'
+.Risk gate refused manage_bots: Bot deploy must declare max_global_drawdown_quote (≤ $500.00) so the platform kill switch bounds the loss
+.Risk gate refused manage_bots: Bot deploy must declare max_global_drawdown_quote (≤ $500.00) so the platform kill switch bounds the loss
+.Risk gate refused manage_bots: Bot deploy must declare max_global_drawdown_quote (≤ $500.00) so the platform kill switch bounds the loss
+.Risk gate refused manage_bots: Bot deploy must declare max_global_drawdown_quote (≤ $500.00) so the platform kill switch bounds the loss
+.Risk gate refused manage_bots: Bot deploy must declare max_global_drawdown_quote (≤ $500.00) so the platform kill switch bounds the loss
+.Risk gate refused manage_bots: manage_bots deploy: max_global_drawdown_quote must be a number, got 'fifty'
+.Risk gate refused manage_bots: manage_bots deploy: max_global_drawdown_quote must be a number, got True
+..Risk gate refused manage_bots: manage_bots update_config: total_amount_quote must be a non-negative finite number, got 'nan'
+.Risk gate refused manage_bots: manage_bots update_config: total_amount_quote must be a non-negative finite number, got '-inf'
+.Risk gate refused manage_bots: manage_bots update_config: total_amount_quote must be a number, got 'abc'
+..Risk gate refused manage_bots: manage_bots update_config: config_data must be an object, got str
+.Risk gate refused manage_bots: manage_bots update_config: config_data must be an object, got list
+.Risk gate refused manage_bots: manage_bots update_config: config_data must be an object, got int
+....Risk gate refused create_grid_executor: controller_id 'some_other_controller' is not this session's id 'acme.scalper_1' — the position would be unattributable
+..Risk gate refused create_grid_executor: it carries no controller_id, so the position it opens could never be attributed to this session
+.Risk gate refused execute_swap: it could not be priced: reference price is unavailable
+.......Risk gate refused execute_swap: it could not be priced: reference price is unavailable
+.Risk gate refused execute_swap: it could not be priced: amount must be a number, got 'a lot'
+.Risk gate refused execute_swap: DEX execute_swap would exceed position limit: $400.00 > $300.00
+...Risk gate refused manage_amm: DEX add_liquidity would exceed position limit: $350.00 > $300.00
+......... [ 32%]
+....................................................Risk gate refused create_position_executor: create_position_executor is not a winddown action — this session is shutting down after a kill switch, so only stops and liquidity removals are allowed
+.Risk gate refused create_grid_executor: create_grid_executor is not a winddown action — this session is shutting down after a kill switch, so only stops and liquidity removals are allowed
+.Risk gate refused create_lp_executor: create_lp_executor is not a winddown action — this session is shutting down after a kill switch, so only stops and liquidity removals are allowed
+.Risk gate refused set_account_position_mode_and_leverage: set_account_position_mode_and_leverage is not a winddown action — this session is shutting down after a kill switch, so only stops and liquidity removals are allowed
+.Risk gate refused place_order: place_order is not a winddown action — this session is shutting down after a kill switch, so only stops and liquidity removals are allowed
+.Risk gate refused manage_bots: manage_bots(deploy) is not a winddown action — this session is shutting down after a kill switch, so only stops and liquidity removals are allowed
+.Risk gate refused manage_bots: manage_bots(start_controllers) is not a winddown action — this session is shutting down after a kill switch, so only stops and liquidity removals are allowed
+.Risk gate refused manage_bots: manage_bots(update_config) is not a winddown action — this session is shutting down after a kill switch, so only stops and liquidity removals are allowed
+.Risk gate refused execute_swap: execute_swap is not a winddown action — this session is shutting down after a kill switch, so only stops and liquidity removals are allowed
+.Risk gate refused manage_clmm: manage_clmm(open) is not a winddown action — this session is shutting down after a kill switch, so only stops and liquidity removals are allowed
+.Risk gate refused manage_clmm: manage_clmm(add_liquidity) is not a winddown action — this session is shutting down after a kill switch, so only stops and liquidity removals are allowed
+.Risk gate refused manage_amm: manage_amm(add_liquidity) is not a winddown action — this session is shutting down after a kill switch, so only stops and liquidity removals are allowed
+.Risk gate refused manage_clmm: manage_clmm is not a winddown action — this session is shutting down after a kill switch, so only stops and liquidity removals are allowed
+.Risk gate refused control_agent: control_agent(start) is not a winddown action — this session is shutting down after a kill switch, so only stops and liquidity removals are allowed
+.Risk gate refused stop_executor: executor 'e_other' belongs to controller 'x.y_2', not to this session 'acme.scalper_1' — stopping it would close another session's position
+.Risk gate refused manage_bots: bot 'zed-1' is outside this session's namespace 'acme-scalper'
+..... [ 64%]
+.Risk gate refused run_code: this session is shutting down after a kill switch, and a snippet holds the unrestricted API client, so it could open exposure the winddown just closed — 'history' and 'get' still work
+.Risk gate refused run_code: this session is shutting down after a kill switch, and a snippet holds the unrestricted API client, so it could open exposure the winddown just closed — 'history' and 'get' still work
+.Risk gate refused run_code: this session is shutting down after a kill switch, and a snippet holds the unrestricted API client, so it could open exposure the winddown just closed — 'history' and 'get' still work
+.Risk gate refused run_code: this session is shutting down after a kill switch, and a snippet holds the unrestricted API client, so it could open exposure the winddown just closed — 'history' and 'get' still work
+.Risk gate refused run_code: this session is shutting down after a kill switch, and a snippet holds the unrestricted API client, so it could open exposure the winddown just closed — 'history' and 'get' still work
+.Risk gate refused manage_routines: this session is shutting down after a kill switch, and a routine is Python holding the same unrestricted API client as a snippet — 'stop' still works, and so do 'list', 'describe' and 'read_routine'
+.Risk gate refused manage_routines: this session is shutting down after a kill switch, and a routine is Python holding the same unrestricted API client as a snippet — 'stop' still works, and so do 'list', 'describe' and 'read_routine'
+.Risk gate refused manage_routines: this session is shutting down after a kill switch, and a routine is Python holding the same unrestricted API client as a snippet — 'stop' still works, and so do 'list', 'describe' and 'read_routine'
+.Risk gate refused manage_routines: this session is shutting down after a kill switch, and a routine is Python holding the same unrestricted API client as a snippet — 'stop' still works, and so do 'list', 'describe' and 'read_routine'
+.Risk gate refused manage_routines: this session is shutting down after a kill switch, and a routine is Python holding the same unrestricted API client as a snippet — 'stop' still works, and so do 'list', 'describe' and 'read_routine'
+.Risk gate refused manage_routines: this session is shutting down after a kill switch, and a routine is Python holding the same unrestricted API client as a snippet — 'stop' still works, and so do 'list', 'describe' and 'read_routine'
+.Risk gate refused manage_routines: this session is shutting down after a kill switch, and a routine is Python holding the same unrestricted API client as a snippet — 'stop' still works, and so do 'list', 'describe' and 'read_routine'
+Risk gate refused manage_routines: this session is shutting down after a kill switch, and a routine is Python holding the same unrestricted API client as a snippet — 'stop' still works, and so do 'list', 'describe' and 'read_routine'
+Risk gate refused manage_routines: this session is shutting down after a kill switch, and a routine is Python holding the same unrestricted API client as a snippet — 'stop' still works, and so do 'list', 'describe' and 'read_routine'
+Risk gate refused manage_routines: this session is shutting down after a kill switch, and a routine is Python holding the same unrestricted API client as a snippet — 'stop' still works, and so do 'list', 'describe' and 'read_routine'
+....................Risk gate refused create_grid_executor: create_grid_executor: leverage 20x exceeds the 5x leverage limit
+..Risk gate refused set_account_position_mode_and_leverage: set_account_position_mode_and_leverage: leverage 20x exceeds the 5x leverage limit
+...................................... [ 96%]
+......TickEngine brigado.grid_1: ACP prompt timed out after 1s
+...                                                                [100%]
+225 passed in 4.64s

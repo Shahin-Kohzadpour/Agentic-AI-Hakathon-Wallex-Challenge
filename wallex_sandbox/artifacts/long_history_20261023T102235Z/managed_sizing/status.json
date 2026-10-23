@@ -1,0 +1,4 @@
+{
+  "status": "not_run",
+  "reason": "No sizing increase tested after the strategy failed the additional historical check; live defaults unchanged"
+}

@@ -1,0 +1,44 @@
+{
+  "48h_result": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 28
+  },
+  "48h_stress": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 28
+  },
+  "48h_first_ten": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 10
+  },
+  "168h_result": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 7
+  },
+  "168h_stress": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 7
+  },
+  "168h_first_ten": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 7
+  }
+}

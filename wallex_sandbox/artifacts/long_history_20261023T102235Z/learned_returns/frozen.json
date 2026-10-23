@@ -1,0 +1,52 @@
+{
+  "at": "2026-10-23T10:45:23.165526+00:00",
+  "hashes": {
+    "learned_returns.py": "ec0a9824ebc821d2c6c4ed5de9313362885571cb481808f9fb9a348ae6d24452",
+    "learned_return_experiment.json": "43592a75843e699c3bdf0e6bc2f77ee4c9fc81d760080152d89f441d9ececbe5",
+    "backtest_candidates.py": "12a73384d9280b9893bef32fdb94b60d46a17c0d2260630752f866136ff7be94",
+    "indicator_candidates.py": "fbbe7aa6e3544267dde44999335b37912c82ae21a09666a654fe3f4b38c0a00c",
+    "manifest": "5c7136c995e8806c4b85bb95fde100eb4b1a5729cdd8ebf98d335432373181b5"
+  },
+  "spec": {
+    "purpose": "Fixed local machine-learning forecast experiment; no LLM or exchange orders",
+    "models": [
+      "ridge",
+      "hist_gradient_boosting"
+    ],
+    "horizons_hours": [
+      24,
+      48
+    ],
+    "fit": "Refit on each UTC month start using trailing 180 days. First 150 days training, last 30 calibration. Train labels must end before calibration begins; calibration labels must end before current month. Sample features every four hours; calibration forward intervals disjoint per asset.",
+    "parameters": {
+      "ridge_alpha": 10,
+      "boosting_iterations": 100,
+      "boosting_learning_rate": 0.05,
+      "boosting_leaves": 7,
+      "boosting_min_leaf_samples": 80,
+      "boosting_l2": 10,
+      "random_state": 44,
+      "early_stopping": false
+    },
+    "target": "Real next-open to horizon-open return after both assumed fees, spread and slippage; forward labels require complete hourly intervals",
+    "calibration": "Subtract positive mean overprediction, never boost underpredictions. Require at least five disjoint calibration entries above 0.3% predicted net with positive mean realized net. No threshold search.",
+    "entry": "Only completed four-hour decision times, frozen spread <=30bps, predicted corrected net >=0.3%; rank predicted net / planned stop risk; no mandatory trading quota",
+    "risk": "1000 USDT, max100 all-in and 10% equity; planned account risk0.1%; stop2 daily ATR; no fixed profit target; horizon-aligned time exit; drawdown gate2%",
+    "costs": "Unchanged0.2% fee per side; max15bps round-trip or observed frozen spread; 1bp adverse slippage per side; stress doubles spread/slippage with signals fixed",
+    "selection_period": [
+      "2025-07-01",
+      "2026-01-01"
+    ],
+    "check_period": [
+      "2026-01-01",
+      "2026-07-01"
+    ],
+    "recent_diagnostic": [
+      "2026-07-25T09:00:00",
+      "2026-10-23T09:00:00"
+    ],
+    "selection": "At least10 validation trades, positive base and stressed P&L, observed DD<2%; select by stressed then base P&L. If none qualify, predeclared research primary is hist_gradient_boosting at48h, explicitly unqualified.",
+    "integrity": "The periods have already been examined using other strategies. This is temporally purged walk-forward prediction, not a new virgin holdout or prospective result. Save every model, monthly calibration, candidate and failure."
+  },
+  "sklearn_version": "1.7.2"
+}

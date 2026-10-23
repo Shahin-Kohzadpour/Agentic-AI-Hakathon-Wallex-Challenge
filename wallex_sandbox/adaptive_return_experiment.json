@@ -1,0 +1,12 @@
+{
+  "purpose":"Targeted recency/lag experiment after monthly model missed the rise and entered the decline; all periods previously inspected",
+  "models":["ridge","hist_gradient_boosting"],
+  "horizon_hours":48,
+  "update":"Each UTC Monday, train on90 days followed by14 days of separate calibration; purge labels crossing both boundaries",
+  "unchanged":"Features, fixed model parameters, 0.3% net threshold, overprediction penalty, calibration qualification, cost assumptions, single position,100-USDT spend cap,0.1% account risk,2% drawdown gate",
+  "validation":["2025-07-01","2026-01-01"],
+  "diagnostic":["2026-01-01","2026-07-01"],
+  "recent":["2026-07-25T09:00:00","2026-10-23T09:00:00"],
+  "selection":"At least10 validation trades and positive base/stressed net P&L with DD<2%; rank by stressed then base P&L; if none qualify, HGB is an explicitly unqualified exploratory primary",
+  "integrity":"This is an adaptive research iteration informed by previous results, not a virgin holdout. Within each replay prediction, all features and fitted labels must be earlier than decision time. Report both models and all phases. No real orders."
+}

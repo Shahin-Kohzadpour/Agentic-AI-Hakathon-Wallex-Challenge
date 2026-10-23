@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "revision_reason": "Original eight candidates failed validation; final holdout was not opened. Add two distinct hypotheses and a predeclared broader eligible universe; preserve original results. Reused validation is development evidence, not an independent test.",
+  "purpose": "Fixed candidate comparison before inspecting performance; no real trades",
+  "symbols": ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT", "XRPUSDT", "DOGEUSDT", "ADAUSDT", "LINKUSDT", "AVAXUSDT", "LTCUSDT", "BCHUSDT", "TRXUSDT"],
+  "candidates": ["trend_pullback", "macd_bb_filtered", "macd_bb_unfiltered", "supertrend", "bb_reentry", "donchian_breakout"],
+  "new_hypotheses": {
+    "bb_reentry": "Close recovers inside BB(20,2) after closing below lower band; RSI14 rising below 50; no bullish regime requirement; exit at signal-time middle band only if net reward >=0.75 times net risk; 2 ATR stop; max 24 entry bars",
+    "donchian_breakout": "Close exceeds prior 20-bar high, above EMA50, volume above prior 20-bar mean; 2.5 ATR stop; 2R net target; max 48 entry bars"
+  },
+  "timeframes": [
+    {"entry_seconds": 900, "regime_seconds": 3600, "maximum_hold_seconds": 14400},
+    {"entry_seconds": 3600, "regime_seconds": 14400, "maximum_hold_seconds": 57600}
+  ],
+  "evaluation": "Same UTC boundaries for every candidate: final seven complete days holdout, preceding seven days validation, earlier available history development. 15m retention is shorter than hourly retention. Select before evaluating holdout.",
+  "selection": "Validation: at least 5 completed trades, positive net P&L, profit factor above 1, observed maximum drawdown below 2%; rank by net P&L then drawdown. Selection occurs before opening the final holdout.",
+  "initial_usdt": 1000,
+  "maximum_positions": 1,
+  "simultaneous_signal_priority": "Lowest known assumed round-trip execution cost divided by signal-time ATR/close, then symbol; no future outcome ranking",
+  "maximum_all_in_spend_usdt": 100,
+  "planned_account_risk_fraction": 0.001,
+  "assumed_fee_per_side": 0.002,
+  "assumed_half_spread_bps_per_side": "max(7.5, half of current per-pair public book spread captured before evaluation); assumption, not historical book data",
+  "extra_slippage_bps_per_side": 1,
+  "stress": "Double half-spread and extra-slippage, leave fees unchanged; selected holdout only",
+  "stop_atr_multiple": 1.5,
+  "target": "Set target for 2:1 net reward/risk after assumed costs; target distance is not a forecast or fill guarantee",
+  "cooldown": "One entry candle after exit",
+  "fills": "Only next-candle entries; open gaps honored; adverse stop first when stop and target both touch; missing next candle vetoes entry; terminal open positions liquidated",
+  "comparison": "Cash and same-timeframe 100-USDT BTC buy-and-hold; original 10 live trades are descriptive context, not a matched-period benchmark",
+  "prohibited": "No parameter optimization on holdout, no retesting it after revisions, no claim that historical results are prospective fills"
+}

@@ -1,0 +1,170 @@
+{
+  "development_baseline48_base": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 49
+  },
+  "development_baseline48_stress": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 49
+  },
+  "development_retained_regime48_base": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 17
+  },
+  "development_retained_regime48_stress": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 17
+  },
+  "development_trail4h72_base": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 24
+  },
+  "development_trail4h72_stress": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 24
+  },
+  "development_pullback4h72_base": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 18
+  },
+  "development_pullback4h72_stress": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 18
+  },
+  "validation_baseline48_base": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 61
+  },
+  "validation_baseline48_stress": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 61
+  },
+  "validation_retained_regime48_base": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 17
+  },
+  "validation_retained_regime48_stress": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 17
+  },
+  "validation_trail4h72_base": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 23
+  },
+  "validation_trail4h72_stress": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 23
+  },
+  "validation_pullback4h72_base": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 19
+  },
+  "validation_pullback4h72_stress": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 19
+  },
+  "earlier_uninspected_baseline48_base": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 40
+  },
+  "earlier_uninspected_baseline48_stress": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 40
+  },
+  "earlier_uninspected_trail4h72_base": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 22
+  },
+  "earlier_uninspected_trail4h72_stress": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 22
+  },
+  "recent_previously_seen_baseline48_base": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 33
+  },
+  "recent_previously_seen_baseline48_stress": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 33
+  },
+  "recent_previously_seen_trail4h72_base": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 23
+  },
+  "recent_previously_seen_trail4h72_stress": {
+    "cash_reconciles": true,
+    "fees_reconcile": true,
+    "risk_and_spend_caps": true,
+    "no_future_signal_or_overlapping_position": true,
+    "round_trips": 23
+  }
+}

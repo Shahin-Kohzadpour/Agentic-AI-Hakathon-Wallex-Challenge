@@ -1,0 +1,125 @@
+{
+  "audit_started_at": "2026-10-23T07:15:13.210483+00:00",
+  "mode": "READ_ONLY_SIGNAL_AUDIT_NOT_TRADING_PERFORMANCE",
+  "baseline_file": "wallex_sandbox/artifacts/livepaper_20261023T062023Z/results.json",
+  "baseline_sha256": "3b1b30de2fcddcad9084656b15a68f9e32ef8840adca996db9093c82f516cf78",
+  "old_round_trips": 10,
+  "old_net_pnl_usdt": "-5.295554763687111000000000010",
+  "old_decisions_rejected_by_cost_gate": 10,
+  "baseline_comparison_caveat": "Retrospective veto of old decisions; not a new earned return.",
+  "fee_rate_each_side": "0.002",
+  "horizon_minutes": 15,
+  "scans": [
+    {
+      "at": "2026-10-23T07:15:23.277946+00:00",
+      "selected": null,
+      "candidates": [
+        {
+          "symbol": "BTCUSDT",
+          "lower_forecast_return": -0.00019993198381002903,
+          "gross_forecast_return": 3.3655155517246815e-05,
+          "estimated_net_return": "-0.005787675041990591782786283226",
+          "cost_return": "0.005587743058180562752786283226",
+          "rejections": [
+            "out_of_sample_model_does_not_beat_zero_return_forecast",
+            "fewer_than_three_cost_qualified_validation_entries",
+            "validation_entries_not_profitable_after_assumed_costs",
+            "conservative_forecast_does_not_cover_costs_and_margin"
+          ],
+          "validation": {
+            "calibration_features_start": 1792705380,
+            "calibration_labels_end": 1792721580,
+            "calibration_samples": 18,
+            "cost_return_assumption": 0.005587743058180563,
+            "limitations": "Small historical candle screen at current assumed costs; not book-fill P&L or proof of edge.",
+            "model_mse": 3.1899141825944724e-06,
+            "net_return_sum": 0.0,
+            "qualified_entries": 0,
+            "train_labels_end": 1792705320,
+            "train_samples": 820,
+            "validation_features_start": 1792722120,
+            "validation_samples": 19,
+            "zero_forecast_mse": 3.0111299985204315e-06
+          }
+        }
+      ]
+    },
+    {
+      "at": "2026-10-23T07:16:00.542092+00:00",
+      "selected": null,
+      "candidates": [
+        {
+          "symbol": "BTCUSDT",
+          "lower_forecast_return": -0.00019993198381002903,
+          "gross_forecast_return": 3.3655155517246815e-05,
+          "estimated_net_return": "-0.005784865579192254592955814208",
+          "cost_return": "0.005584933595382225562955814208",
+          "rejections": [
+            "out_of_sample_model_does_not_beat_zero_return_forecast",
+            "fewer_than_three_cost_qualified_validation_entries",
+            "validation_entries_not_profitable_after_assumed_costs",
+            "conservative_forecast_does_not_cover_costs_and_margin"
+          ],
+          "validation": {
+            "calibration_features_start": 1792705380,
+            "calibration_labels_end": 1792721580,
+            "calibration_samples": 18,
+            "cost_return_assumption": 0.0055849335953822256,
+            "limitations": "Small historical candle screen at current assumed costs; not book-fill P&L or proof of edge.",
+            "model_mse": 3.1899141825944724e-06,
+            "net_return_sum": 0.0,
+            "qualified_entries": 0,
+            "train_labels_end": 1792705320,
+            "train_samples": 820,
+            "validation_features_start": 1792722120,
+            "validation_samples": 19,
+            "zero_forecast_mse": 3.0111299985204315e-06
+          }
+        }
+      ]
+    },
+    {
+      "at": "2026-10-23T07:16:36.406530+00:00",
+      "selected": null,
+      "candidates": [
+        {
+          "symbol": "BTCUSDT",
+          "lower_forecast_return": -0.00062688050240443,
+          "gross_forecast_return": 3.0404448875153263e-05,
+          "estimated_net_return": "-0.005814471595294109962474547305",
+          "cost_return": "0.005187591092889679962474547305",
+          "rejections": [
+            "out_of_sample_model_does_not_beat_zero_return_forecast",
+            "fewer_than_three_cost_qualified_validation_entries",
+            "validation_entries_not_profitable_after_assumed_costs",
+            "conservative_forecast_does_not_cover_costs_and_margin"
+          ],
+          "validation": {
+            "calibration_features_start": 1792705440,
+            "calibration_labels_end": 1792721640,
+            "calibration_samples": 18,
+            "cost_return_assumption": 0.0051875910928896795,
+            "limitations": "Small historical candle screen at current assumed costs; not book-fill P&L or proof of edge.",
+            "model_mse": 2.7921271141668128e-06,
+            "net_return_sum": 0.0,
+            "qualified_entries": 0,
+            "train_labels_end": 1792705380,
+            "train_samples": 820,
+            "validation_features_start": 1792722180,
+            "validation_samples": 19,
+            "zero_forecast_mse": 2.6172997892453066e-06
+          }
+        }
+      ]
+    }
+  ],
+  "real_orders": 0,
+  "paper_fills": 0,
+  "credentials_used": false,
+  "public_get_requests": 17,
+  "audit_finished_at": "2026-10-23T07:16:36.408633+00:00",
+  "candidate_errors": 6,
+  "qualified_live_signals": 0,
+  "cash_usdt": "1000",
+  "cash_caveat": "No entries were executed in this signal audit; cash is not a measured strategy return."
+}

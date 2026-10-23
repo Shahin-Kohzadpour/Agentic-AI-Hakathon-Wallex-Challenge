@@ -1,0 +1,76 @@
+{
+  "mode": "FAKE",
+  "model": "scripted decisions; no LLM inference",
+  "network": "disabled",
+  "initial_cash_tmn": "5000000",
+  "final_cash_tmn": "5000794.0000",
+  "scripted_example_pnl_tmn": "794.0000",
+  "fee_assumption": "0.003",
+  "results": [
+    {
+      "intent_id": "demo_buy",
+      "mode": "FAKE",
+      "outcome": "FILLED",
+      "fill": {
+        "intent_id": "demo_buy",
+        "intent_hash": "87d17520d93a474df8f92c7670a79b621b6e9f3bd09030a01361b4bf06377ba6",
+        "mode": "FAKE",
+        "status": "FILLED",
+        "symbol": "BTC/TMN",
+        "side": "BUY",
+        "quantity": "0.1",
+        "price_tmn": "2000000",
+        "fee_tmn": "600.0000",
+        "owner": "wallex_paper_challenge",
+        "replayed": false
+      },
+      "condor_permission": {
+        "outcome": {
+          "outcome": "selected",
+          "optionId": "paper_allow"
+        }
+      }
+    },
+    {
+      "intent_id": "oversized",
+      "mode": "FAKE",
+      "outcome": "DENIED",
+      "reason": "Would exceed position limit: $2200000.00 > $500000.00"
+    },
+    {
+      "intent_id": "excluded",
+      "mode": "FAKE",
+      "outcome": "DENIED",
+      "reason": "Pair is excluded or outside the narrow TMN paper universe"
+    },
+    {
+      "intent_id": "demo_sell",
+      "mode": "FAKE",
+      "outcome": "FILLED",
+      "fill": {
+        "intent_id": "demo_sell",
+        "intent_hash": "614d7ecc5fb51653df60ce93127ade3601f14c03861bf90774d21bdaa92f28e7",
+        "mode": "FAKE",
+        "status": "FILLED",
+        "symbol": "BTC/TMN",
+        "side": "SELL",
+        "quantity": "0.1",
+        "price_tmn": "2020000",
+        "fee_tmn": "606.0000",
+        "owner": "wallex_paper_challenge",
+        "replayed": false
+      },
+      "condor_permission": {
+        "outcome": {
+          "outcome": "selected",
+          "optionId": "paper_allow"
+        }
+      }
+    }
+  ],
+  "limitation": "Synthetic scenario checks plumbing; it does not measure a strategy or profitability.",
+  "created_at_utc": "2026-10-23T05:33:24.356119+00:00",
+  "python": "3.13.15",
+  "condor_commit": "8e4860fa3d7efd4b55c2b74dd7f1f439e5a4f32c",
+  "credentials_used": false
+}

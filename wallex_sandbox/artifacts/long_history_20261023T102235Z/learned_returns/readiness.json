@@ -1,0 +1,14 @@
+{
+  "approved_for_paper_forward_test": false,
+  "real_money_enabled": false,
+  "rejections": [
+    "check:insufficient_completed_trades",
+    "check:nonpositive_net_pnl",
+    "check:nonpositive_stressed_net_pnl",
+    "recent:nonpositive_net_pnl",
+    "recent:nonpositive_stressed_net_pnl",
+    "recent:weak_profit_factor",
+    "recent:does_not_beat_matched_control"
+  ],
+  "scope": "Historical research gate only; not evidence of prospective profitability or verified execution"
+}
