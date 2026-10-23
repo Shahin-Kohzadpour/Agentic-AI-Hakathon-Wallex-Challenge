@@ -63,6 +63,18 @@ The Wallex sandbox suite passed 100 tests plus 21 subtests before publication.
 The [CI template](ci/README.md) is included; enabling GitHub Actions requires
 a token with workflow permission, which the publishing token does not have.
 
+## Video Script
+
+The Persian [Video Script](docs/VIDEO_SCRIPT_FA.md) contains two separate
+recording plans, each designed for a six-to-seven-minute demo. It is a GitHub
+document only and is not part of the Liara site's Docker build.
+
+## Liara demo site
+
+The [read-only demo site](liara_demo/README.md) presents the two experiments
+without exposing Condor's authenticated dashboard or adding trade endpoints.
+It has a health check at /health and runs on port 8080.
+
 [PUBLICATION.json](PUBLICATION.json) records the exact source revision and export
 time. This repository begins with a complete source snapshot. Credentials, the
 original credential-containing zip, virtual environments, and runtime caches
