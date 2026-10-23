@@ -43,7 +43,9 @@ Order intents and client IDs are committed to SQLite before submission. A
 timeout after a possible acceptance never produces an automatic duplicate POST.
 Uncertain orders are reconciled by client ID; if the result remains unknown,
 operator review is required. State is bound to the account scope/key fingerprint.
-Changing keys requires a reviewed state migration, not deleting the journal.
+An unused journal whose account has never authenticated can accept a corrected
+key. After account verification or any order intent, changing keys requires a
+reviewed state migration, not deleting the journal.
 
 ## Service configuration
 
@@ -55,6 +57,7 @@ Required secure environment values:
     WALLEX_CREDIT_ALLOWED_MARKETS=JSON array required for credit trading
     WALLEX_DASHBOARD_PASSWORD=random password of at least 20 characters
     WALLEX_ENABLE_LIVE_ORDERS=1
+    WALLEX_CONFIRM_ENTIRE_ACCOUNT_SETTLEMENT=1
     WALLEX_DATA_DIR=/data
 
 Live orders are disarmed unless explicitly enabled. Missing account scope, bad
@@ -77,9 +80,13 @@ Commit and push all changes first. Then run the deployment helper with the
 explicit account scope. It verifies the GitHub revision and read-only Wallex
 access before provisioning/enabling the real worker:
 
-    python ops/deploy_live.py --key-file "<local key file>" --account-type main
+    python ops/deploy_live.py --key-file "<local key file>" --account-type main --settle-entire-account
 
 For a credit account also provide --client-id and --credit-markets-file.
+The current final-settlement implementation covers every asset in the selected
+account and requires explicit approval of that scope. If only a bot allocation
+should be settled, keep orders disarmed until that different scope is
+implemented and verified.
 The helper creates wallex-kavoshgaran and a persistent wallex-state disk,
 sets secrets in memory through Liara's authenticated API, deploys the pushed
 revision, then verifies the public endpoint and authenticated real-account state.

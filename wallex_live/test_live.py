@@ -69,6 +69,16 @@ class GuardTests(unittest.TestCase):
         for kind, cid in [("", ""), ("credit", ""), ("main", "unexpected")]:
             with self.subTest(kind=kind), self.assertRaises(ValueError):
                 Wallex(None, "test_key", kind, cid)
+    def test_only_unused_unverified_journal_can_rotate_a_rejected_key(self):
+        with tempfile.TemporaryDirectory() as path:
+            journal = Journal(path, "old_rejected_key")
+            journal.close()
+            journal = Journal(path, "new_key")
+            self.assertEqual(journal.get("identity"), "new_key")
+            journal.set("account_verified", True)
+            journal.close()
+            with self.assertRaisesRegex(ValueError, "journal_account_identity_changed"):
+                Journal(path, "different_verified_account")
 
 
 class BrokerTests(unittest.IsolatedAsyncioTestCase):
@@ -209,6 +219,40 @@ class BrokerTests(unittest.IsolatedAsyncioTestCase):
 
 
 class TransportTests(unittest.IsolatedAsyncioTestCase):
+    async def test_rolling_release_waits_for_previous_writer_and_recovers(self):
+        from .service import worker, snapshot, STOP
+        STOP.clear()
+        with tempfile.TemporaryDirectory() as directory:
+            held = Journal(directory, "unused_initial_identity")
+            async def one_cycle(engine, _http):
+                engine.status["state"] = "fixture_cycle_completed"
+                STOP.set()
+            env = {"WALLEX_API_KEY": "test_runtime_key", "WALLEX_ACCOUNT_TYPE": "main",
+                   "WALLEX_ENABLE_LIVE_ORDERS": "0", "WALLEX_DATA_DIR": directory}
+            try:
+                with patch.dict("os.environ", env), patch.object(Engine, "cycle", one_cycle):
+                    task = asyncio.create_task(worker())
+                    await asyncio.sleep(.1)
+                    self.assertEqual(snapshot()["state"], "waiting_for_single_writer")
+                    held.close()
+                    held = None
+                    await asyncio.wait_for(task, timeout=5)
+                    self.assertEqual(snapshot()["state"], "fixture_cycle_completed")
+            finally:
+                if held:
+                    held.close()
+                STOP.clear()
+
+    async def test_real_worker_cannot_arm_before_final_liquidation_scope_is_confirmed(self):
+        from .service import worker, snapshot
+        with patch.dict("os.environ", {"WALLEX_ENABLE_LIVE_ORDERS": "1",
+                                      "WALLEX_CONFIRM_ENTIRE_ACCOUNT_SETTLEMENT": "0"}):
+            await worker()
+        state = snapshot()
+        self.assertFalse(state["connected"])
+        self.assertFalse(state["ready"])
+        self.assertEqual(state["error"], "final_liquidation_scope_confirmation_required")
+
     async def test_private_key_is_never_added_to_public_requests_and_redirects_disabled(self):
         calls = []
         class Response:

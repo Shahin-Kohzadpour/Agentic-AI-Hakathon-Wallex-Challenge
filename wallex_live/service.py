@@ -49,6 +49,9 @@ async def worker():
     journal = None
     engine = None
     try:
+        if (os.environ.get("WALLEX_ENABLE_LIVE_ORDERS") == "1"
+                and os.environ.get("WALLEX_CONFIRM_ENTIRE_ACCOUNT_SETTLEMENT") != "1"):
+            raise ValueError("final_liquidation_scope_confirmation_required")
         key = key_from_environment()
         async with aiohttp.ClientSession(
             timeout=aiohttp.ClientTimeout(total=12), connector=aiohttp.TCPConnector(limit=8),
@@ -56,7 +59,16 @@ async def worker():
         ) as http:
             api = Wallex(http, key, os.environ.get("WALLEX_ACCOUNT_TYPE", ""),
                          os.environ.get("WALLEX_SUB_ACCOUNT_CLIENT_ID", ""))
-            journal = Journal(os.environ.get("WALLEX_DATA_DIR", "/data"), api.identity)
+            # A rolling release may overlap briefly with the old single writer.
+            while not STOP.is_set():
+                try:
+                    journal = Journal(os.environ.get("WALLEX_DATA_DIR", "/data"), api.identity)
+                    break
+                except BlockingIOError:
+                    publish({"ready": False, "connected": False, "state": "waiting_for_single_writer"})
+                    await asyncio.sleep(2)
+            if journal is None:
+                return
             markets = json.loads(os.environ.get("WALLEX_CREDIT_ALLOWED_MARKETS", "[]"))
             if not isinstance(markets, list) or any(not isinstance(x, str) for x in markets):
                 raise ValueError("credit_allowed_markets_must_be_a_json_list")

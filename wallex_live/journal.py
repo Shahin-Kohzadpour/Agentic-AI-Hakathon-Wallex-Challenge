@@ -21,7 +21,13 @@ class Journal:
             "CREATE TABLE IF NOT EXISTS events(id INTEGER PRIMARY KEY,at REAL,kind TEXT,payload TEXT);")
         previous = self.get("identity")
         if previous is not None and previous != identity:
-            raise ValueError("journal_account_identity_changed")
+            count = self.db.execute("SELECT COUNT(*) FROM intents").fetchone()[0]
+            if count or self.get("account_verified", False) or self.get("position"):
+                raise ValueError("journal_account_identity_changed")
+            # An invalid key must not permanently bind an unused, unverified journal.
+            with self.db:
+                self.db.execute("DELETE FROM state WHERE key != 'policy'")
+            self.event("unverified_unused_identity_rebound", {})
         self.set("identity", identity)
 
     def get(self, key, default=None):

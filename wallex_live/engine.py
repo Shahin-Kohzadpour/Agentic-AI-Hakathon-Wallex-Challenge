@@ -52,6 +52,7 @@ class Engine:
             self.fees = fees
             self.last_refresh = time.time()
         self.balances = balances
+        self.journal.set("account_verified", True)
         self.status.update(connected=True, account_type=self.api.account_type, balances=balances,
                            open_orders=len(orders), last_account_sync=time.time(), error=None)
         self.status["cash_irr"] = str(D(balances.get("TMN", {}).get("total", "0")) * 10

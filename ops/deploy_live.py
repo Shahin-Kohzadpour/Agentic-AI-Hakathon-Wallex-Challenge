@@ -84,6 +84,8 @@ def deploy(args):
         raise ValueError("GitHub main does not match the deployment revision")
     if not args.disarmed and not args.account_type:
         raise ValueError("Explicit account type is required before enabling real orders")
+    if not args.disarmed and not args.settle_entire_account:
+        raise ValueError("This settlement implementation covers the entire selected account; explicit scope confirmation is required")
     if not args.disarmed and args.account_type == "credit" and not args.credit_markets_file:
         raise ValueError("Credit-account allowed-market permissions must be verified before enabling trades")
     allowed = json.loads(args.credit_markets_file.read_text()) if args.credit_markets_file else []
@@ -128,6 +130,7 @@ def deploy(args):
     envs.update(WALLEX_API_KEY=key, WALLEX_ACCOUNT_TYPE=args.account_type,
                 WALLEX_SUB_ACCOUNT_CLIENT_ID=args.client_id,
                 WALLEX_ENABLE_LIVE_ORDERS="0" if args.disarmed else "1",
+                WALLEX_CONFIRM_ENTIRE_ACCOUNT_SETTLEMENT="1" if args.settle_entire_account else "0",
                 WALLEX_DASHBOARD_PASSWORD=password, WALLEX_DATA_DIR="/data",
                 WALLEX_CREDIT_ALLOWED_MARKETS=json.dumps(allowed), SOURCE_REVISION=sha)
     api("POST", "v1/projects/update-envs",
@@ -169,6 +172,8 @@ def main():
     parser.add_argument("--credit-markets-file", type=Path)
     parser.add_argument("--disarmed", action="store_true",
                         help="Host the real application with all live order submissions disabled")
+    parser.add_argument("--settle-entire-account", action="store_true",
+                        help="Confirm final liquidation covers every asset in the explicitly selected account")
     args = parser.parse_args()
     try:
         deploy(args)

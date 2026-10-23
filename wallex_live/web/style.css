@@ -2,7 +2,7 @@
 *{box-sizing:border-box}body{margin:0}main{max-width:1150px;margin:auto;padding:24px}
 header{display:flex;justify-content:space-between;direction:ltr;border-bottom:1px solid #283b54;padding-bottom:16px}
 .live{color:#78dfba}h1{font-size:2.3rem;margin-bottom:0}.muted,small,footer{color:#aab8cd}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:32px 0}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:32px 0}
 article,.panel{background:#142238;border:1px solid #2a3d56;border-radius:16px;padding:20px}
 article label,article strong,article small{display:block}article strong{font-size:1.15rem;margin:10px 0}
 .panel{margin-bottom:20px}h2{font-size:1.2rem;margin-top:0}table{width:100%;border-collapse:collapse}
