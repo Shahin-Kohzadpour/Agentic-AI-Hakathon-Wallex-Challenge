@@ -1,8 +1,8 @@
 {
-  "verified_at_utc": "2026-10-23T20:53:06.134141+00:00",
+  "verified_at_utc": "2026-10-23T21:17:36.611319+00:00",
   "url": "https://wallex-kavoshgaran.liara.run",
   "liara_team": "لیارا",
-  "deployed_source_revision": "7b8069a138ec534a4c781663d18bd7e28ae978cd",
+  "deployed_source_revision": "a74d39c1630cc1ac9be4c0ae65ec9fb3ad2abddd",
   "hosting": "verified_live",
   "service_mode": "REAL",
   "dashboard_requires_authentication": true,
@@ -27,11 +27,15 @@
     }
   ],
   "remaining_requirements": [
-    "Verify exact Wallex account scope; supply sub-account client ID for credit account",
-    "Resolve Wallex authentication; a hosting API token is separate",
+    "Resolve Wallex HTTP 401 with valid main-wallet API credentials; hosting credentials are separate",
+    "Confirm whether final liquidation covers only bot allocation or every main-wallet asset; current implementation supports the entire selected account",
     "Pass authenticated preflight before enabling real order submission"
   ],
   "capital_cap_tmn": "5000000",
   "cutoff_tehran": "2026-10-26T23:50:00+03:30",
-  "automatic_liquidation_active": false
+  "automatic_liquidation_active": false,
+  "equivalent_sanitized_source_revision": "7826d65b2caf6f24871bda61efa0f38f863d7289",
+  "account_type": "main",
+  "worker_state": "authentication_failed",
+  "exchange_error": "wallex_http_401"
 }
