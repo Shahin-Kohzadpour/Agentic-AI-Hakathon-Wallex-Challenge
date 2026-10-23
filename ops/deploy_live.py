@@ -66,7 +66,10 @@ def liara_api():
                                "User-Agent": "Wallex-Kavoshgaran-Deployment"})
         try:
             with opener.open(req, timeout=30) as response:
-                return json.loads(response.read())
+                raw = response.read()
+                if not raw.strip() and method != "GET":
+                    return {}
+                return json.loads(raw)
         except HTTPError as exc:
             raise ValueError("Liara HTTP " + str(exc.code) + "; no secret-bearing response printed") from None
     return request
