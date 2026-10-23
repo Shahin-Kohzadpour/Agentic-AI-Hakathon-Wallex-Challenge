@@ -1,0 +1,37 @@
+{
+  "verified_at_utc": "2026-10-23T20:53:06.134141+00:00",
+  "url": "https://wallex-kavoshgaran.liara.run",
+  "liara_team": "لیارا",
+  "deployed_source_revision": "7b8069a138ec534a4c781663d18bd7e28ae978cd",
+  "hosting": "verified_live",
+  "service_mode": "REAL",
+  "dashboard_requires_authentication": true,
+  "persistent_disk_writable_as_runtime_user": true,
+  "video_script_served_by_web_app": false,
+  "public_health_http_status": 200,
+  "exchange_ready_http_status": 503,
+  "real_orders_enabled": false,
+  "setup_real_orders_submitted": 0,
+  "wallex_server_side_get_checks": [
+    {
+      "path": "/v1/account/balances",
+      "http_status": 401
+    },
+    {
+      "path": "/v1/account/fee",
+      "http_status": 401
+    },
+    {
+      "path": "/sub-accounts",
+      "http_status": 401
+    }
+  ],
+  "remaining_requirements": [
+    "Verify exact Wallex account scope; supply sub-account client ID for credit account",
+    "Resolve Wallex authentication; a hosting API token is separate",
+    "Pass authenticated preflight before enabling real order submission"
+  ],
+  "capital_cap_tmn": "5000000",
+  "cutoff_tehran": "2026-10-26T23:50:00+03:30",
+  "automatic_liquidation_active": false
+}

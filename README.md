@@ -14,11 +14,12 @@ been removed. Account data and order fills come from Wallex API responses.
 - **Target host:** https://wallex-kavoshgaran.liara.run
 - **Liara team:** لیارا (pinned in the deployment configuration).
 
-The target URL is a deployment target, not a claim that deployment succeeded.
-The last actual exchange connection checks returned Wallex HTTP 401. No real
-orders have been submitted during setup. Hosting the actual service with
-orders disarmed is supported while account setup is incomplete. Enabling
-real trading still requires a verified account key and exact account scope.
+Hosting is verified live in the لیارا team. See the sanitized
+[deployment status](ops/DEPLOYMENT_STATUS.json). The server-side Wallex checks
+returned HTTP 401, so real orders and automatic liquidation remain disarmed.
+No real orders were submitted during setup. Enabling trading requires a
+verified account key and exact account scope. Hosting success does not mean
+exchange trading readiness.
 
 ## Real service
 
