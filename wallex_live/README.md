@@ -95,3 +95,10 @@ Official API sources:
 [orders](https://developers.wallex.ir/docs/spot-create-order),
 [order reconciliation](https://developers.wallex.ir/docs/spot-single-order-detail),
 [cancellation](https://developers.wallex.ir/docs/spot-cancel-order).
+
+The target Liara team is **لیارا**, pinned by team ID in liara.json.
+To publish the real dashboard while account setup is incomplete, use
+--disarmed. This keeps order submission disabled, verifies only web liveness
+and authenticated dashboard access, and does not assert exchange readiness.
+Enabling orders uses the default deployment path and still requires a passing
+authenticated preflight and explicit account scope.

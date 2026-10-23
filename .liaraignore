@@ -19,3 +19,11 @@ wallex_sandbox/published_results/
 ops/
 **/*.pem
 **/*.key
+
+config.yml
+config.yml.*
+audit_log.yml
+.condor/
+data/
+reports/
+.pytest_cache/

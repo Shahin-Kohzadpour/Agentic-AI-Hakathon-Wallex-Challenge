@@ -12,12 +12,13 @@ been removed. Account data and order fills come from Wallex API responses.
   non-fiat inventory into TMN and report the confirmed rial equivalent.
   Dust or failed conversions remain explicitly incomplete.
 - **Target host:** https://wallex-kavoshgaran.liara.run
+- **Liara team:** لیارا (pinned in the deployment configuration).
 
 The target URL is a deployment target, not a claim that deployment succeeded.
-The last actual connection checks returned Wallex HTTP 401. The corrected
-Liara app-creation request returned HTTP 402 / insufficient balance. No real
-orders have been submitted during setup. A valid account key/scope and Liara
-credit are required before activation can be verified.
+The last actual exchange connection checks returned Wallex HTTP 401. No real
+orders have been submitted during setup. Hosting the actual service with
+orders disarmed is supported while account setup is incomplete. Enabling
+real trading still requires a verified account key and exact account scope.
 
 ## Real service
 

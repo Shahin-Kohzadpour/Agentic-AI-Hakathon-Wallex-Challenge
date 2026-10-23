@@ -2,5 +2,18 @@
   "app": "wallex-kavoshgaran",
   "platform": "docker",
   "port": 8080,
-  "disks": [{"name": "wallex-state", "mountTo": "/data"}]
+  "disks": [
+    {
+      "name": "wallex-state",
+      "mountTo": "/data"
+    }
+  ],
+  "team-id": "6ad855ec63b87278cb4f3eed",
+  "healthCheck": {
+    "command": [
+      "python",
+      "-c",
+      "import urllib.request; urllib.request.build_opener(urllib.request.ProxyHandler({})).open('http://127.0.0.1:8080/health', timeout=3).read()"
+    ]
+  }
 }

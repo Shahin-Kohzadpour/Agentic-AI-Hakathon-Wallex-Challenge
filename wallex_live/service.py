@@ -17,7 +17,7 @@ from .engine import Engine
 from .journal import Journal
 from .policy import CUTOFF, CAPITAL_TMN
 
-STATE = {"mode": "REAL", "connected": False, "ready": False, "state": "starting",
+STATE = {"mode": "REAL", "connected": False, "ready": False, "orders_enabled": False, "state": "starting",
          "cutoff_tehran": CUTOFF.isoformat(), "capital_cap_tmn": str(CAPITAL_TMN),
          "capital_cap_irr": str(CAPITAL_TMN * 10)}
 LOCK = threading.Lock()

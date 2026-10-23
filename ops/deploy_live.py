@@ -23,7 +23,9 @@ class NoRedirect(HTTPRedirectHandler):
 
 
 def cli(*arguments):
-    command = ["npm", "exec", "--yes", "--package=@liara/cli@9.6.0", "--", "liara", *arguments]
+    team = json.loads((ROOT / "liara.json").read_text()).get("team-id")
+    team_flags = ["--team-id", team] if team else []
+    command = ["npm", "exec", "--yes", "--package=@liara/cli@9.6.0", "--", "liara", *arguments, *team_flags]
     return subprocess.run(command, cwd=ROOT, check=True)
 
 
@@ -31,6 +33,8 @@ async def preflight(args):
     import aiohttp
     from wallex_live.client import Wallex
     from wallex_sandbox.wallex_fee_probe import read_key
+    os.environ["NETRC"] = "/dev/null"
+    os.environ["PYTHON_DOTENV_DISABLED"] = "1"
     key = read_key(args.key_file)
     async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=15),
                                      cookie_jar=aiohttp.DummyCookieJar(), trust_env=True) as http:
@@ -51,8 +55,9 @@ def liara_api():
     if account is None:
         raise ValueError("Liara login required")
     token = account["api_token"]
+    selected = json.loads((ROOT / "liara.json").read_text()).get("team-id")
     team = account.get("team") or {}
-    query = urlencode({"teamID": team.get("id", "")})
+    query = urlencode({"teamID": selected if selected is not None else team.get("id", "")})
     opener = build_opener(NoRedirect())
     def request(method, path, body=None):
         payload = None if body is None else json.dumps(body).encode()
@@ -74,17 +79,29 @@ def deploy(args):
     remote = subprocess.check_output(["git", "ls-remote", "origin", "refs/heads/main"], cwd=ROOT, text=True)
     if remote.split()[0] != sha:
         raise ValueError("GitHub main does not match the deployment revision")
-    if args.account_type == "credit" and not args.credit_markets_file:
+    if not args.disarmed and not args.account_type:
+        raise ValueError("Explicit account type is required before enabling real orders")
+    if not args.disarmed and args.account_type == "credit" and not args.credit_markets_file:
         raise ValueError("Credit-account allowed-market permissions must be verified before enabling trades")
     allowed = json.loads(args.credit_markets_file.read_text()) if args.credit_markets_file else []
     if not isinstance(allowed, list) or any(not isinstance(s, str) for s in allowed):
         raise ValueError("Invalid allowed-market manifest")
-    key = asyncio.run(preflight(args))
-    print("Real-account read-only preflight passed. No orders submitted during preflight.", flush=True)
+    if args.disarmed:
+        from wallex_sandbox.wallex_fee_probe import read_key
+        key = read_key(args.key_file) if args.key_file else ""
+        print("Deploying the real service with live orders DISARMED; account readiness is not asserted.", flush=True)
+    else:
+        if not args.key_file:
+            raise ValueError("An API key file is required before enabling real orders")
+        key = asyncio.run(preflight(args))
+        print("Real-account read-only preflight passed. No orders submitted during preflight.", flush=True)
     api = liara_api()
     projects = api("GET", "v1/projects")["projects"]
     project = next((p for p in projects if p["project_id"] == APP), None)
     if project is None:
+        networks = api("GET", "v1/networks")["networks"]
+        if not any(n.get("name") == "wallex-challenge-net" for n in networks):
+            cli("network", "create", "--name", "wallex-challenge-net")
         cli("app", "create", "--app", APP, "--platform", "docker", "--plan", "small-g2",
             "--feature-plan", "standard", "--network", "wallex-challenge-net", "--read-only", "true")
     project = api("GET", "v1/projects/" + APP)["project"]
@@ -105,7 +122,8 @@ def deploy(args):
         raise ValueError("Dashboard password is too short")
     envs = {e["key"]: e["value"] for e in project.get("envs", [])}
     envs.update(WALLEX_API_KEY=key, WALLEX_ACCOUNT_TYPE=args.account_type,
-                WALLEX_SUB_ACCOUNT_CLIENT_ID=args.client_id, WALLEX_ENABLE_LIVE_ORDERS="1",
+                WALLEX_SUB_ACCOUNT_CLIENT_ID=args.client_id,
+                WALLEX_ENABLE_LIVE_ORDERS="0" if args.disarmed else "1",
                 WALLEX_DASHBOARD_PASSWORD=password, WALLEX_DATA_DIR="/data",
                 WALLEX_CREDIT_ALLOWED_MARKETS=json.dumps(allowed), SOURCE_REVISION=sha)
     api("POST", "v1/projects/update-envs",
@@ -118,15 +136,19 @@ def deploy(args):
     opener = build_opener(NoRedirect())
     for attempt in range(12):
         try:
-            with opener.open(url + "/ready", timeout=10) as response:
+            with opener.open(url + ("/health" if args.disarmed else "/ready"), timeout=10) as response:
                 readiness = json.loads(response.read())
-                if not readiness.get("ready") or readiness.get("source_revision") != sha:
+                if (not args.disarmed and not readiness.get("ready")) or readiness.get("source_revision") != sha:
                     raise ValueError("Deployed readiness/revision mismatch")
             with opener.open(Request(url + "/api/status", headers={"Authorization": auth}), timeout=10) as response:
                 state = json.loads(response.read())
-                if state.get("mode") != "REAL" or not state.get("connected") or not state.get("orders_enabled"):
+                if state.get("mode") != "REAL":
+                    raise ValueError("Deployed service is not the real-account application")
+                if args.disarmed and state.get("orders_enabled"):
+                    raise ValueError("Disarmed deployment unexpectedly enabled orders")
+                if not args.disarmed and (not state.get("connected") or not state.get("orders_enabled")):
                     raise ValueError("Real exchange connection is not ready")
-            print("Verified live service: " + url)
+            print(("Verified hosted REAL service (orders DISARMED): " if args.disarmed else "Verified live service: ") + url)
             print("Dashboard username: operator; password stored locally at " + str(password_file))
             return
         except (HTTPError, OSError, ValueError):
@@ -137,10 +159,12 @@ def deploy(args):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--key-file", type=Path, required=True)
-    parser.add_argument("--account-type", choices=["main", "credit"], required=True)
+    parser.add_argument("--key-file", type=Path)
+    parser.add_argument("--account-type", choices=["main", "credit"], default="")
     parser.add_argument("--client-id", default="")
     parser.add_argument("--credit-markets-file", type=Path)
+    parser.add_argument("--disarmed", action="store_true",
+                        help="Host the real application with all live order submissions disabled")
     args = parser.parse_args()
     try:
         deploy(args)
