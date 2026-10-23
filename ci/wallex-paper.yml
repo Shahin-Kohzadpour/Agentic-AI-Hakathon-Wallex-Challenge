@@ -1,4 +1,4 @@
-name: Wallex paper harness
+name: Wallex real broker and research checks
 
 on:
   push:
@@ -21,5 +21,5 @@ jobs:
         run: uv venv --python 3.13 .venv
       - name: Install pinned headless dependencies
         run: uv pip install --python .venv/bin/python -r wallex_sandbox/requirements.lock.txt
-      - name: Run paper harness checks
-        run: .venv/bin/python -m pytest -q wallex_sandbox
+      - name: Run real broker and research checks
+        run: .venv/bin/python -m pytest -q wallex_live wallex_sandbox

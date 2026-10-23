@@ -1,3 +1,7 @@
+# Archived paper-research script
+
+Current real-system recording plan: [Video Script](VIDEO_SCRIPT_LIVE_FA.md).
+
 # Video Script
 
 ## سناریوی ضبط دو ویدیوی دمو Wallex Challenge

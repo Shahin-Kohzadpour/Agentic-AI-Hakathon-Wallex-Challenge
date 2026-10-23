@@ -246,3 +246,6 @@ wallex.zip
 # Transient SQLite shared-memory journals
 *.sqlite3-wal
 *.sqlite3-shm
+
+# Private live operator state
+/.wallex-live/

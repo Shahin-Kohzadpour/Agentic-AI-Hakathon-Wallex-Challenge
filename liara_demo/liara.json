@@ -1,5 +1,0 @@
-{
-  "app": "wallex-challenge-demo",
-  "platform": "docker",
-  "port": 8080
-}

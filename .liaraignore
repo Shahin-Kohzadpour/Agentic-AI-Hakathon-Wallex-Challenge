@@ -1,0 +1,21 @@
+.git/
+.venv/
+node_modules/
+frontend/
+docs/
+planning/
+legacy_engine/
+liara_demo/
+tests/
+**/__pycache__/
+wallex_sandbox/artifacts/
+wallex_sandbox/published_results/
+.env
+.env.*
+**/*api key*
+**/*.sqlite3*
+
+.wallex-live/
+ops/
+**/*.pem
+**/*.key

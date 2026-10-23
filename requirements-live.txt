@@ -1,0 +1,11 @@
+# Verified clean Python 3.13 runtime dependencies
+aiohappyeyeballs==2.7.1
+aiohttp==3.12.15
+aiosignal==1.4.0
+attrs==26.1.0
+frozenlist==1.8.0
+idna==3.20
+multidict==6.9.1
+numpy==2.2.6
+propcache==0.5.4
+yarl==1.25.1
