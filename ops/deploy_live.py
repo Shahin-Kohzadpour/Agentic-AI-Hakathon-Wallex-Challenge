@@ -127,12 +127,14 @@ def deploy(args):
     if len(password) < 20:
         raise ValueError("Dashboard password is too short")
     envs = {e["key"]: e["value"] for e in project.get("envs", [])}
+    # The revision comes from the built image, so restarts/rollbacks report real code.
+    envs.pop("SOURCE_REVISION", None)
     envs.update(WALLEX_API_KEY=key, WALLEX_ACCOUNT_TYPE=args.account_type,
                 WALLEX_SUB_ACCOUNT_CLIENT_ID=args.client_id,
                 WALLEX_ENABLE_LIVE_ORDERS="0" if args.disarmed else "1",
                 WALLEX_CONFIRM_ENTIRE_ACCOUNT_SETTLEMENT="1" if args.settle_entire_account else "0",
                 WALLEX_DASHBOARD_PASSWORD=password, WALLEX_DATA_DIR="/data",
-                WALLEX_CREDIT_ALLOWED_MARKETS=json.dumps(allowed), SOURCE_REVISION=sha)
+                WALLEX_CREDIT_ALLOWED_MARKETS=json.dumps(allowed))
     api("POST", "v1/projects/update-envs",
         {"project": APP, "variables": [{"key": k, "value": v} for k, v in envs.items()]})
     cli("deploy", "--app", APP, "--platform", "docker", "--port", "8080",
