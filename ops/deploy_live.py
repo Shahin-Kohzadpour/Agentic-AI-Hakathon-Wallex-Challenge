@@ -108,7 +108,8 @@ def deploy(args):
         cli("app", "create", "--app", APP, "--platform", "docker", "--plan", "small-g2",
             "--feature-plan", "standard", "--network", "wallex-challenge-net", "--read-only", "true")
     project = api("GET", "v1/projects/" + APP)["project"]
-    disks = project.get("disks", [])
+    # Liara lists disks by internal project ID, while creation accepts the app slug.
+    disks = api("GET", "v1/projects/" + project["_id"] + "/disks")["disks"]
     if not any((d.get("name") if isinstance(d, dict) else d) == "wallex-state" for d in disks):
         cli("disk", "create", "--app", APP, "--name", "wallex-state", "--size", "1")
     private = ROOT / ".wallex-live"
